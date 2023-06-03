@@ -65,7 +65,8 @@ def calc_crestlen_fbr(x, y, num_labels, labels, fbr):
     crest_fbr_std = np.zeros(num_labels)
     crest_fbr_abs = np.zeros(num_labels)
     crest_fbr_sq = np.zeros(num_labels)
-
+    crest_fbr_mean = np.zeros(num_labels)
+    
     for i in range(num_labels):
         ind_x = np.where(labels==i+1)[0]
         ind_y = np.where(labels==i+1)[1]
@@ -79,6 +80,7 @@ def calc_crestlen_fbr(x, y, num_labels, labels, fbr):
         crest_fbr_std[i] = np.std(fbr[ind_x, ind_y])
         crest_fbr_abs[i] = np.sum(np.abs(fbr[ind_x, ind_y]))
         crest_fbr_sq[i] = np.sum(fbr[ind_x, ind_y]**2)
+        crest_fbr_mean[i] = np.mean(np.abs(fbr[ind_x, ind_y]))
         crest_y_unique = np.unique(crest_y)
         crest_x_avg = np.zeros(len(crest_y_unique))
         crestlen_tmp = 0
@@ -91,7 +93,7 @@ def calc_crestlen_fbr(x, y, num_labels, labels, fbr):
         crestlen[i] = crestlen_tmp
 
     alonglen = crestend_max_y - crestend_min_y  
-    return crestend_min_x, crestend_max_x, crestend_min_y, crestend_max_y, alonglen, crestlen, crest_fbr_std, crest_fbr_abs, crest_fbr_sq
+    return crestend_min_x, crestend_max_x, crestend_min_y, crestend_max_y, alonglen, crestlen, crest_fbr_std, crest_fbr_abs, crest_fbr_sq, crest_fbr_mean
 
 def tridiag(alpha, beta, gamma, b):
     # Solve the tridiagonal system Ax=b, alpha is below 
