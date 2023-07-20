@@ -4,6 +4,7 @@ import re
 import pandas as pd
 from funpy.model_utils import compute_spec, compute_Hsig_spectrally 
 import glob
+import funpy.wave_functions as wf
 
 dat = np.loadtxt(os.path.join('/data2', 'enuss', 'TRC_cross-shore_profile.txt'), delimiter=',')
 labx = dat[:,1]
@@ -86,14 +87,18 @@ def load_array(filepath, random, trial):
 		dm = h0 - np.mean(press_)/(1000*9.81)
 		press_hyd = hyd(press_, dm, h0)
 		press_hyd = press_hyd - np.mean(press_hyd)
+		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0]) ## check WL and OL
 		press_sl = sl(press_hyd, dm, h0, dt)
 		press_snl = snl(press_sl, dm, h0, dt)  
 		xpos[i] = xpos_
 		ypos[i] = ypos_
 		eta.append(press_snl)
 		valid = np.where(np.isfinite(press_snl)==True)[0]
-		freq, spec = compute_spec(press_snl[valid], dt=time[1]-time[0], n = 20)
-		Hs[i] = compute_Hsig_spectrally(freq, spec, fmin=0.25, fmax=1.2)
+		#freq, spec = compute_spec(press_snl[valid], dt=time[1]-time[0], n = 20)
+		##  spec correction 
+		k = np.asarray([wf.wavenumber(freq[i], d) for i in range(len(freq))])
+		spec_true = spec*(np.cosh(k*h0)/np.cosh(k*(h0+dm)))**-2
+		Hs[i] = compute_Hsig_spectrally(freq, spec_true, fmin=0.25, fmax=1.2)
 		time, u_, xpos_, ypos_, zpos_ = load_uv_insitu(u_flist[i])
 		time, v_, xpos_, ypos_, zpos_ = load_uv_insitu(v_flist[i])	
 		u.append(u_)
