@@ -16,14 +16,14 @@ def wave_type(depth, wavelength):
 	return wtype
 
 
-def wavenumber(f, depth, g=9.81, wtype='intermediate'):
+def wavenumber(f, depth, shallow_depth=20, g=9.81, wtype='intermediate'):
 	""" input frequency (Hz) and depth (m)
 		converted from Jim Thompsons wavelength.m
 	"""
 	omega = 2*np.pi*f 
 	depthR = np.round(depth, decimals=1)
 	if wtype=='intermediate':
-		if depth<20: #shallow
+		if depth<shallow_depth: #shallow
 			guess_k = np.sqrt(omega**2/(g*depthR))
 			eps = 0.01*guess_k 
 			err = np.abs(omega**2 - g*guess_k*np.tanh(guess_k*depthR))
