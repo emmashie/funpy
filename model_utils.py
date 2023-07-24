@@ -11,8 +11,8 @@ import cv2
 def load_masked_variable(fdir, var, varfile, mask, maskfile):
     mask_ds = xr.open_mfdataset(os.path.join(fdir, maskfile))
     var_unmasked = np.asarray(xr.open_mfdataset(os.path.join(fdir, varfile))[var])
-    x = np.asarray(xr.open_dataset(os.path.join(fdir, varfile))['x'])
-    y = np.asarray(xr.open_dataset(os.path.join(fdir, varfile))['y'])
+    x = np.asarray(xr.open_mfdataset(os.path.join(fdir, varfile))['x'])
+    y = np.asarray(xr.open_mfdataset(os.path.join(fdir, varfile))['y'])
     mask = np.asarray(mask_ds[mask])
     var_masked = ma.masked_where(mask==0, var_unmasked)
     return var_masked, x, y 
