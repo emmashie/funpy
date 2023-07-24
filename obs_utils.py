@@ -87,7 +87,7 @@ def load_array(filepath, random, trial):
 		dm = h0 - np.mean(press_)/(1000*9.81)
 		press_hyd = hyd(press_, dm, h0)
 		press_hyd = press_hyd - np.mean(press_hyd)
-		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0]) ## check WL and OL
+		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0], n=20) ## check WL and OL
 		press_sl = sl(press_hyd, dm, h0, dt)
 		press_snl = snl(press_sl, dm, h0, dt)  
 		xpos[i] = xpos_
