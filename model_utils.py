@@ -23,7 +23,7 @@ def model2lab(x):
 def compute_Hsig(eta, start, end):
     return 4*np.nanstd(eta[start:end, :, :], axis=0)
 
-def compute_spec(var, dt, WL=512, OL=256, n=1, axis=0):
+def compute_spec(var, dt, WL=128, OL=64, n=1, axis=0):
     freq, spec = welch(var, fs=1/dt, window='hann', nperseg=WL*n, noverlap=OL*n, axis=axis)
     return freq, spec
 
