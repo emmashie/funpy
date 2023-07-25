@@ -105,7 +105,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 				k[j] = wf.wavenumber(freq[j], h0, wtype='deep')
 			else:
 				k[j] = wf.wavenumber(freq[j], h0, shallow_depth=0.1)
-		spec_true = spec*(np.cosh(k*h0)/np.cosh(k*(h0+dm)))**-2
+		spec_true = spec*(np.cosh(k*(h0-dm))/np.cosh(k*(h0)))**-2
 		Hs[i] = compute_Hsig_spectrally(freq, spec_true, fmin=0.25, fmax=1.2)
 		time, u_, xpos_, ypos_, zpos_ = load_uv_insitu(u_flist[i])
 		time, v_, xpos_, ypos_, zpos_ = load_uv_insitu(v_flist[i])	
