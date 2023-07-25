@@ -74,6 +74,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 	### load data
 	xpos = np.zeros(len(press_flist))
 	ypos = np.zeros(len(press_flist))
+	dms = np.zeros(len(press_flist))
 	Hs = np.zeros(len(press_flist))
 	eta = []
 	u = []
@@ -85,6 +86,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 		h0 = find_depth(xpos_, labx, -labz)
 		dt = time[1]-time[0]
 		dm = h0 - np.mean(press_)/(1000*9.81)
+		dms[i] = dm
 		press_hyd = hyd(press_, dm, h0)
 		press_hyd = press_hyd - np.mean(press_hyd)
 		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0], WL=WL, OL=OL, n=20) ## check WL and OL
@@ -113,7 +115,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 	eta = np.asarray(eta)
 	u = np.asarray(u)
 	v = np.asarray(v)
-	return eta, Hs, u, v, xpos, ypos, dt
+	return eta, Hs, u, v, xpos, ypos, dt, dm
 
 def array_ind(x, xpos):
 	ind1 = np.where(x<xpos)[0]
