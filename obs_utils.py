@@ -96,7 +96,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 		ypos[i] = ypos_
 		#eta.append(press_snl)
 		eta.append(press_hyd)
-		valid = np.where(np.isfinite(press_snl)==True)[0]
+		#valid = np.where(np.isfinite(press_snl)==True)[0]
 		#freq, spec = compute_spec(press_snl[valid], dt=time[1]-time[0], n = 20)
 		##  spec correction 
 		k = np.zeros(len(freq))
