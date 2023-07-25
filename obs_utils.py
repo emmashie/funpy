@@ -64,7 +64,7 @@ def load_uv_insitu(filepath, duration=45*60):
 	time = np.arange(0, 45*60, dt)
 	return time, dat, xpos, ypos, zpos	
 
-def load_array(filepath, random, trial):
+def load_array(filepath, random, trial, WL=128, OL=64):
 	obsdir = os.path.join(filepath, 'Random%d' % random, 'Trial%02d' % trial)
 
 	press_flist = [file for file in glob.glob(os.path.join(obsdir,'press*.txt'))]
@@ -87,12 +87,13 @@ def load_array(filepath, random, trial):
 		dm = h0 - np.mean(press_)/(1000*9.81)
 		press_hyd = hyd(press_, dm, h0)
 		press_hyd = press_hyd - np.mean(press_hyd)
-		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0], n=20) ## check WL and OL
-		press_sl = sl(press_hyd, dm, h0, dt)
-		press_snl = snl(press_sl, dm, h0, dt)  
+		freq, spec = compute_spec(press_hyd, dt=time[1]-time[0], WL=WL, OL=OL, n=20) ## check WL and OL
+		#press_sl = sl(press_hyd, dm, h0, dt)
+		#press_snl = snl(press_sl, dm, h0, dt)  
 		xpos[i] = xpos_
 		ypos[i] = ypos_
-		eta.append(press_snl)
+		#eta.append(press_snl)
+		eta.append(press_hyd)
 		valid = np.where(np.isfinite(press_snl)==True)[0]
 		#freq, spec = compute_spec(press_snl[valid], dt=time[1]-time[0], n = 20)
 		##  spec correction 
