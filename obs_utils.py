@@ -115,7 +115,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 	eta = np.asarray(eta)
 	u = np.asarray(u)
 	v = np.asarray(v)
-	return eta, Hs, u, v, xpos, ypos, dt, dm
+	return eta, Hs, u, v, xpos, ypos, dt, dms
 
 def array_ind(x, xpos):
 	ind1 = np.where(x<xpos)[0]
