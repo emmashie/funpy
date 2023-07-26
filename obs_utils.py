@@ -79,8 +79,8 @@ def load_wg(filepath, random, trial, WL=128, OL=64):
 	I = len(wg_flist)
 	for i in range(I):
 		wg_ = np.loadtxt(wg_flist[i], comments='%')
-		xpos_ = find_pos(wg_flist[i], 'X:')
-		ypos_ = find_pos(wg_flist[i], 'Y:')
+		xpos[i] = find_pos(wg_flist[i], 'X:')
+		ypos[i] = find_pos(wg_flist[i], 'Y:')
 		freq, spec = compute_spec(wg_, dt=dt, WL=WL, OL=OL, n=20) 
 		Hs[i] = compute_Hsig_spectrally(freq, spec, fmin=0.25, fmax=1.2)
 	return Hs, xpos, ypos, dt
