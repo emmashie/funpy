@@ -64,6 +64,27 @@ def load_uv_insitu(filepath, duration=45*60):
 	time = np.arange(0, 45*60, dt)
 	return time, dat, xpos, ypos, zpos	
 
+def load_wg(filepath, random, trial, WL=128, OL=64):
+	obsdir = os.path.join(filepath, 'Random%d' % random, 'Trial%02d' % trial)
+
+	wg_flist = [file for file in glob.glob(os.path.join(obsdir,'wg*.txt'))]
+
+	dt = 1/100 # 100 Hz
+
+	### load data
+	xpos = np.zeros(len(wg_flist))
+	ypos = np.zeros(len(wg_flist))
+	Hs = np.zeros(len(wg_flist))
+
+	I = len(wg_flist)
+	for i in range(I):
+		wg_ = np.loadtxt(wg_flist[i], comments='%')
+		xpos_ = find_pos(wg_flist[i], 'X:')
+		ypos_ = find_pos(wg_flist[i], 'Y:')
+		freq, spec = compute_spec(wg_, dt=dt, WL=WL, OL=OL, n=20) 
+		Hs[i] = compute_Hsig_spectrally(freq, spec, fmin=0.25, fmax=1.2)
+	return Hs, xpos, ypos, dt
+
 def load_array(filepath, random, trial, WL=128, OL=64):
 	obsdir = os.path.join(filepath, 'Random%d' % random, 'Trial%02d' % trial)
 
@@ -102,7 +123,7 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 		k = np.zeros(len(freq))
 		for j in range(len(freq)):
 			if j<230:
-				k[j] = wf.wavenumber(freq[j], h0, wtype='deep')
+				k[j] = wf.wavenumber(freq[j], h0, wtype='shallow')
 			else:
 				k[j] = wf.wavenumber(freq[j], h0, shallow_depth=0.1)
 		spec_true = spec*(np.cosh(k*(dm))/np.cosh(k*h0))**-2
