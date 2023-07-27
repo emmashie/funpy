@@ -120,12 +120,13 @@ def load_array(filepath, random, trial, WL=128, OL=64):
 		#valid = np.where(np.isfinite(press_snl)==True)[0]
 		#freq, spec = compute_spec(press_snl[valid], dt=time[1]-time[0], n = 20)
 		##  spec correction 
-		k = np.zeros(len(freq))
-		for j in range(len(freq)):
-			if j<230:
-				k[j] = wf.wavenumber(freq[j], h0, wtype='shallow')
-			else:
-				k[j] = wf.wavenumber(freq[j], h0, shallow_depth=0.1)
+		#k = np.zeros(len(freq))
+		#for j in range(len(freq)):
+		#	if j<230:
+		#		k[j] = wf.wavenumber(freq[j], h0, wtype='shallow')
+		#	else:
+		#		k[j] = wf.wavenumber(freq[j], h0, shallow_depth=0.1)
+		k = wf.wavenum(2*np.pi*freq, h0)
 		spec_true = spec*(np.cosh(k*(dm))/np.cosh(k*h0))**-2
 		Hs[i] = compute_Hsig_spectrally(freq, spec_true, fmin=0.25, fmax=1.2)
 		time, u_, xpos_, ypos_, zpos_ = load_uv_insitu(u_flist[i])
