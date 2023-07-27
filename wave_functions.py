@@ -15,6 +15,31 @@ def wave_type(depth, wavelength):
 		wtype = 'intermediate'
 	return wtype
 
+def wavenum(omega,depth,tolerance=1e-6,max_iterations=10):
+    # Linear dispersion relation wavenumber solver.
+    #   k = wavenum(omega,depth) 
+    # Solves for the wave-numbers 'k' for a given depth that satisfy the 
+    # dispersion relation: omega^2 = g*k*tanh(k*depth) using the 
+    # Newton-Raphson method.
+    # @author: Sam Brenner
+    # 
+    g = 9.81;
+    # initial guess based on Fenton and McKee, 1990:
+    k0 = omega**2/g
+    kn = k0* ( np.tanh((k0*depth)**(3/4)) )**(-2/3) 
+    converged = 0 #convergence flag
+    # iterate with a  Newton-Raphson method:
+    for n in range(max_iterations): 
+        err = np.abs( omega**2 - g*kn*np.tanh(kn*depth) )
+        if all(err<tolerance):
+            converged = 1
+            break
+        fkn = g*kn*np.tanh(kn*depth) - omega**2
+        dfkn = g*np.tanh(kn*depth) + g*depth*kn/np.cosh(kn*depth)**2
+        kn = kn - fkn/dfkn   
+    if converged == 0:
+        print('did not converge')
+    return kn
 
 def wavenumber(f, depth, shallow_depth=20, g=9.81, wtype='intermediate'):
 	""" input frequency (Hz) and depth (m)
