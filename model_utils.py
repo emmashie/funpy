@@ -70,27 +70,28 @@ def calc_crestlen_fbr(x, y, num_labels, labels, fbr):
     for i in range(num_labels):
         ind_x = np.where(labels==i+1)[0]
         ind_y = np.where(labels==i+1)[1]
-        crest_x = xx[ind_x, ind_y]
-        crest_y = yy[ind_x, ind_y]
-        crestend_max_y[i] = np.max(crest_y)
-        crestend_min_y[i] = np.min(crest_y)
-        crestend_max_x[i] = crest_x[np.argmax(crest_y)]
-        crestend_min_x[i] = crest_x[np.argmin(crest_y)]
-        
-        crest_fbr_std[i] = np.std(fbr[ind_x, ind_y])
-        crest_fbr_abs[i] = np.sum(np.abs(fbr[ind_x, ind_y]))
-        crest_fbr_sq[i] = np.sum(fbr[ind_x, ind_y]**2)
-        crest_fbr_mean[i] = np.mean(np.abs(fbr[ind_x, ind_y]))
-        crest_y_unique = np.unique(crest_y)
-        crest_x_avg = np.zeros(len(crest_y_unique))
-        crestlen_tmp = 0
-        for j in range(len(crest_y_unique)):
-            ind = np.where(crest_y == crest_y_unique[j])[0]
-            crest_x_avg[j] = np.mean(crest_x[ind])
-            if j>0:
-                crestlen_tmp += np.sqrt((crest_x_avg[j]-crest_x_avg[j-1])**2 + (crest_y_unique[j]-crest_y_unique[j-1])**2)
+        if len(ind_x>0):
+            crest_x = xx[ind_x, ind_y]
+            crest_y = yy[ind_x, ind_y]
+            crestend_max_y[i] = np.max(crest_y)
+            crestend_min_y[i] = np.min(crest_y)
+            crestend_max_x[i] = crest_x[np.argmax(crest_y)]
+            crestend_min_x[i] = crest_x[np.argmin(crest_y)]
+            
+            crest_fbr_std[i] = np.std(fbr[ind_x, ind_y])
+            crest_fbr_abs[i] = np.sum(np.abs(fbr[ind_x, ind_y]))
+            crest_fbr_sq[i] = np.sum(fbr[ind_x, ind_y]**2)
+            crest_fbr_mean[i] = np.mean(np.abs(fbr[ind_x, ind_y]))
+            crest_y_unique = np.unique(crest_y)
+            crest_x_avg = np.zeros(len(crest_y_unique))
+            crestlen_tmp = 0
+            for j in range(len(crest_y_unique)):
+                ind = np.where(crest_y == crest_y_unique[j])[0]
+                crest_x_avg[j] = np.mean(crest_x[ind])
+                if j>0:
+                    crestlen_tmp += np.sqrt((crest_x_avg[j]-crest_x_avg[j-1])**2 + (crest_y_unique[j]-crest_y_unique[j-1])**2)
 
-        crestlen[i] = crestlen_tmp
+            crestlen[i] = crestlen_tmp
 
     alonglen = crestend_max_y - crestend_min_y  
     return crestend_min_x, crestend_max_x, crestend_min_y, crestend_max_y, alonglen, crestlen, crest_fbr_std, crest_fbr_abs, crest_fbr_sq, crest_fbr_mean
