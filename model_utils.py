@@ -8,11 +8,11 @@ from scipy.signal import welch, csd
 from funpy import filter_functions as ff 
 import cv2
 
-def load_masked_variable(fdir, var, varfile, mask, maskfile):
-    mask_ds = xr.open_mfdataset(os.path.join(fdir, maskfile))
-    var_unmasked = xr.open_mfdataset(os.path.join(fdir, varfile))[var]
-    x = np.asarray(xr.open_mfdataset(os.path.join(fdir, varfile))['x'])
-    y = np.asarray(xr.open_mfdataset(os.path.join(fdir, varfile))['y'])
+def load_masked_variable(var, varfile, mask, maskfile):
+    mask_ds = xr.open_mfdataset(maskfile, combine='nested', concat_dim='time')
+    var_unmasked = xr.open_mfdataset(varfile, combine='nested', concat_dim='time')[var]
+    x = np.asarray(xr.open_mfdataset(varfile, combine='nested', concat_dim='time')['x'])
+    y = np.asarray(xr.open_mfdataset(varfile, combine='nested', concat_dim='time')['y'])
     mask = mask_ds[mask]
     var_masked = ma.masked_where(mask==0, var_unmasked)
     return var_masked, x, y 
@@ -70,7 +70,7 @@ def calc_crestlen_fbr(x, y, num_labels, labels, fbr):
     for i in range(num_labels):
         ind_x = np.where(labels==i+1)[0]
         ind_y = np.where(labels==i+1)[1]
-        if len(ind_x>0):
+        if len(ind_x)>0:
             crest_x = xx[ind_x, ind_y]
             crest_y = yy[ind_x, ind_y]
             crestend_max_y[i] = np.max(crest_y)
