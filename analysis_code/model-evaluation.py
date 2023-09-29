@@ -95,7 +95,7 @@ labz = dat[:,0]-1.07
 ###### LOAD MODEL OUTPUT (eta, bathy) ######
 ### model time slice to compute over
 tstart = int(5*60/0.2)
-tint = int(10*60/0.2)
+tint = int(25*60/0.2)
 ## frequency cutoffs for Hs calculation
 fmin = 0.25
 fmax = 1.2
@@ -129,6 +129,11 @@ lidar_xp = np.loadtxt(os.path.join(remote_path, 'lidar_xp.txt'), delimiter=',')
 lidar_yp = np.loadtxt(os.path.join(remote_path, 'lidar_yp.txt'), delimiter=',')
 
 [lidar_xx, lidar_yy] = np.meshgrid(lidar_xp, lidar_yp)
+
+
+### OBS time window
+tstart_obs = int(5*60/0.01)
+tint_obs = int(25*60/0.01)
 
 ### load pressure data
 eta_outer, Hs_outer, u_outer, v_outer, xpos_outer, ypos_outer, dt_outer, dm_outer = obs_utils.load_array(obsrootdir, random_outer, trial_outer, WL=WL, OL=OL)
@@ -213,13 +218,14 @@ mod_v_spec4 = np.mean(mod_v_spec4, axis=1)
 
 ### compute SSE and velocity spectra (observations) ###
 ### SSE ###
-freq_outer, eta_outer_spec = mod_utils.compute_spec(eta_outer, dt_outer, WL=WL, OL=OL, n=20, axis=1)
-freq_inner, eta_inner_spec = mod_utils.compute_spec(eta_inner, dt_inner, WL=WL, OL=OL, n=20, axis=1)
+freq_outer, eta_outer_spec = mod_utils.compute_spec(eta_outer[:, tstart_obs:tint_obs], dt_outer, WL=WL, OL=OL, n=20, axis=1)
+freq_inner, eta_inner_spec = mod_utils.compute_spec(eta_inner[:, tstart_obs:tint_obs], dt_inner, WL=WL, OL=OL, n=20, axis=1)
 
 # obs DOF
-DOFobs = (len(eta_outer.T)*len(eta_outer))/(WL*20)
+DOFobs = (len(eta_outer[:,tstart_obs:tint_obs].T)*len(eta_outer[:,tstart_obs:tint_obs]))/(WL*20)
+#DOFobs = (len(eta_outer[:,tstart_obs:tint_obs].T))/(WL*20)
 cobs = chi2.ppf([1 - alpha / 2, alpha / 2], DOFobs)
-cobs2 = DOFobs / c # percentage representing confidence interval
+cobs2 = DOFobs / cobs # percentage representing confidence interval
 
 def transfer_function(spec, freq, d):
     tf = np.zeros(spec.shape)
@@ -250,10 +256,10 @@ eta_spec3 = np.nanmean(eta_inner_spec[ind3,:], axis=0)
 eta_spec4 = np.nanmean(eta_inner_spec[ind4,:], axis=0)
 
 ### velocity ###
-freq_outer, u_outer_spec = mod_utils.compute_spec(u_outer, dt_outer, WL=WL, OL=OL, n=20, axis=1)
-freq_outer, v_outer_spec = mod_utils.compute_spec(v_outer, dt_outer, WL=WL, OL=OL, n=20, axis=1)
-freq_inner, u_inner_spec = mod_utils.compute_spec(u_inner, dt_outer, WL=WL, OL=OL, n=20, axis=1)
-freq_inner, v_inner_spec = mod_utils.compute_spec(v_inner, dt_outer, WL=WL, OL=OL, n=20, axis=1)
+freq_outer, u_outer_spec = mod_utils.compute_spec(u_outer[:,tstart_obs:tint_obs], dt_outer, WL=WL, OL=OL, n=20, axis=1)
+freq_outer, v_outer_spec = mod_utils.compute_spec(v_outer[:,tstart_obs:tint_obs], dt_outer, WL=WL, OL=OL, n=20, axis=1)
+freq_inner, u_inner_spec = mod_utils.compute_spec(u_inner[:,tstart_obs:tint_obs], dt_outer, WL=WL, OL=OL, n=20, axis=1)
+freq_inner, v_inner_spec = mod_utils.compute_spec(v_inner[:,tstart_obs:tint_obs], dt_outer, WL=WL, OL=OL, n=20, axis=1)
 
 u_spec1 = np.nanmean(u_outer_spec[ind1,:], axis=0)
 u_spec2 = np.nanmean(u_outer_spec[ind2,:], axis=0)
@@ -283,6 +289,18 @@ if 1:
     ax0 = fig.add_subplot(spec[:3,:])
   
     color = 'tab:grey'
+
+    ax_1 = ax0.twinx()
+    ax_1.plot(labx, labz/6-0.04, color='lightgrey', linewidth=5, label=r'$\mathrm{Lab\ Bathymetry}\ (h/6)$')
+    ax_1.plot(x, -dep[0,:]/6-0.04, '--', color='black', linewidth=3, label=r'$\mathrm{Model\ Bathymetry}\ (h/6)$')
+    ax_1.fill_between(x, -dep[0,:]/6-0.04, np.ones(len(dep[0,:]))*(-1.2), color='lightgrey')
+    #ax_1.set_ylim((-1.2, 2.2))
+    ax_1.set_ylim((-0.25, 0.3))
+    ax_1.legend(loc='lower right')
+    ax_1.axis('off')
+    ax0.set_xlabel(r'$x (\mathrm{m})$', fontsize=20)
+    ax0.grid(True)  
+
     ax0.plot(x, Hs_alongmean, color=color)
     ax0.plot(x, Hs_alongmean - Hs_alongstd, color=color, alpha=0.8)
     ax0.plot(x, Hs_alongmean + Hs_alongstd, color=color, alpha=0.8)
@@ -306,7 +324,7 @@ if 1:
 
     ax0.set_ylabel(r'$H_s$ $(\mathrm{m})$', fontsize=20)
     ax0.set_xlim((18,35))
-    ax0.set_ylim((-0.2, 0.3))
+    ax0.set_ylim((-0.25, 0.3))
     #ax0.legend(loc='lower left', fontsize=14)
 
     ax0.text(18.2, 0.28, r'$\mathrm{(a)}$', fontsize='20')   
@@ -319,17 +337,6 @@ if 1:
                     Line2D([0], [0], linestyle='None', marker='^', markersize=msize, color='black', alpha=0.5)]
 
     ax0.legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{Stereo\ reconstruction}$', r'$\mathrm{LiDAR}$', r'$\mathrm{In\ situ\ sensors}$'], fontsize=14, loc='upper right')
-
-
-    ax_1 = ax0.twinx()
-    ax_1.plot(labx, labz, color='lightgrey', linewidth=5, label=r'$\mathrm{Lab\ Bathymetry}$')
-    ax_1.plot(x, -dep[0,:], '--', color='black', linewidth=3, label=r'$\mathrm{Model\ Bathymetry}$')
-    ax_1.fill_between(x, -dep[0,:], np.ones(len(dep[0,:]))*(-1.2), color='lightgrey')
-    ax_1.set_ylim((-1.2, 2.2))
-    ax_1.legend(loc='lower right')
-    ax_1.axis('off')
-    ax0.set_xlabel(r'$x (\mathrm{m})$', fontsize=20)
-    ax0.grid(True)  
 
     eta_var, u_var, v_var, mod_eta_var, mod_u_var, mod_v_var = SSE_spec_plot(eta_spec1, u_spec1, v_spec1, mod_eta_spec1, mod_u_spec1, mod_v_spec1, labz, labx, ind1_loc, freq_outer, mod_freq)
 

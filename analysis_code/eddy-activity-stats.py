@@ -59,13 +59,13 @@ x = np.asarray(u_psi_dat.x)
 y = np.asarray(u_psi_dat.y)
 [xx, yy] = np.meshgrid(x,y)
 
-freq1, u_spec1 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq1, u_spec1 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean1 = np.mean(u_spec1, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq1, v_spec1 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq1, v_spec1 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean1 = np.mean(v_spec1, axis=1)
 
 xind = np.argmin(np.abs(x-sz[0]))
@@ -88,13 +88,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq5, u_spec5 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq5, u_spec5 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean5 = np.mean(u_spec5, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq5, v_spec5 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq5, v_spec5 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean5 = np.mean(v_spec5, axis=1)
 
 xind = np.argmin(np.abs(x-sz[1]))
@@ -117,13 +117,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq10, u_spec10 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq10, u_spec10 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean10 = np.mean(u_spec10, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq10, v_spec10 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq10, v_spec10 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean10 = np.mean(v_spec10, axis=1)
 
 xind = np.argmin(np.abs(x-sz[2]))
@@ -146,13 +146,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq20, u_spec20 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq20, u_spec20 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean20 = np.mean(u_spec20, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq20, v_spec20 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq20, v_spec20 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean20 = np.mean(v_spec20, axis=1)
 
 xind = np.argmin(np.abs(x-sz[3]))
@@ -175,13 +175,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq30, u_spec30 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq30, u_spec30 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean30 = np.mean(u_spec30, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq30, v_spec30 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq30, v_spec30 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean30 = np.mean(v_spec30, axis=1)
 
 xind = np.argmin(np.abs(x-sz[4]))
@@ -204,13 +204,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq40, u_spec40 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq40, u_spec40 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean40 = np.mean(u_spec40, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq40, v_spec40 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq40, v_spec40 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean40 = np.mean(v_spec40, axis=1)
 
 xind = np.argmin(np.abs(x-sz[5]))
@@ -233,14 +233,14 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq20_15, u_spec20_15 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq20_15, u_spec20_15 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean20_15 = np.mean(u_spec20_15, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq20_15, v_spec20_15 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
-v_spec_alongmean20 = np.mean(v_spec20, axis=1)
+freq20_15, v_spec20_15 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
+v_spec_alongmean20_15 = np.mean(v_spec20_15, axis=1)
 
 xind = np.argmin(np.abs(x-sz[3]))
 
@@ -262,13 +262,13 @@ vflist = [os.path.join(fdir, 'v_psi_1.nc'), os.path.join(fdir, 'v_psi_2.nc'), os
 u_psi_dat = xr.open_mfdataset(uflist, combine='nested', concat_dim='time')
 u_psi = u_psi_dat['u_psi']
 
-freq20_25, u_spec20_25 = welch(u_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq20_25, u_spec20_25 = welch(u_psi-np.expand_dims(np.mean(u_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 u_spec_alongmean20_25 = np.mean(u_spec20_25, axis=1)
 
 v_psi_dat = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')
 v_psi = v_psi_dat['v_psi']
 
-freq20_25, v_spec20_25 = welch(v_psi, fs=1/dt, window='hann', nperseg=WL, noverlap=OL, axis=0)
+freq20_25, v_spec20_25 = welch(v_psi-np.expand_dims(np.mean(v_psi, axis=0), axis=0), fs=1/dt, detrend='constant', window='hann', nperseg=WL, noverlap=OL, axis=0)
 v_spec_alongmean20_25 = np.mean(v_spec20_25, axis=1)
 
 xind = np.argmin(np.abs(x-sz[3]))
@@ -280,18 +280,20 @@ u_ex_avg20_25 = np.mean(u_ex20_25, axis=0)
 u_ex_cross20_25 = np.mean(compute_uex(u_psi, dy, yaxis=1), axis=0)
 
 ########################################
+sz = 31.5 - 23.5
 
-sz_ind1 = np.argmin(np.abs(x-sz[0]))
-sz_ind5 = np.argmin(np.abs(x-sz[1]))
-sz_ind10 = np.argmin(np.abs(x-sz[2]))
-sz_ind20 = np.argmin(np.abs(x-sz[3]))
-sz_ind30 = np.argmin(np.abs(x-sz[4]))
-sz_ind40 = np.argmin(np.abs(x-sz[5]))
-sz_ind20_15 = np.argmin(np.abs(x-sz[6]))
-sz_ind20_25 = np.argmin(np.abs(x-sz[7]))
+xloc1 = 31.5+22
+xloc2 = (32.5 - sz*0.5)+22 
+xloc3 = (32.5 - sz*1)+22
+xloc4 = (32.5 - sz*1.5+22)
 
-freqind_lf = np.where(freq1<0.2)[0]
-freqind_vlf = np.where(freq1<0.02)[0]
+xind1 = np.where((x<xloc1) & (x>=xloc2))[0]
+xind2 = np.where((x<xloc2) & (x>=xloc3))[0]
+xind3 = np.where((x<xloc3) & (x>=xloc4))[0]
+sz_xind = np.argmin(np.abs(x-23.5-22))
+
+freqind_lf = np.where((freq1>0.003)&(freq1<0.2))[0]
+freqind_vlf = np.where((freq1>0.003)&(freq1<0.02))[0]
 
 vel1 = u_spec1 + v_spec1 
 vel5 = u_spec5 + v_spec5 
@@ -311,182 +313,290 @@ lf_vel40 = np.sum(vel40[freqind_lf, :, :], axis=0)*(freq1[1]-freq1[0])
 lf_vel20_15 = np.sum(vel20_15[freqind_lf,:,:], axis=0)*(freq1[1]-freq1[0])
 lf_vel20_25 = np.sum(vel20_25[freqind_lf,:,:], axis=0)*(freq1[1]-freq1[0])
 
-
-vel_alongmean1 = np.mean(vel1, axis=1)
-vel_alongmean5 = np.mean(vel5, axis=1)
-vel_alongmean10 = np.mean(vel10, axis=1)
-vel_alongmean20 = np.mean(vel20, axis=1)
-vel_alongmean30 = np.mean(vel30, axis=1)
-vel_alongmean40 = np.mean(vel40, axis=1)
-vel_alongmean20_15 = np.mean(vel20_15, axis=1)
-vel_alongmean20_25 = np.mean(vel20_25, axis=1)
+vlf_vel1 = np.sum(vel1[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel5 = np.sum(vel5[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel10 = np.sum(vel10[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel20 = np.sum(vel20[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel30 = np.sum(vel30[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel40 = np.sum(vel40[freqind_vlf, :, :], axis=0)*(freq1[1]-freq1[0])
+vlf_vel20_15 = np.sum(vel20_15[freqind_vlf,:,:], axis=0)*(freq1[1]-freq1[0])
+vlf_vel20_25 = np.sum(vel20_25[freqind_vlf,:,:], axis=0)*(freq1[1]-freq1[0])
 
 ##### FIGURES #####
-lwidth = 3
-msize = 10
-fsize = 18
+labdirspread = np.array([2.4, 9.6, 18.3, 24.2, 25.9])
+labvlf_x245 = np.array([0.0001076, 0.00027463, 0.0002926, 0.00030265, 0.00018583])
+labvlf_std_x245 = np.array([3.16E-06, 4.28E-05, 3.02E-05, 1.60E-05, 8.04E-05])
+labvlf_x266 = np.array([0.00041068, 0.00085144, 0.00086143, 0.00084166, 0.00080124])
+labvlf_std_x266 = np.array([0.00039378, 0.00023135, 0.00018897, 0.00027543, 0.00022364])
+labvlf_x284 = np.array([0.00119555, 0.00336905, 0.00466043, 0.00512779, 0.00379607])
+labvlf_std_x284 = np.array([0.00016174, 0.00055601, 0.00048737, 0.00048762, 0.00101546])
+labvlf_x307 = np.array([0.00112287, 0.00350467, 0.00468539, 0.0039609, 0.0036955])
+labvlf_std_x307 = np.array([0.00020207, 0.00029536, 0.0007438, 0.00030158, 0.00044867])
 
-labdirspread = np.array([2.3285, 11.6920, 16.3781, 22.4739])
-labvlf = np.array([1.7, 3.8, 4.9, 5.0])*10**-3
+lf_sz_inner = np.array([np.mean(lf_vel1[:,xind1]), np.mean(lf_vel5[:,xind1]), np.mean(lf_vel10[:,xind1]),
+						np.mean(lf_vel20[:,xind1]), np.mean(lf_vel30[:,xind1]), np.mean(lf_vel40[:,xind1])])
 
-lf_sz_edge = np.array([np.sum(vel_alongmean1[freqind_lf,sz_ind1])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_lf,sz_ind5])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_lf,sz_ind10])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_lf,sz_ind20])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_lf,sz_ind30])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_lf,sz_ind40])*(freq40[1]-freq40[0])])
+lf_sz_inner_std = np.array([np.mean(np.std(lf_vel1[:,xind1], axis=1)), np.mean(np.std(lf_vel5[:,xind1], axis=1)), 
+							np.mean(np.std(lf_vel10[:,xind1], axis=1)), np.mean(np.std(lf_vel20[:,xind1], axis=1)), 
+							np.mean(np.std(lf_vel30[:,xind1], axis=1)), np.mean(np.std(lf_vel40[:,xind1], axis=1))])
 
-vlf_sz_edge = np.array([np.sum(vel_alongmean1[freqind_vlf,sz_ind1])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_vlf,sz_ind5])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_vlf,sz_ind10])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_vlf,sz_ind20])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_vlf,sz_ind30])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_vlf,sz_ind40])*(freq40[1]-freq40[0])])
+lf_sz_inner_tp = np.array([np.mean(lf_vel20_15[:,xind1]), np.mean(lf_vel20[:,xind1]), np.mean(lf_vel20_25[:,xind1])])
 
-u_ex_sz_edge = np.array([u_ex_cross1[sz_ind1], u_ex_cross5[sz_ind5], u_ex_cross10[sz_ind10], 
-						 u_ex_cross20[sz_ind20], u_ex_cross30[sz_ind30], u_ex_cross40[sz_ind40]])
+lf_sz_inner_tp_std = np.array([np.mean(np.std(lf_vel20_15[:,xind1], axis=1)), np.mean(np.std(lf_vel20[:,xind1], axis=1)), 
+							   np.mean(np.std(lf_vel20_25[:,xind1], axis=1))])
 
-xind = 300
-lf_inner = np.array([np.sum(vel_alongmean1[freqind_lf,xind])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_lf,xind])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_lf,xind])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_lf,xind])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_lf,xind])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_lf,xind])*(freq40[1]-freq40[0])])
+lf_sz_outer = np.array([np.mean(lf_vel1[:,xind2]), np.mean(lf_vel5[:,xind2]), np.mean(lf_vel10[:,xind2]),
+						np.mean(lf_vel20[:,xind2]), np.mean(lf_vel30[:,xind2]), np.mean(lf_vel40[:,xind2])])
 
-vlf_inner = np.array([np.sum(vel_alongmean1[freqind_vlf,xind])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_vlf,xind])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_vlf,xind])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_vlf,xind])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_vlf,xind])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_vlf,xind])*(freq40[1]-freq40[0])])
+lf_sz_outer_std = np.array([np.mean(np.std(lf_vel1[:,xind2], axis=1)), np.mean(np.std(lf_vel5[:,xind2], axis=1)), 
+							np.mean(np.std(lf_vel10[:,xind2], axis=1)), np.mean(np.std(lf_vel20[:,xind2], axis=1)), 
+							np.mean(np.std(lf_vel30[:,xind2], axis=1)), np.mean(np.std(lf_vel40[:,xind2], axis=1))])
 
-u_ex_inner = np.array([u_ex_cross1[xind], u_ex_cross5[xind], u_ex_cross10[xind], 
-						 u_ex_cross20[xind], u_ex_cross30[xind], u_ex_cross40[xind]])
+lf_sz_outer_tp = np.array([np.mean(lf_vel20_15[:,xind2]), np.mean(lf_vel20[:,xind2]), np.mean(lf_vel20_25[:,xind2])])
 
-xind = 200
-lf_x25 = np.array([np.sum(vel_alongmean1[freqind_lf,xind])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_lf,xind])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_lf,xind])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_lf,xind])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_lf,xind])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_lf,xind])*(freq40[1]-freq40[0])])
+lf_sz_outer_tp_std = np.array([np.mean(np.std(lf_vel20_15[:,xind2], axis=1)), np.mean(np.std(lf_vel20[:,xind2], axis=1)), 
+							   np.mean(np.std(lf_vel20_25[:,xind2], axis=1))])
 
-vlf_x25 = np.array([np.sum(vel_alongmean1[freqind_vlf,xind])*(freq1[1]-freq1[0]),
-					   np.sum(vel_alongmean5[freqind_vlf,xind])*(freq5[1]-freq5[0]),
-					   np.sum(vel_alongmean10[freqind_vlf,xind])*(freq10[1]-freq10[0]),
-					   np.sum(vel_alongmean20[freqind_vlf,xind])*(freq20[1]-freq20[0]),
-					   np.sum(vel_alongmean30[freqind_vlf,xind])*(freq30[1]-freq30[0]),
-					   np.sum(vel_alongmean40[freqind_vlf,xind])*(freq40[1]-freq40[0])])
+lf_sz_offshore = np.array([np.mean(lf_vel1[:,xind3]), np.mean(lf_vel5[:,xind3]), np.mean(lf_vel10[:,xind3]),
+						np.mean(lf_vel20[:,xind3]), np.mean(lf_vel30[:,xind3]), np.mean(lf_vel40[:,xind3])])
 
-u_ex_x25 = np.array([u_ex_cross1[xind], u_ex_cross5[xind], u_ex_cross10[xind], 
-						 u_ex_cross20[xind], u_ex_cross30[xind], u_ex_cross40[xind]])
+lf_sz_offshore_std = np.array([np.mean(np.std(lf_vel1[:,xind3], axis=1)), np.mean(np.std(lf_vel5[:,xind3], axis=1)), 
+							   np.mean(np.std(lf_vel10[:,xind3], axis=1)), np.mean(np.std(lf_vel20[:,xind3], axis=1)), 
+							   np.mean(np.std(lf_vel30[:,xind3], axis=1)), np.mean(np.std(lf_vel40[:,xind3], axis=1))])
 
-color7 = '#004c6d'; color8 = '#6996b3'; color9 = '#c1e7ff'
+lf_sz_offshore_tp = np.array([np.mean(lf_vel20_15[:,xind3]), np.mean(lf_vel20[:,xind3]), np.mean(lf_vel20_25[:,xind3])])
 
-fsize = 20
-fig = plt.figure(figsize=(20,15), facecolor="white")
-spec = fig.add_gridspec(2,6)
+lf_sz_offshore_tp_std = np.array([np.mean(np.std(lf_vel20_15[:,xind3], axis=1)), np.mean(np.std(lf_vel20[:,xind3], axis=1)), 
+								  np.mean(np.std(lf_vel20_25[:,xind3], axis=1))])
 
-ax0 = fig.add_subplot(spec[0,:2])
-#ax0.plot(dirspread, vlf_inner, '-^', linewidth=lwidth, markersize=msize, color=color7, label='x = 30 m')
-ax0.plot(dirspread, vlf_sz_edge, '-^', linewidth=lwidth, markersize=msize, color='tab:grey', label=r'$\mathrm{Model}$')
-ax0.plot(dirspread[3], np.sum(vel_alongmean20_15[freqind_vlf, sz_ind20_15])*(freq1[1]-freq1[0]), 'v', color=color6, markersize=msize, label=r'$T_p = 1.5\ s$')
-ax0.plot(dirspread[3], np.sum(vel_alongmean20_25[freqind_vlf, sz_ind20_25])*(freq1[1]-freq1[0]), '^', color=color6, markersize=msize, label=r'$T_p = 2.5\ s$')
-#ax0.plot(dirspread, vlf_x25, '-^', linewidth=lwidth, markersize=msize, color=color9, label='x = 25 m')
-ax0.plot(labdirspread, labvlf, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8, label=r'$\mathrm{Observations}$')
+vlf_sz_inner = np.array([np.mean(vlf_vel1[:,xind1]), np.mean(vlf_vel5[:,xind1]), np.mean(vlf_vel10[:,xind1]),
+						np.mean(vlf_vel20[:,xind1]), np.mean(vlf_vel30[:,xind1]), np.mean(vlf_vel40[:,xind1])])
+
+vlf_sz_inner_std = np.array([np.mean(np.std(vlf_vel1[:,xind1], axis=1)), np.mean(np.std(vlf_vel5[:,xind1], axis=1)), 
+							 np.mean(np.std(vlf_vel10[:,xind1], axis=1)), np.mean(np.std(vlf_vel20[:,xind1], axis=1)), 
+							 np.mean(np.std(vlf_vel30[:,xind1], axis=1)), np.mean(np.std(vlf_vel40[:,xind1], axis=1))])
+
+vlf_sz_inner_tp = np.array([np.mean(vlf_vel20_15[:,xind1]), np.mean(vlf_vel20[:,xind1]), np.mean(vlf_vel20_25[:,xind1])])
+
+vlf_sz_inner_tp_std = np.array([np.mean(np.std(vlf_vel20_15[:,xind1], axis=1)), np.mean(np.std(vlf_vel20[:,xind1], axis=1)), 
+								np.mean(np.std(vlf_vel20_25[:,xind1], axis=1))])
+
+vlf_sz_outer = np.array([np.mean(vlf_vel1[:,xind2]), np.mean(vlf_vel5[:,xind2]), np.mean(vlf_vel10[:,xind2]),
+						np.mean(vlf_vel20[:,xind2]), np.mean(vlf_vel30[:,xind2]), np.mean(vlf_vel40[:,xind2])])
+
+vlf_sz_outer_std = np.array([np.mean(np.std(vlf_vel1[:,xind2], axis=1)), np.mean(np.std(vlf_vel5[:,xind2], axis=1)), 
+							 np.mean(np.std(vlf_vel10[:,xind2], axis=1)), np.mean(np.std(vlf_vel20[:,xind2], axis=1)), 
+							 np.mean(np.std(vlf_vel30[:,xind2], axis=1)), np.mean(np.std(vlf_vel40[:,xind2], axis=1))])
+
+vlf_sz_outer_tp = np.array([np.mean(vlf_vel20_15[:,xind2]), np.mean(vlf_vel20[:,xind2]), np.mean(vlf_vel20_25[:,xind2])])
+
+vlf_sz_outer_tp_std = np.array([np.mean(np.std(vlf_vel20_15[:,xind2], axis=1)), np.mean(np.std(vlf_vel20[:,xind2], axis=1)), 
+								np.mean(np.std(vlf_vel20_25[:,xind2], axis=1))])
+
+vlf_sz_offshore = np.array([np.mean(vlf_vel1[:,xind3]), np.mean(vlf_vel5[:,xind3]), np.mean(vlf_vel10[:,xind3]),
+						np.mean(vlf_vel20[:,xind3]), np.mean(vlf_vel30[:,xind3]), np.mean(vlf_vel40[:,xind3])])
+
+vlf_sz_offshore_std = np.array([np.mean(np.std(vlf_vel1[:,xind3], axis=1)), np.mean(np.std(vlf_vel5[:,xind3], axis=1)), 
+								np.mean(np.std(vlf_vel10[:,xind3], axis=1)), np.mean(np.std(vlf_vel20[:,xind3], axis=1)), 
+								np.mean(np.std(vlf_vel30[:,xind3], axis=1)), np.mean(np.std(vlf_vel40[:,xind3], axis=1))])
+
+vlf_sz_offshore_tp = np.array([np.mean(vlf_vel20_15[:,xind3]), np.mean(vlf_vel20[:,xind3]), np.mean(vlf_vel20_25[:,xind3])])
+
+vlf_sz_offshore_tp_std = np.array([np.mean(np.std(vlf_vel20_15[:,xind3], axis=1)), np.mean(np.std(vlf_vel20[:,xind3], axis=1)), 
+								   np.mean(np.std(vlf_vel20_25[:,xind3], axis=1))])
+
+u_ex_sz_edge = -np.array([u_ex_cross1[sz_xind], u_ex_cross5[sz_xind], u_ex_cross10[sz_xind], 
+						 u_ex_cross20[sz_xind], u_ex_cross30[sz_xind], u_ex_cross40[sz_xind]])
+
+u_ex_sz_edge_std = np.array([np.std(u_ex1), np.std(u_ex5), np.std(u_ex10), np.std(u_ex20), np.std(u_ex30), np.std(u_ex40)])
+
+u_ex_sz_edge_tp = -np.array([u_ex_cross20_15[sz_xind], u_ex_cross20[sz_xind], u_ex_cross20_25[sz_xind]])
+
+u_ex_sz_edge_tp_std = np.array([np.std(u_ex20_15), np.std(u_ex20), np.std(u_ex20_25)])
+
+#############################################################
+color1='#003f5c'
+color2='#444e86'
+color3='#955196'
+color4='#dd5182'
+color5='#ff6e54'
+color6='#ffa600'
+color = 'tab:grey'
+
+color1 = '#003f5c'
+color4 = '#668eaa'
+color6 = '#c2e7ff'
+
+fig, ax = plt.subplots(ncols=6, figsize=(9,5.5))
+lwidth = 1.5
+msize = 5
+fsize = 10
+
+xmin = 0.25
+ymin = 0.08
+width = 0.175
+height = 0.37
+xoffset = 0.09
+yoffset = 0.11
+
+ax[0].errorbar(dirspread, vlf_sz_inner, yerr=vlf_sz_inner_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1, label=r'$\langle \mathrm{x = 31.5 - 28.5\ m} \rangle$')
+ax[0].errorbar(dirspread, vlf_sz_outer, yerr=vlf_sz_outer_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color4, label=r'$\langle \mathrm{x = 28.5 - 24.5\ m} \rangle$')
+ax[0].errorbar(dirspread, vlf_sz_offshore, yerr=vlf_sz_offshore_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color6, label=r'$\langle \mathrm{x = 24.5 - 20.5\ m} \rangle$')
+#ax[0].errorbar(labdirspread, labvlf_x307, yerr=labvlf_std_x307, linestyle='--', linewidth=lwidth, markersize=msize, color=color1, label=r'$\mathrm{x = 30.7\ m}$')
+#ax[0].errorbar(labdirspread, labvlf_x284, yerr=labvlf_std_x284, linestyle='--', linewidth=lwidth, markersize=msize, color=color4, label=r'$\mathrm{x = 28.4\ m}$')
+ax[0].errorbar(labdirspread, (labvlf_x307+labvlf_x284)/2, yerr=(labvlf_std_x307+labvlf_std_x284)/2, fmt='o', linestyle='dotted', linewidth=lwidth, markersize=msize, color=color1, label=r'$\mathrm{x = 30.7, 28.4\ m}$')
+ax[0].errorbar(labdirspread, labvlf_x266, yerr=labvlf_std_x266, linestyle='dotted', fmt='o', linewidth=lwidth, markersize=msize, color=color4, label=r'$\mathrm{x = 26.6\ m}$')
+ax[0].errorbar(labdirspread, labvlf_x245, yerr=labvlf_std_x245, linestyle='dotted', fmt='o', linewidth=lwidth, markersize=msize, color=color6, label=r'$\mathrm{x = 24.5\ m}$')
+ax[0].legend(loc='upper right', fontsize=fsize-2)
+ax[0].set_ylabel(r'$V_{vlf} (\mathrm{m^2 s^{-1}})}$', fontsize=fsize)
+ax[0].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
+ax[0].set_position([xmin, ymin+yoffset+height, width, height])
+ax[0].grid(True)
+ax[0].text(0.5, 1.4*10**-2, r'$(a)$', fontsize=fsize+3)
+ax[0].tick_params(axis='x', which='major', labelsize=fsize)
+ax[0].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[0].set_xticks([0,5,10,15,20,25,30])
+ax[0].set_yticks([0, 0.4*10**-2, 0.8*10**-2, 1.2*10**-2, 1.6*10**-2])
+ax[0].set_ylim(0, 1.6*10**-2)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
-ax0.yaxis.set_major_formatter(formatter)
+ax[0].yaxis.set_major_formatter(formatter)
 formatter.set_powerlimits((-1,1)) 
-ax0.set_xlabel(r'$\sigma_\theta$ $(\degree)$', fontsize=fsize)
-ax0.set_ylabel(r'$V_{vlf}$ $(\mathrm{m^2s^{-1}})$', fontsize=fsize)
-ax0.grid(True)
-ax0.tick_params(axis='x', which='major', labelsize=fsize)
-ax0.tick_params(axis='y', which='major', labelsize=fsize) 
-ax0.text(2, 1.3*10**-2, r'$\mathrm{(a)}$', fontsize=fsize)
-ax0.set_ylim(0,1.4*10**-2)
-ax0.legend(loc='best')
+ax[0].legend(bbox_to_anchor=(-0.3, 0.3), fontsize=fsize)
 
-ax1 = fig.add_subplot(spec[0,2:4])
-#ax1.plot(dirspread, lf_inner, '-^', linewidth=lwidth, markersize=msize, color=color7, label='x = 30 m')
-ax1.plot(dirspread, lf_sz_edge, '-^', linewidth=lwidth, markersize=msize, color='tab:grey', label='x = 27.5 m')
-#ax1.plot(dirspread, lf_x25, '-^', linewidth=lwidth, markersize=msize, color=color9, label='x = 25 m')
-ax1.plot(dirspread[3], np.sum(vel_alongmean20_15[freqind_lf, sz_ind20_15])*(freq1[1]-freq1[0]), 'v', color=color6, markersize=msize, label=r'$T_p = 1.5\ s$')
-ax1.plot(dirspread[3], np.sum(vel_alongmean20_25[freqind_lf, sz_ind20_25])*(freq1[1]-freq1[0]), '^', color=color6, markersize=msize, label=r'$T_p = 2.5\ s$')
+ax[1].errorbar(np.array([1.5, 2, 2.5]), vlf_sz_inner_tp, yerr=vlf_sz_inner_tp_std, fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
+ax[1].errorbar(np.array([1.5, 2, 2.5]), vlf_sz_outer_tp, yerr=vlf_sz_outer_tp_std, fmt='-o', color=color4, linewidth=lwidth, markersize=msize)
+ax[1].errorbar(np.array([1.5, 2, 2.5]), vlf_sz_offshore_tp, yerr=vlf_sz_offshore_tp_std, fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
+ax[1].grid(True)
+ax[1].tick_params(axis='x', which='major', labelsize=fsize)
+ax[1].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[1].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[1].set_yticks([0, 0.4*10**-2, 0.8*10**-2, 1.2*10**-2, 1.6*10**-2])
+ax[1].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
+ax[1].set_ylabel(r'$V_{vlf} (\mathrm{m^2 s^{-1}})}$', fontsize=fsize)
+ax[1].set_position([xmin, ymin, width, height])
+ax[1].text(1.1, 1.4*10**-2, r'$(d)$', fontsize=fsize+3)
+ax[1].yaxis.set_major_formatter(formatter)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
-ax1.yaxis.set_major_formatter(formatter)
+ax[1].yaxis.set_major_formatter(formatter)
 formatter.set_powerlimits((-1,1)) 
-ax1.set_xlabel(r'$\sigma_\theta$ $(\degree)$', fontsize=fsize)
-ax1.set_ylabel(r'$V_{lf}$ $(\mathrm{m^2s^{-1}})$', fontsize=fsize)
-ax1.grid(True)
-ax1.tick_params(axis='x', which='major', labelsize=fsize)
-ax1.tick_params(axis='y', which='major', labelsize=fsize) 
-ax1.text(2, 1.3*10**-2, r'$\mathrm{(b)}$', fontsize=fsize)
-ax1.set_ylim(0,1.4*10**-2)
 
-ax2 = fig.add_subplot(spec[0,4:])
-ax2.plot(dirspread, -u_ex_sz_edge, '-^', linewidth=lwidth, markersize=msize, color='tab:grey')
-#ax2.plot(dirspread, -u_ex_inner, '-^', linewidth=lwidth, markersize=msize, color=color8)
-#ax2.plot(dirspread, -u_ex_x25, '-^', linewidth=lwidth, markersize=msize, color=color9)
-ax2.plot(dirspread[3], -u_ex_avg20_15, 'v', color=color6, markersize=msize, label=r'$T_p = 1.5\ s$')
-ax2.plot(dirspread[3], -u_ex_avg20_25, '^', color=color6, markersize=msize, label=r'$T_p = 2.5\ s$')
+ax[2].errorbar(dirspread, lf_sz_inner, yerr=lf_sz_inner_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1, label=r'$\mathrm{Inner\ Surf\ Zone}$')
+ax[2].errorbar(dirspread, lf_sz_outer, yerr=lf_sz_outer_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color4, label=r'$\mathrm{Outer\ Surf\ Zone}$')
+ax[2].errorbar(dirspread, lf_sz_offshore, yerr=lf_sz_offshore_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color6, label=r'$\mathrm{Offshore}$')
+ax[2].set_ylabel(r'$V_{lf} (\mathrm{m^2 s^{-1}})}$', fontsize=fsize)
+ax[2].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
+ax[2].grid(True)
+ax[2].text(1.1, 1.4*10**-2, r'$(b)$', fontsize=fsize+3)
+ax[2].tick_params(axis='x', which='major', labelsize=fsize)
+ax[2].tick_params(axis='y', which='major', labelsize=fsize)
+ax[2].set_xticks([0, 5, 10, 15, 20, 25, 30])
+ax[2].set_yticks([0, 0.4*10**-2, 0.8*10**-2, 1.2*10**-2, 1.6*10**-2])
+ax[2].set_ylim(0, 1.6*10**-2)
+ax[2].set_position([xmin+xoffset+width, ymin+yoffset+height, width, height])
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
-ax2.yaxis.set_major_formatter(formatter)
+ax[2].yaxis.set_major_formatter(formatter)
 formatter.set_powerlimits((-1,1)) 
-ax2.set_xlabel(r'$\sigma_\theta$ $(\degree)$', fontsize=fsize)
-ax2.set_ylabel(r'$U_{ex}$ $(\overline{U_{ex}})$ $\mathrm{(ms^{-1})}$', fontsize=fsize)
-ax2.grid(True)
-ax2.set_ylim(0,0.048)
-ax2.tick_params(axis='x', which='major', labelsize=fsize)
-ax2.tick_params(axis='y', which='major', labelsize=fsize) 
-ax2.text(2, 4.5*10**-2, r'$\mathrm{(c)}$', fontsize=fsize)
 
-ax3 = fig.add_subplot(spec[1:,:3])
-ax3.plot(x-22, np.mean(lf_vel1, axis=0), '-', linewidth=lwidth, markersize=msize, color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
-ax3.plot(x-22, np.mean(lf_vel5, axis=0), '-', linewidth=lwidth, markersize=msize, color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
-ax3.plot(x-22, np.mean(lf_vel10, axis=0), '-', linewidth=lwidth, markersize=msize, color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
-ax3.plot(x-22, np.mean(lf_vel20, axis=0), '-', linewidth=lwidth, markersize=msize, color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
-ax3.plot(x-22, np.mean(lf_vel30, axis=0), '-', linewidth=lwidth, markersize=msize, color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
-ax3.plot(x-22, np.mean(lf_vel40, axis=0), '-', linewidth=lwidth, markersize=msize, color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
-#ax3.axvline(30, linestyle='--', linewidth=3, color=color7)
-ax3.axvline(27.5, linestyle='--', linewidth=3, color='tab:grey')
-#ax3.axvline(25, linestyle='--', linewidth=3, color=color9)
-ax3.legend(loc='best', fontsize=fsize)
+ax[3].errorbar(np.array([1.5, 2, 2.5]), lf_sz_inner_tp, yerr=lf_sz_inner_tp_std, fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
+ax[3].errorbar(np.array([1.5, 2, 2.5]), lf_sz_outer_tp, yerr=lf_sz_outer_tp_std, fmt='-o', color=color4, linewidth=lwidth, markersize=msize)
+ax[3].errorbar(np.array([1.5, 2, 2.5]), lf_sz_offshore_tp, yerr=lf_sz_offshore_tp_std, fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
+ax[3].grid(True)
+ax[3].tick_params(axis='x', which='major', labelsize=fsize)
+ax[3].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[3].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[3].set_yticks([0, 0.4*10**-2, 0.8*10**-2, 1.2*10**-2, 1.6*10**-2])
+ax[3].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
+ax[3].set_ylabel(r'$V_{lf} (\mathrm{m^2 s^{-1}})}$', fontsize=fsize)
+ax[3].text(1.1, 1.4*10**-2, r'$(e)$', fontsize=fsize+3)
+ax[3].set_position([xmin+xoffset+width, ymin, width, height])
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
-ax3.yaxis.set_major_formatter(formatter)
+ax[3].yaxis.set_major_formatter(formatter)
 formatter.set_powerlimits((-1,1)) 
-ax3.set_xlabel(r'$x\ (\mathrm{m})$', fontsize=fsize)
-ax3.set_ylabel(r'$V_{lf}$ $(\mathrm{m^2 s^{-1}})$', fontsize=fsize)
-ax3.grid(True)
-ax3.tick_params(axis='x', which='major', labelsize=fsize)
-ax3.tick_params(axis='y', which='major', labelsize=fsize) 
-ax3.axvspan(31.5, 35, color=color, alpha=0.3)        
-ax3.text(33.5, 2.7*10**-2, r'$\mathrm{(d)}$', fontsize=fsize)
 
-ax4 = fig.add_subplot(spec[1:,3:])
-ax4.plot(x-22, -u_ex_cross1, '-', linewidth=lwidth, markersize=msize, color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
-ax4.plot(x-22, -u_ex_cross5, '-', linewidth=lwidth, markersize=msize, color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
-ax4.plot(x-22, -u_ex_cross10, '-', linewidth=lwidth, markersize=msize, color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
-ax4.plot(x-22, -u_ex_cross20, '-', linewidth=lwidth, markersize=msize, color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
-ax4.plot(x-22, -u_ex_cross30, '-', linewidth=lwidth, markersize=msize, color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
-ax4.plot(x-22, -u_ex_cross40, '-', linewidth=lwidth, markersize=msize, color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
-#ax4.axvline(30, linestyle='--', linewidth=3, color=color7)
-ax4.axvline(27.5, linestyle='--', linewidth=3, color='tab:grey')
-#ax4.axvline(25, linestyle='--', linewidth=3, color=color9)
+ax[4].errorbar(dirspread, u_ex_sz_edge, yerr=u_ex_sz_edge_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color4)
+ax[4].set_ylabel(r'$U_{ex}$ ($\mathrm{m s}^{-1}$)', fontsize=fsize)
+ax[4].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
+ax[4].grid(True)
+ax[4].text(1.1, 3.5*10**-2, r'$(c)$', fontsize=fsize+3)
+ax[4].tick_params(axis='x', which='major', labelsize=fsize)
+ax[4].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[4].set_xticks([0,5,10,15,20,25,30])
+ax[4].set_yticks([0, 1*10**-2, 2*10**-2, 3*10**-2, 4*10**-2])
+ax[4].set_ylim(0, 4*10**-2)
+ax[4].set_position([xmin+2*(xoffset+width), ymin+yoffset+height, width, height])
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
-ax4.yaxis.set_major_formatter(formatter)
+ax[4].yaxis.set_major_formatter(formatter)
 formatter.set_powerlimits((-1,1)) 
-ax4.set_xlabel(r'$x\ (\mathrm{m})$', fontsize=fsize)
-ax4.set_ylabel(r'$U_{ex}$ $(\overline{U_{ex}})$ $\mathrm{(ms^{-1})}$', fontsize=fsize)
-ax4.grid(True)
-ax4.tick_params(axis='x', which='major', labelsize=fsize)
-ax4.tick_params(axis='y', which='major', labelsize=fsize) 
-ax4.axvspan(31.5, 35, color=color, alpha=0.3)        
-ax4.text(33.5, 5.5*10**-2, r'$\mathrm{(e)}$', fontsize=fsize)
+
+ax[5].errorbar(np.array([1.5, 2, 2.5]), u_ex_sz_edge_tp, yerr=u_ex_sz_edge_tp_std, fmt='-o', color=color4, linewidth=lwidth, markersize=msize)
+ax[5].grid(True)
+ax[5].tick_params(axis='x', which='major', labelsize=fsize)
+ax[5].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[5].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[5].set_yticks([0, 1*10**-2, 2*10**-2, 3*10**-2, 4*10**-2])
+ax[5].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
+ax[5].set_ylabel(r'$U_{ex}$ ($\mathrm{m s}^{-1}$)', fontsize=fsize)
+ax[5].text(1.1, 3.5*10**-2, r'$(f)$', fontsize=fsize+3)
+ax[5].set_position([xmin+2*(xoffset+width), ymin, width, height])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[5].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
+fig.savefig(os.path.join(plotsavedir, 'lf_vlf_uex.png'))
+
+
+################################################################
+color1='#003f5c'
+color2='#444e86'
+color3='#955196'
+color4='#dd5182'
+color5='#ff6e54'
+color6='#ffa600'
+color = 'tab:grey'
+
+xs_ind = np.argmin(np.abs(x-32.5-22))
+fig, ax = plt.subplots(figsize=(8,3), ncols=2, sharex=True)
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel1[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel5[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel10[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel20[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel30[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+ax[0].plot(x[:xs_ind]-22, np.mean(lf_vel40[:,:xs_ind], axis=0), '-', linewidth=lwidth, markersize=msize, color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+ax[0].legend(loc='best', fontsize=fsize)
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
+ax[0].set_xlabel(r'$x\ (\mathrm{m})$', fontsize=fsize)
+ax[0].set_ylabel(r'$V_{lf}$ $(\mathrm{m^2 s^{-1}})$', fontsize=fsize)
+ax[0].grid(True)
+ax[0].tick_params(axis='x', which='major', labelsize=fsize)
+ax[0].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[0].axvspan(31.5, 32.5, color=color, alpha=0.3)        
+ax[0].text(30.5, 2.7*10**-2, r'$\mathrm{(a)}$', fontsize=fsize)
+
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross1[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross5[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross10[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross20[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross30[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+ax[1].plot(x[:xs_ind]-22, -u_ex_cross40[:xs_ind], '-', linewidth=lwidth, markersize=msize, color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[1].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
+ax[1].set_xlabel(r'$x\ (\mathrm{m})$', fontsize=fsize)
+ax[1].set_ylabel(r'$U_{ex}$ $\mathrm{(ms^{-1})}$', fontsize=fsize)
+ax[1].grid(True)
+ax[1].tick_params(axis='x', which='major', labelsize=fsize)
+ax[1].tick_params(axis='y', which='major', labelsize=fsize) 
+ax[1].axvspan(31.5, 32.5, color=color, alpha=0.3)        
+ax[1].text(30.5, 5.5*10**-2, r'$\mathrm{(b)}$', fontsize=fsize)
+ax[1].set_xlim(15, 32.5)
 fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'low_freq_u_ex_dirspread.png'))
+fig.savefig(os.path.join(plotsavedir, 'low_freq_u_ex_cross.png'))

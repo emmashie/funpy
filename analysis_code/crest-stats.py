@@ -936,6 +936,17 @@ meancrest_all = np.array([np.mean(crestlen_dir0_all_subarea),
                       np.mean(crestlen_dir30_all_subarea), 
                       np.mean(crestlen_dir40_all_subarea)])
 
+mediancrest_all = np.array([np.median(crestlen_dir0_all_subarea), 
+                      np.median(crestlen_dir5_all_subarea), 
+                      np.median(crestlen_dir10_all_subarea), 
+                      np.median(crestlen_dir20_all_subarea), 
+                      np.median(crestlen_dir30_all_subarea), 
+                      np.median(crestlen_dir40_all_subarea)])
+
+crest_all_std = np.array([np.std(crestlen_dir0_all_subarea), np.std(crestlen_dir5_all_subarea),
+                          np.std(crestlen_dir10_all_subarea), np.std(crestlen_dir20_all_subarea),
+                          np.std(crestlen_dir30_all_subarea), np.std(crestlen_dir40_all_subarea)])
+
 meancrest_lab1 = np.array([np.mean(crestlen_dir0_lab1_subarea), 
                       np.mean(crestlen_dir5_lab1_subarea), 
                       np.mean(crestlen_dir10_lab1_subarea), 
@@ -1019,6 +1030,12 @@ meancrestends_all = np.array([np.mean(crestends_pertime_dir0_all),
 crestend_density_all = meancrestends_all/(mean_sz*Wmod)
 meancrestends_all = crestend_density_all*Atank
 
+crestend_density_all_std = np.array([np.std(crestends_pertime_dir0_all/(mean_sz*Wmod)),
+                                     np.std(crestends_pertime_dir5_all)/(mean_sz*Wmod),
+                                     np.std(crestends_pertime_dir10_all)/(mean_sz*Wmod),
+                                     np.std(crestends_pertime_dir20_all)/(mean_sz*Wmod),
+                                     np.std(crestends_pertime_dir30_all)/(mean_sz*Wmod),
+                                     np.std(crestends_pertime_dir40_all)/(mean_sz*Wmod)])
 
 meancrestends_all_t1 = np.array([np.mean(crestends_pertime_dir0_all_t1), 
                           np.mean(crestends_pertime_dir5_all_t1), 
@@ -1040,6 +1057,9 @@ meancrestends_all_t2 = np.array([np.mean(crestends_pertime_dir0_all_t2),
 crestend_density_all_t2 = meancrestends_all_t2/(mean_sz*Wmod)
 meancrestends_all_t2 = crestend_density_all_t2*Atank
 
+tmp = (np.mean((meancrestends_all_t1 - meancrestends_all_t2)/meancrestends_all_t1))*100
+print('Percentage difference in crest end density (time): %0.2f' % tmp)
+
 #### VORTICITY INJECTION ####
 ####################################################
 medianfbr_abs_pertime_all = np.array([np.median(fbr_abs_pertime_dir0_all[np.where(np.isfinite(fbr_abs_pertime_dir0_all)==True)[0]]), 
@@ -1048,6 +1068,13 @@ medianfbr_abs_pertime_all = np.array([np.median(fbr_abs_pertime_dir0_all[np.wher
                       np.median(fbr_abs_pertime_dir20_all[np.where(np.isfinite(fbr_abs_pertime_dir20_all)==True)[0]]), 
                       np.median(fbr_abs_pertime_dir30_all[np.where(np.isfinite(fbr_abs_pertime_dir30_all)==True)[0]]), 
                       np.median(fbr_abs_pertime_dir40_all[np.where(np.isfinite(fbr_abs_pertime_dir40_all)==True)[0]])])
+
+medianfbr_abs_pertime_all_std = np.array([np.std(fbr_abs_pertime_dir0_all[np.where(np.isfinite(fbr_abs_pertime_dir0_all)==True)[0]]),
+                                          np.std(fbr_abs_pertime_dir5_all[np.where(np.isfinite(fbr_abs_pertime_dir5_all)==True)[0]]),
+                                          np.std(fbr_abs_pertime_dir10_all[np.where(np.isfinite(fbr_abs_pertime_dir10_all)==True)[0]]),
+                                          np.std(fbr_abs_pertime_dir20_all[np.where(np.isfinite(fbr_abs_pertime_dir20_all)==True)[0]]),
+                                          np.std(fbr_abs_pertime_dir30_all[np.where(np.isfinite(fbr_abs_pertime_dir30_all)==True)[0]]),
+                                          np.std(fbr_abs_pertime_dir40_all[np.where(np.isfinite(fbr_abs_pertime_dir40_all)==True)[0]])])
 
 medianfbr_abs_pertime_all_t1 = np.array([np.median(fbr_abs_pertime_dir0_all_t1[np.where(np.isfinite(fbr_abs_pertime_dir0_all_t1)==True)[0]]), 
                       np.median(fbr_abs_pertime_dir5_all_t1[np.where(np.isfinite(fbr_abs_pertime_dir5_all_t1)==True)[0]]), 
@@ -1063,6 +1090,9 @@ medianfbr_abs_pertime_all_t2 = np.array([np.median(fbr_abs_pertime_dir0_all_t2[n
                       np.median(fbr_abs_pertime_dir30_all_t2[np.where(np.isfinite(fbr_abs_pertime_dir30_all_t2)==True)[0]]), 
                       np.median(fbr_abs_pertime_dir40_all_t2[np.where(np.isfinite(fbr_abs_pertime_dir40_all_t2)==True)[0]])])
 
+tmp = (np.mean((medianfbr_abs_pertime_all_t1 - medianfbr_abs_pertime_all_t2)/medianfbr_abs_pertime_all_t1))*100
+print('Percentage difference in fbr (time): %0.2f' % tmp)
+
 #############################################################
 color1='#003f5c'
 color2='#444e86'
@@ -1071,6 +1101,7 @@ color4='#dd5182'
 color5='#ff6e54'
 color6='#ffa600'
 color = 'tab:grey'
+
 
 fig, ax = plt.subplots(ncols=6, figsize=(8,5.5))
 lwidth = 1
@@ -1085,7 +1116,7 @@ xoffset = 0.12
 yoffset = 0.1
 formatter = ticker.ScalarFormatter(useMathText=True)
 
-ax[0].plot(dirspread, (meancrest_all_t1+meancrest_all_t2)/2, '-^', linewidth=lwidth, markersize=msize, color=color, label=r'$\mathrm{Model\ (full\ grid)}$')
+ax[0].errorbar(dirspread, meancrest_all, yerr=crest_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color, label=r'$\mathrm{Model\ (full\ grid)}$')
 ax[0].plot(dirspread, ((meancrest_lab1_t1+meancrest_lab2_t1)/2 + (meancrest_lab1_t2+meancrest_lab2_t2)/2)/2, 'o', alpha=0.7, linewidth=lwidth-1, markersize=msize, color=color, label=r'$\mathrm{Model\ (lab\ grid)}$')
 ax[0].plot(labdirspread, labmeancrest, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8, label=r'$\mathrm{Observations}$')
 ax[0].legend(loc='upper right', fontsize=fsize-2)
@@ -1110,19 +1141,20 @@ ax[0].yaxis.set_major_formatter(formatter)
 crestlen_15 = (np.mean(crestlen_dir20_tp15_all_t1)+np.mean(crestlen_dir20_tp15_all_t2))/2
 crestlen_2 = (np.mean(crestlen_dir20_all_t1)+np.mean(crestlen_dir20_all_t2))/2
 crestlen_25 = (np.mean(crestlen_dir20_tp25_all_t1)+np.mean(crestlen_dir20_tp25_all_t2))/2
-ax[1].plot(np.array([1.5, 2, 2.5]), np.array([crestlen_15, crestlen_2, crestlen_25]), '-^', color=color6, linewidth=lwidth, markersize=msize)
+ax[1].errorbar(np.array([1.5, 2, 2.5]), np.array([crestlen_15, crestlen_2, crestlen_25]), fmt='-o', yerr=np.array([np.std(crestlen_dir20_tp15_all), np.std(crestlen_dir20_all), np.std(crestlen_dir20_tp25_all)]), color=color6, linewidth=lwidth, markersize=msize)
 ax[1].grid(True)
 ax[1].tick_params(axis='x', which='major', labelsize=fsize)
 ax[1].tick_params(axis='y', which='major', labelsize=fsize) 
 ax[1].set_xticks([1, 1.5, 2, 2.5, 3])
-ax[1].set_yticks([3, 4, 5, 6])
+#ax[1].set_yticks([3, 4, 5, 6])
 ax[1].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[1].set_ylabel(r'$\overline{\lambda_c}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
 ax[1].set_position([xmin, ymin, width, height])
-ax[1].text(1.1, 3.06, r'$(d)$', fontsize=fsize+3)
+ax[1].text(1.1, 1.5, r'$(d)$', fontsize=fsize+3)
 ax[1].yaxis.set_major_formatter(formatter)
+ax[1].set_yticks([5, 15, 25, 35])
 
-ax[2].plot(dirspread, (crestend_density_all_t1+crestend_density_all_t2)/2, '-^', linewidth=lwidth, markersize=msize, color=color)
+ax[2].errorbar(dirspread, (crestend_density_all_t1+crestend_density_all_t2)/2, yerr=crestend_density_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color)
 ax[2].plot(labdirspread, labcrestends/Atank, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8)
 ax[2].set_ylim(0,0.06)
 ax[2].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
@@ -1132,16 +1164,16 @@ ax[2].text(0.5, 0.003, r'$(b)$', fontsize=fsize+3)
 ax[2].tick_params(axis='x', which='major', labelsize=fsize)
 ax[2].tick_params(axis='y', which='major', labelsize=fsize)
 ax[2].set_xticks([0, 5, 10, 15, 20, 25, 30])
-ax[2].set_yticks([0, 0.02, 0.04, 0.06])
+ax[2].set_yticks([0, 0.02, 0.04, 0.06, 0.08])
 ax[2].yaxis.set_major_formatter(formatter)
 
 ax01 = ax[2].twinx()
-ax01.set_ylim(0,0.06*Atank)
-ax01.plot(dirspread, (meancrestends_all_t1+meancrestends_all_t2)/2, '-^', linewidth=lwidth, markersize=msize, color=color)
+ax01.set_ylim(0,0.08*Atank)
+ax01.plot(dirspread, (meancrestends_all_t1+meancrestends_all_t2)/2, linewidth=lwidth, markersize=msize, color=color)
 ax01.plot(labdirspread, labcrestends, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8)
 ax01.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
 ax01.tick_params(axis='y', which='major', labelsize=fsize) 
-ax01.set_yticks([0, 1.5, 3, 4.5, 6])
+#ax01.set_yticks([0, 1.5, 3, 4.5, 6])
 ax01.set_xticks([0,5,10,15,20,25,30])
 ax01.yaxis.set_major_formatter(formatter)
 ax[2].set_position([xmin+xoffset+width, ymin+yoffset+height, width, height])
@@ -1157,24 +1189,26 @@ crestends_2 = crestend_density_2*Atank
 crestends25 = ((np.mean(crestends_pertime_dir20_tp25_all_t1)+np.mean(crestends_pertime_dir20_tp25_all_t2))/2)
 crestend_density_25 = crestends25/(mean_sz*Wmod)
 crestends_25 = crestend_density_25*Atank
-ax[3].plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25]), '-^', color=color6, linewidth=lwidth, markersize=msize)
+ax[3].errorbar(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25]), yerr=np.array([np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod)]), fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
 ax[3].grid(True)
 ax[3].tick_params(axis='x', which='major', labelsize=fsize)
 ax[3].tick_params(axis='y', which='major', labelsize=fsize) 
-ax[3].set_yticks([0.04, 0.05, 0.06, 0.07])
+#ax[3].set_yticks([0.04, 0.05, 0.06, 0.07])
 ax[3].set_xticks([1, 1.5, 2, 2.5, 3])
 ax[3].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[3].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
-ax[3].text(1.1, 0.041, r'$(e)$', fontsize=fsize+3)
-ax[3].set_ylim(0.04, 0.07)
+ax[3].text(1.1, 0.003, r'$(e)$', fontsize=fsize+3)
+ax[3].set_ylim(0.0, 0.08)
+ax[3].set_yticks([0, 0.02, 0.04, 0.06, 0.08])
+
 
 ax3 = ax[3].twinx()
-ax3.plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25])*Atank, '-^', color=color6, linewidth=lwidth, markersize=msize)
+ax3.plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25])*Atank, color=color6, linewidth=lwidth, markersize=msize)
 ax3.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
 ax3.tick_params(axis='y', which='major', labelsize=fsize) 
 ax3.set_xticks([1, 1.5, 2, 2.5, 3])
-ax3.set_yticks([4, 5, 6, 7])
-ax3.set_ylim(0.04*Atank, 0.07*Atank)
+ax3.set_yticks([2, 4, 6, 8])
+ax3.set_ylim(0.0*Atank, 0.08*Atank)
 ax[3].set_position([xmin+xoffset+width, ymin, width, height])
 
 scalar = dx*dy
@@ -1182,10 +1216,10 @@ medianfbr_abs_pertime_den_all_t1 = medianfbr_abs_pertime_all_t1/(mean_sz*Wmod)*s
 medianfbr_abs_pertime_den_all_t2 = medianfbr_abs_pertime_all_t2/(mean_sz*Wmod)*scalar
 
 labfbrdir = np.array([2, 10, 18, 23])
-labfbr = np.array([0.4, 0.8, 0.85, 0.88])
-labscale = 1
+labfbr = np.array([0.4122635987, 1.093722654, 1.213431072, 1.27179053])
+labscale = 15
 
-ax[4].plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2, '-^', linewidth=lwidth, markersize=msize, color=color)
+ax[4].errorbar(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2, yerr=medianfbr_abs_pertime_all_std/(mean_sz*Wmod)*scalar, fmt='-o', linewidth=lwidth, markersize=msize, color=color)
 ax[4].plot(labfbrdir, labfbr/Atank*labscale, '-o', color=color3, markersize=msize, linewidth=lwidth)
 ax[4].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
 ax[4].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
@@ -1195,12 +1229,12 @@ ax[4].set_ylim(0, 0.4)
 ax[4].tick_params(axis='x', which='major', labelsize=fsize)
 ax[4].tick_params(axis='y', which='major', labelsize=fsize) 
 ax[4].set_xticks([0,5,10,15,20,25,30])
-ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
+ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
 
 ax02 = ax[4].twinx()
-ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, '-^', linewidth=lwidth, markersize=msize, color=color)
+ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, linewidth=lwidth, markersize=msize, color=color)
 ax02.plot(labfbrdir, labfbr*labscale, '-o', color=color3, markersize=msize, linewidth=lwidth)
-ax02.set_ylim(0, 0.4*Atank)
+ax02.set_ylim(0, 0.5*Atank)
 ax02.set_xticks([0,5,10,15,20,25,30])
 ax02.set_yticks([0, 10, 20, 30, 40])
 ax02.tick_params(axis='y', which='major', labelsize=fsize)
@@ -1210,28 +1244,33 @@ ax[4].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin+yoffset+height, wi
 medianfbr_den_15 = ((np.median(fbr_abs_pertime_dir20_tp15_all_t1)+np.median(fbr_abs_pertime_dir20_tp15_all_t2))/2)/((shore[-2]-22.75-22)*Wmod)*scalar
 medianfbr_den_2 = ((np.median(fbr_abs_pertime_dir20_all_t1)+np.median(fbr_abs_pertime_dir20_all_t2))/2)/(mean_sz*Wmod)*scalar
 medianfbr_den_25 = ((np.median(fbr_abs_pertime_dir20_tp25_all_t1)+np.median(fbr_abs_pertime_dir20_tp25_all_t2))/2)/((shore[-1]-23.60-22)*Wmod)*scalar
+err = np.array([np.std(fbr_abs_pertime_dir20_tp15_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_tp25_all/((shore[-2]-22.75-22)*Wmod)*scalar)])
 
-ax[5].plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25]), '-^', color=color6, linewidth=lwidth, markersize=msize)
+ax[5].errorbar(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25]), yerr=err, fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
 ax[5].grid(True)
 ax[5].tick_params(axis='x', which='major', labelsize=fsize)
 ax[5].tick_params(axis='y', which='major', labelsize=fsize) 
-ax[5].set_yticks([0.22, 0.24, 0.26, 0.28, 0.3])
+#ax[5].set_yticks([0.22, 0.24, 0.26, 0.28, 0.3])
 ax[5].set_xticks([1, 1.5, 2, 2.5, 3])
 ax[5].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[5].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
-ax[5].text(1.1, 0.225, r'$(f)$', fontsize=fsize+3)
-ax[5].set_ylim(0.22, 0.3)
+ax[5].text(1.1, 0.01, r'$(f)$', fontsize=fsize+3)
+ax[5].set_ylim(0, 0.5)
+#ax[5].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
+ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+
 
 ax5 = ax[5].twinx()
-ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, '-^', color=color6, linewidth=lwidth, markersize=msize)
+ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, color=color6, linewidth=lwidth, markersize=msize)
 ax5.tick_params(axis='y', which='major', labelsize=fsize)
 ax5.set_ylabel(r'$\Omega_{sz}$ $(\mathrm{s^{-2}})$') 
 ax5.set_xticks([1, 1.5, 2, 2.5, 3])
-ax5.set_yticks([24, 26, 28, 30, 32])
-ax5.set_ylim(0.22*Atank, 0.3*Atank)
+#ax5.set_yticks([24, 26, 28, 30, 32])
+ax5.set_ylim(0*Atank, 0.5*Atank)
 ax[5].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin, width, height])
 
-fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_wnewall.png'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error.png'))
+
 
 ###############################################
 lwidth = 1.5
@@ -1261,14 +1300,14 @@ ax[0,0].plot(bins30[:-1], counts30, color=color5, linewidth=lwidth, label=r'$\si
 var = fbr_abs_pertime_dir40_all[np.isfinite(fbr_abs_pertime_dir40_all)]
 counts40, bins40 = np.histogram(np.log10(var[var>0]), bins=nbins)
 ax[0,0].plot(bins40[:-1], counts40, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
-ax[0,0].legend(loc='best', fontsize=fsize-3)
+ax[0,0].legend(loc='best', fontsize=fsize)
 ax[0,0].set_xlim(2,5)
 ax[0,0].grid(True)
 ax[0,0].text(4.6, 550, r'$(a)$', fontsize=16)
 ax[0,0].set_ylabel(r'$\mathrm{Count}$')
 
 ax[1,0].set_ylabel(r'$\mathrm{Count}$')
-ax[1,0].set_xlabel(r'$\log (V_{sz})$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_xlabel(r'$\log (\Omega_{sz})$ ($\mathrm{m s}^{-2}$)')
 ###
 
 var = fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]
@@ -1298,10 +1337,10 @@ ax[0,1].set_xlim(1.5,5)
 
 ax[0,1].set_ylabel(r'$\mathrm{Count}$')
 ax[0,1].grid(True)
-ax[0,1].text(4.6, 5600, r'$(b)$', fontsize=16)
+ax[0,1].text(4.6, 5500, r'$(b)$', fontsize=16)
 ax[0,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
 
-ax[1,1].set_xlabel(r'$\log(V_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,1].set_xlabel(r'$\log(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
 
 var = fbr_abs_pertime_dir20_tp25_all[np.isfinite(fbr_abs_pertime_dir20_tp25_all)]
 counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=nbins)
@@ -1314,7 +1353,7 @@ ax[1,0].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$T_p
 var = fbr_abs_pertime_dir20_tp15_all[np.isfinite(fbr_abs_pertime_dir20_tp15_all)]
 counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=nbins)
 ax[1,0].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
-ax[1,0].legend(loc='best', fontsize=fsize-3)
+ax[1,0].legend(loc='best', fontsize=fsize)
 ax[1,0].grid(True)
 ax[1,0].set_xlim(2, 5)
 ax[1,0].set_xticks([2.0, 2.5, 3, 3.5, 4, 4.5, 5.0])
@@ -1334,12 +1373,11 @@ counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=nbins)
 ax[1,1].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
 ax[1,1].grid(True)
 ax[1,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
-ax[1,1].text(4.6, 5600, r'$(d)$', fontsize=16)
+ax[1,1].text(4.6, 5500, r'$(d)$', fontsize=16)
 ax[1,1].set_ylabel(r'$\mathrm{Count}$')
 
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.png'))
-
 
 
 ##########################################################################

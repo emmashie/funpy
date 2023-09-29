@@ -17,10 +17,10 @@ plt.ion()
 #plt.style.use('ggplot')
 plt.style.use('classic')
 
-#WL = 128*2; OL = 64*2
+WL = 550
 dx = 0.05
 dy = 0.1
-sz = 31.5 - 23.5
+sz = 31.5 - 23.2
 
 xloc1 = 31.5+22
 xloc2 = (32.5 - sz*0.5)+22 
@@ -58,6 +58,24 @@ del curl_psi1
 wavenum_inner1 = np.mean(np.mean(wavenumber1[:,:,xind1], axis=-1), axis=0)
 wavenum_outer1 = np.mean(np.mean(wavenumber1[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore1 = np.mean(np.mean(wavenumber1[:,:,xind3], axis=-1), axis=0)
+del wavenumber1
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx1 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry1 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr1 = np.gradient(fbry1, dx, axis=2) - np.gradient(fbrx1, dy, axis=1)
+
+#freq1, fbrwavenumber1 = welch(curl_fbr1, fs=1/dy, window='hann', nperseg=curl_fbr1.shape[1], axis=1)
+freq1_fbr, fbrwavenumber1 = welch(curl_fbr1, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr1
+
+fbrwavenum_inner1 = np.mean(np.mean(fbrwavenumber1[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer1 = np.mean(np.mean(fbrwavenumber1[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore1 = np.mean(np.mean(fbrwavenumber1[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber1
 
 ##################################################################
 rundir = 'hmo25_dir5_tp2_ntheta15'
@@ -79,6 +97,24 @@ del curl_psi5
 wavenum_inner5 = np.mean(np.mean(wavenumber5[:,:,xind1], axis=-1), axis=0)
 wavenum_outer5 = np.mean(np.mean(wavenumber5[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore5 = np.mean(np.mean(wavenumber5[:,:,xind3], axis=-1), axis=0)
+del wavenumber5
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx5 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry5 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr5 = np.gradient(fbry5, dx, axis=2) - np.gradient(fbrx5, dy, axis=1)
+
+#freq5, fbrwavenumber5 = welch(curl_fbr5, fs=1/dy, window='hann', nperseg=curl_fbr5.shape[1], axis=1)
+freq5_fbr, fbrwavenumber5 = welch(curl_fbr5, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr5
+
+fbrwavenum_inner5 = np.mean(np.mean(fbrwavenumber5[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer5 = np.mean(np.mean(fbrwavenumber5[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore5 = np.mean(np.mean(fbrwavenumber5[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber5
 
 #####################################################################################
 rundir = 'hmo25_dir10_tp2'
@@ -95,11 +131,29 @@ v_psi10 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['v_psi']
 curl_psi10 = np.gradient(v_psi10, dx, axis=2) - np.gradient(u_psi10, dy, axis=1)
 
 freq10, wavenumber10 = welch(curl_psi10, fs=1/dy, window='hann', nperseg=curl_psi10.shape[1], axis=1)
-curl_psi10
+del curl_psi10
 
 wavenum_inner10 = np.mean(np.mean(wavenumber10[:,:,xind1], axis=-1), axis=0)
 wavenum_outer10 = np.mean(np.mean(wavenumber10[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore10 = np.mean(np.mean(wavenumber10[:,:,xind3], axis=-1), axis=0)
+del wavenumber10
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx10 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry10 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr10 = np.gradient(fbry10, dx, axis=2) - np.gradient(fbrx10, dy, axis=1)
+
+#freq10, fbrwavenumber10 = welch(curl_fbr10, fs=1/dy, window='hann', nperseg=curl_fbr10.shape[1], axis=1)
+freq10_fbr, fbrwavenumber10 = welch(curl_fbr10, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr10
+
+fbrwavenum_inner10 = np.mean(np.mean(fbrwavenumber10[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer10 = np.mean(np.mean(fbrwavenumber10[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore10 = np.mean(np.mean(fbrwavenumber10[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber10
 
 #####################################################################################
 rundir = 'hmo25_dir20_tp2'
@@ -121,6 +175,24 @@ del curl_psi20
 wavenum_inner20 = np.mean(np.mean(wavenumber20[:,:,xind1], axis=-1), axis=0)
 wavenum_outer20 = np.mean(np.mean(wavenumber20[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore20 = np.mean(np.mean(wavenumber20[:,:,xind3], axis=-1), axis=0)
+del wavenumber20
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx20 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry20 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr20 = np.gradient(fbry20, dx, axis=2) - np.gradient(fbrx20, dy, axis=1)
+
+#freq20, fbrwavenumber20 = welch(curl_fbr20, fs=1/dy, window='hann', nperseg=curl_fbr20.shape[1], axis=1)
+freq20_fbr, fbrwavenumber20 = welch(curl_fbr20, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr20
+
+fbrwavenum_inner20 = np.mean(np.mean(fbrwavenumber20[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer20 = np.mean(np.mean(fbrwavenumber20[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore20 = np.mean(np.mean(fbrwavenumber20[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber20
 
 #####################################################################################
 rundir = 'hmo25_dir30_tp2'
@@ -142,6 +214,24 @@ del curl_psi30
 wavenum_inner30 = np.mean(np.mean(wavenumber30[:,:,xind1], axis=-1), axis=0)
 wavenum_outer30 = np.mean(np.mean(wavenumber30[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore30 = np.mean(np.mean(wavenumber30[:,:,xind3], axis=-1), axis=0)
+del wavenumber30
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx30 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry30 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr30 = np.gradient(fbry30, dx, axis=2) - np.gradient(fbrx30, dy, axis=1)
+
+#freq30, fbrwavenumber30 = welch(curl_fbr30, fs=1/dy, window='hann', nperseg=curl_fbr30.shape[1], axis=1)
+freq30_fbr, fbrwavenumber30 = welch(curl_fbr30, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr30
+
+fbrwavenum_inner30 = np.mean(np.mean(fbrwavenumber30[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer30 = np.mean(np.mean(fbrwavenumber30[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore30 = np.mean(np.mean(fbrwavenumber30[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber30
 
 #####################################################################################
 rundir = 'hmo25_dir40_tp2'
@@ -163,6 +253,24 @@ del curl_psi40
 wavenum_inner40 = np.mean(np.mean(wavenumber40[:,:,xind1], axis=-1), axis=0)
 wavenum_outer40 = np.mean(np.mean(wavenumber40[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore40 = np.mean(np.mean(wavenumber40[:,:,xind3], axis=-1), axis=0)
+del wavenumber40
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx40 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry40 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr40 = np.gradient(fbry40, dx, axis=2) - np.gradient(fbrx40, dy, axis=1)
+
+#freq40, fbrwavenumber40 = welch(curl_fbr40, fs=1/dy, window='hann', nperseg=curl_fbr40.shape[1], axis=1)
+freq40_fbr, fbrwavenumber40 = welch(curl_fbr40, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr40
+
+fbrwavenum_inner40 = np.mean(np.mean(fbrwavenumber40[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer40 = np.mean(np.mean(fbrwavenumber40[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore40 = np.mean(np.mean(fbrwavenumber40[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber40
 
 #####################################################################################
 rundir = 'hmo25_dir20_tp15'
@@ -184,6 +292,24 @@ del curl_psi20
 wavenum_inner20_15 = np.mean(np.mean(wavenumber20_15[:,:,xind1], axis=-1), axis=0)
 wavenum_outer20_15 = np.mean(np.mean(wavenumber20_15[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore20_15 = np.mean(np.mean(wavenumber20_15[:,:,xind3], axis=-1), axis=0)
+del wavenumber20_15
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx20_15 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry20_15 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr20_15 = np.gradient(fbry20_15, dx, axis=2) - np.gradient(fbrx20_15, dy, axis=1)
+
+#freq20_15, fbrwavenumber20_15 = welch(curl_fbr20_15, fs=1/dy, window='hann', nperseg=curl_fbr20_15.shape[1], axis=1)
+freq20_15_fbr, fbrwavenumber20_15 = welch(curl_fbr20_15, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr20_15
+
+fbrwavenum_inner20_15 = np.mean(np.mean(fbrwavenumber20_15[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer20_15 = np.mean(np.mean(fbrwavenumber20_15[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore20_15 = np.mean(np.mean(fbrwavenumber20_15[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber20_15
 
 #####################################################################################
 rundir = 'hmo25_dir20_tp25'
@@ -205,6 +331,24 @@ del curl_psi20
 wavenum_inner20_25 = np.mean(np.mean(wavenumber20_25[:,:,xind1], axis=-1), axis=0)
 wavenum_outer20_25 = np.mean(np.mean(wavenumber20_25[:,:,xind2], axis=-1), axis=0)
 wavenum_offshore20_25 = np.mean(np.mean(wavenumber20_25[:,:,xind3], axis=-1), axis=0)
+del wavenumber20_25
+
+flist = [os.path.join(fdir, 'fbrx_1.nc'), os.path.join(fdir, 'fbrx_2.nc'), os.path.join(fdir, 'fbrx_3.nc'), os.path.join(fdir, 'fbrx_4.nc')]
+fbrx20_25 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbrx']
+
+flist = [os.path.join(fdir, 'fbry_1.nc'), os.path.join(fdir, 'fbry_2.nc'), os.path.join(fdir, 'fbry_3.nc'), os.path.join(fdir, 'fbry_4.nc')]
+fbry20_25 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['fbry']
+
+curl_fbr20_25 = np.gradient(fbry20_25, dx, axis=2) - np.gradient(fbrx20_25, dy, axis=1)
+
+#freq20_25, fbrwavenumber20_25 = welch(curl_fbr20_25, fs=1/dy, window='hann', nperseg=curl_fbr20_25.shape[1], axis=1)
+freq20_25_fbr, fbrwavenumber20_25 = welch(curl_fbr20_25, fs=1/dy, window='hann', nperseg=WL, axis=1)
+del curl_fbr20_25
+
+fbrwavenum_inner20_25 = np.mean(np.mean(fbrwavenumber20_25[:,:,xind1], axis=-1), axis=0)
+fbrwavenum_outer20_25 = np.mean(np.mean(fbrwavenumber20_25[:,:,xind2], axis=-1), axis=0)
+fbrwavenum_offshore20_25 = np.mean(np.mean(fbrwavenumber20_25[:,:,xind3], axis=-1), axis=0)
+del fbrwavenumber20_25
 
 ###################
 color1='#003f5c'
@@ -252,7 +396,7 @@ ax[0,2].set_title(r'$\mathrm{Offshore}$ $\langle x$ = $%.1f$ - $%.1f \rangle $' 
 ax[0,2].grid(True)
 ax[0,2].text(2.8, 0.3, r'$\mathrm{(c)}$', fontsize=16)
 ax[0,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
-ax[0,2].axvline(1/4, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[0,2].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
 
 
 ax[1,0].loglog(freq20_15, wavenum_inner20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = 1.5 $\mathrm{s}$')
@@ -288,3 +432,81 @@ ax[1,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
 
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'along_wavenum_zones.png'))
+
+########################################################################
+
+
+fig, ax = plt.subplots(ncols=3, nrows=2, figsize=(12,8), sharex=True, sharey=True)
+ax[0,0].loglog(freq1_fbr, fbrwavenum_inner1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
+ax[0,0].loglog(freq5_fbr, fbrwavenum_inner5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])
+ax[0,0].loglog(freq10_fbr, fbrwavenum_inner10, linewidth=lwidth, color=color3, label=r'$\sigma_\theta = %.1f$' % dirspread[2])
+ax[0,0].loglog(freq20_fbr, fbrwavenum_inner20, linewidth=lwidth, color=color4, label=r'$\sigma_\theta = %.1f$' % dirspread[3])
+ax[0,0].loglog(freq30_fbr, fbrwavenum_inner30, linewidth=lwidth, color=color5, label=r'$\sigma_\theta = %.1f$' % dirspread[4])
+ax[0,0].loglog(freq40_fbr, fbrwavenum_inner40, linewidth=lwidth, color=color6, label=r'$\sigma_\theta = %.1f$' % dirspread[5])
+ax[0,0].set_ylim(10**-5, 10)
+ax[0,0].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
+ax[0,0].set_title(r'$\mathrm{Inner\ surf\ zone}$ $\langle x$ = $%.1f$ - $%.1f \rangle $' % ((xloc1-22), (xloc2-22)))
+ax[0,0].grid(True)
+ax[0,0].text(2.5, 3, r'$\mathrm{(a)}$', fontsize=16)
+ax[0,0].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+
+ax[0,1].loglog(freq1_fbr, fbrwavenum_outer1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
+ax[0,1].loglog(freq5_fbr, fbrwavenum_outer5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])
+ax[0,1].loglog(freq10_fbr, fbrwavenum_outer10, linewidth=lwidth, color=color3, label=r'$\sigma_\theta = %.1f$' % dirspread[2])
+ax[0,1].loglog(freq20_fbr, fbrwavenum_outer20, linewidth=lwidth, color=color4, label=r'$\sigma_\theta = %.1f$' % dirspread[3])
+ax[0,1].loglog(freq30_fbr, fbrwavenum_outer30, linewidth=lwidth, color=color5, label=r'$\sigma_\theta = %.1f$' % dirspread[4])
+ax[0,1].loglog(freq40_fbr, fbrwavenum_outer40, linewidth=lwidth, color=color6, label=r'$\sigma_\theta = %.1f$' % dirspread[5])
+ax[0,1].set_ylim(10**-5, 10)
+ax[0,1].set_title(r'$\mathrm{Outer\ surf\ zone}$ $\langle x$ = $%.1f$ - $%.1f \rangle $' % ((xloc2-22), (xloc3-22)))
+ax[0,1].grid(True)
+ax[0,1].text(2.5, 3, r'$\mathrm{(b)}$', fontsize=16)
+ax[0,1].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+
+ax[0,2].loglog(freq1_fbr, fbrwavenum_offshore1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
+ax[0,2].loglog(freq5_fbr, fbrwavenum_offshore5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])
+ax[0,2].loglog(freq10_fbr, fbrwavenum_offshore10, linewidth=lwidth, color=color3, label=r'$\sigma_\theta = %.1f$' % dirspread[2])
+ax[0,2].loglog(freq20_fbr, fbrwavenum_offshore20, linewidth=lwidth, color=color4, label=r'$\sigma_\theta = %.1f$' % dirspread[3])
+ax[0,2].loglog(freq30_fbr, fbrwavenum_offshore30, linewidth=lwidth, color=color5, label=r'$\sigma_\theta = %.1f$' % dirspread[4])
+ax[0,2].loglog(freq40_fbr, fbrwavenum_offshore40, linewidth=lwidth, color=color6, label=r'$\sigma_\theta = %.1f$' % dirspread[5])
+ax[0,2].set_xlim(freq1[1], 5)
+ax[0,2].set_ylim(10**-5, 10)
+ax[0,2].set_title(r'$\mathrm{Offshore}$ $\langle x$ = $%.1f$ - $%.1f \rangle $' % ((xloc3-22), (xloc4-22)))
+ax[0,2].grid(True)
+ax[0,2].text(2.5, 3, r'$\mathrm{(c)}$', fontsize=16)
+ax[0,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
+ax[0,2].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+
+
+ax[1,0].loglog(freq20_15_fbr, fbrwavenum_inner20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = 1.5 $\mathrm{s}$')
+ax[1,0].loglog(freq20_fbr, fbrwavenum_inner20, linewidth=lwidth, color=color4, label=r'$T_p$ = 2.0 $\mathrm{s}$')
+ax[1,0].loglog(freq20_25_fbr, fbrwavenum_inner20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = 2.5 $\mathrm{s}$')
+ax[1,0].set_ylim(10**-5, 10)
+ax[1,0].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
+ax[1,0].set_xlabel(r'$k_y$ ($m^{-1}$)')
+ax[1,0].grid(True)
+ax[1,0].text(2.5, 3, r'$\mathrm{(d)}$', fontsize=16)
+ax[1,0].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+
+ax[1,1].loglog(freq20_15_fbr, fbrwavenum_outer20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = 1.5 $\mathrm{s}$')
+ax[1,1].loglog(freq20_fbr, fbrwavenum_outer20, linewidth=lwidth, color=color4, label=r'$T_p$ = 2.0 $\mathrm{s}$')
+ax[1,1].loglog(freq20_25_fbr, fbrwavenum_outer20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = 2.5 $\mathrm{s}$')
+ax[1,1].set_ylim(10**-5, 10)
+ax[1,1].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
+ax[1,1].set_xlabel(r'$k_y$ ($m^{-1}$)')
+ax[1,1].grid(True)
+ax[1,1].text(2.5, 3, r'$\mathrm{(e)}$', fontsize=16)
+ax[1,1].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+
+ax[1,2].loglog(freq20_15_fbr, fbrwavenum_offshore20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = $1.5$ $\mathrm{s}$')
+ax[1,2].loglog(freq20_fbr, fbrwavenum_offshore20, linewidth=lwidth, color=color4, label=r'$T_p$ = $2.0$ $\mathrm{s}$')
+ax[1,2].loglog(freq20_25_fbr, fbrwavenum_offshore20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = $2.5$ $\mathrm{s}$')
+ax[1,2].set_ylim(10**-5, 10)
+ax[1,2].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
+ax[1,2].set_xlabel(r'$k_y$ ($m^{-1}$)')
+ax[1,2].grid(True)
+ax[1,2].text(2.5, 3, r'$\mathrm{(f)}$', fontsize=16)
+ax[1,2].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[1,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
+
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'along_fbrwavenum_zones.png'))

@@ -54,7 +54,7 @@ def compute_wave_stats(fdir, dt=0.2, lf=0.2, WL=128, OL=64, fmin=0.25, fmax=1.2)
     cg = wf.group_speed(2*np.pi/k, Tp_off, dep[0,:])
     energy_flux = wf.energy_flux(energy_density, cg)
     eflux_rat = energy_flux/energy_flux[xind]
-    xsz_ind = np.argmin(np.abs(eflux_rat[np.isfinite(eflux_rat)]-0.9))
+    xsz_ind = np.argmin(np.abs(eflux_rat[np.isfinite(eflux_rat)]-0.89))
     xsz = x.values[xsz_ind]-22
 
     Tp_sz = 1/freq[np.where(Sf_alongmean[:,xsz_ind]==np.max(Sf_alongmean[:,xsz_ind]))[0][0]]
@@ -68,7 +68,7 @@ def compute_wave_stats(fdir, dt=0.2, lf=0.2, WL=128, OL=64, fmin=0.25, fmax=1.2)
     rundown = 10e5
     shoreline = np.zeros(mask[:,:,0].shape)
     [nt, ny] = shoreline.shape
-    for i in range(nt):
+    for i in range(ny):
         for j in range(ny):
             if len(np.where(mask[i,j,:]==0)[0])==0:
                 land_ind = -1
@@ -85,6 +85,9 @@ rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postpro
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
 
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
+
 Hs_off1, Hs_sz1, xsz1, xsl1, xr1, Tp_off1, Tp_sz1, dir_off1, dir_sz1, theta_off1, theta_sz1 = compute_wave_stats(fdir)
 
 print('%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f' % (Hs_off1, Hs_sz1, xsz1, xsl1, xr1, Tp_off1, Tp_sz1, dir_off1, dir_sz1, theta_off1, theta_sz1))
@@ -93,6 +96,9 @@ rundir = 'hmo25_dir5_tp2_ntheta15'
 rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postprocessing')
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
+
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
 
 Hs_off5, Hs_sz5, xsz5, xsl5, xr5, Tp_off5, Tp_sz5, dir_off5, dir_sz5, theta_off5, theta_sz5 = compute_wave_stats(fdir)
 
@@ -103,6 +109,9 @@ rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postpro
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
 
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
+
 Hs_off10, Hs_sz10, xsz10, xsl10, xr10, Tp_off10, Tp_sz10, dir_off10, dir_sz10, theta_off10, theta_sz10 = compute_wave_stats(fdir)
 
 print('%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f' % (Hs_off10, Hs_sz10, xsz10, xsl10, xr10, Tp_off10, Tp_sz10, dir_off10, dir_sz10, theta_off10, theta_sz10))
@@ -111,6 +120,9 @@ rundir = 'hmo25_dir20_tp2'
 rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postprocessing')
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
+
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
 
 Hs_off20, Hs_sz20, xsz20, xsl20, xr20, Tp_off20, Tp_sz20, dir_off20, dir_sz20, theta_off20, theta_sz20 = compute_wave_stats(fdir)
 
@@ -121,6 +133,9 @@ rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postpro
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
 
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
+
 Hs_off30, Hs_sz30, xsz30, xsl30, xr30, Tp_off30, Tp_sz30, dir_off30, dir_sz30, theta_off30, theta_sz30 = compute_wave_stats(fdir)
 
 print('%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f' % (Hs_off30, Hs_sz30, xsz30, xsl30, xr30, Tp_off30, Tp_sz30, dir_off30, dir_sz30, theta_off30, theta_sz30))
@@ -129,6 +144,9 @@ rundir = 'hmo25_dir40'
 rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_server_runs_y550','postprocessing')
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
+
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
 
 Hs_off40, Hs_sz40, xsz40, xsl40, xr40, Tp_off40, Tp_sz40, dir_off40, dir_sz40, theta_off40, theta_sz40 = compute_wave_stats(fdir)
 
@@ -139,6 +157,9 @@ rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postpro
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
 
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
+
 Hs_off20_15, Hs_sz20_15, xsz20_15, xsl20_15, xr20_15, Tp_off20_15, Tp_sz20_15, dir_off20_15, dir_sz20_15, theta_off20_15, theta_sz20_15 = compute_wave_stats(fdir)
 
 print('%.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f' % (Hs_off20_15, Hs_sz20_15, xsz20_15, xsl20_15, xr20_15, Tp_off20_15, Tp_sz20_15, dir_off20_15, dir_sz20_15, theta_off20_15, theta_sz20_15))
@@ -147,6 +168,9 @@ rundir = 'hmo25_dir20_tp25'
 rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postprocessing')
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')
 fdir = os.path.join(rootdir, 'compiled_output_'+rundir, 'lab_netcdfs')
+
+eta = xr.open_mfdataset(os.path.join(fdir, 'eta_*.nc'), combine='nested', concat_dim='time')['eta']
+print(np.mean(eta[:,:,330].values))
 
 Hs_off20_25, Hs_sz20_25, xsz20_25, xsl20_25, xr20_25, Tp_off20_25, Tp_sz20_25, dir_off20_25, dir_sz20_25, theta_off20_25, theta_sz20_25 = compute_wave_stats(fdir)
 

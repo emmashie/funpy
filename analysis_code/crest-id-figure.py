@@ -10,6 +10,7 @@ import funpy.model_utils as mod_utils
 import cmocean.cm as cmo 
 from funpy import filter_functions as ff 
 from matplotlib.colors import ListedColormap
+plt.style.use('classic')
 
 plotsavedir = os.path.join('/gscratch', 'nearshore', 'enuss', 'lab_runs_y550', 'postprocessing', 'plots')
 
@@ -48,7 +49,7 @@ def load_creststats(fdir, crests, crestfile, crestendsfile):
 def remove_small_crests(var, areas, arealim):
     return var[areas>arealim]
 
-def restrict_cross_crests(var, avgx, sz=26+22, shore=32.5+22):
+def restrict_cross_crests(var, avgx, sz=15+22, shore=31.3+22):
 	return var[(avgx>sz)&(avgx<shore)]
 
 rundir = 'lab_runs_y550'
@@ -57,7 +58,7 @@ fdir = os.path.join('/gscratch', 'nearshore', 'enuss', rundir, outputdir)
 savefulldir = os.path.join('/gscratch', 'nearshore', 'enuss', rundir, 'postprocessing', 'compiled_' + outputdir, 'full_netcdfs')
 savedir = os.path.join('/gscratch', 'nearshore', 'enuss', rundir, 'postprocessing', 'compiled_' + outputdir, 'lab_netcdfs')
 
-nubrk, x, y = mod_utils.load_masked_variable(savedir, 'nubrk', 'nubrk_*.nc', 'mask', 'mask_*.nc')
+nubrk, x, y = mod_utils.load_masked_variable('nubrk', os.path.join(savedir,'nubrk_*.nc'), 'mask', os.path.join(savedir,'mask_*.nc'))
 x = x - 22
 nubrk = nubrk[1500:,:,:]
 [xx, yy] = np.meshgrid(x, y)
@@ -76,7 +77,7 @@ time_dir0_all, crestlen_dir0_all, avgx_dir0_all, minx_dir0_all, maxx_dir0_all, m
 fbr_std_dir0_all, fbr_abs_dir0_all, fbr_sq_dir0_all, fbr_mean_dir0_all, crestends_dir0_all, areacrest_dir0_all = \
     load_creststats(savedir, crests, os.path.join(savedir, 'crest_stats.txt'), os.path.join(savedir, 'crest_ends.txt'))
 
-T = 1000
+T = 260
 crest_ind_all = np.where(time_dir0_all==T)[0]
 
 time_all = time_dir0_all[crest_ind_all]
@@ -93,7 +94,7 @@ maxx_subset = remove_small_crests(maxx_all, areacrest_dir0_all[crest_ind_all], a
 miny_subset = remove_small_crests(miny_all, areacrest_dir0_all[crest_ind_all], arealim)
 maxy_subset = remove_small_crests(maxy_all, areacrest_dir0_all[crest_ind_all], arealim)
 area_ind = np.where(areacrest_dir0_all[crest_ind_all]<arealim)[0]
-sz=26+22; shore=32.5+22
+sz=23.5+22; shore=31.3+22
 cross_ind = np.where((avgx_all>sz)&(avgx_all<shore))[0]
 
 time = restrict_cross_crests(time_subset, avgx_subset)
@@ -117,9 +118,9 @@ crest_plot[crest_plot==100] = 1
 crest_plot[crest_plot==200] = 2
 crest_plot[crest_plot==300] = 3
 
-SZmod = 32.5+22 - 49
-SZxmin = 27
-SZymin = 20 
+SZmod = 31.5+22 - (23.5+22)
+SZxmin = 23.5
+SZymin = 15
 SZxmax = SZxmin + SZmod 
 SZymax = SZymin + SZmod 
 
@@ -129,65 +130,56 @@ yend1 = ystart1+labwidth
 
 numin = 0; numax = 0.15
 fbrmin = -10; fbrmax = -fbrmin
-fig, ax = plt.subplots(figsize=(9,6), ncols=4, sharex=True, sharey=True)
+fig, ax = plt.subplots(figsize=(9,4.5), ncols=4, sharex=True, sharey=True)
 
 p0 = ax[0].pcolormesh(xx, yy, nubrk[T,:,:], cmap=cmo.ice_r)
 fig.colorbar(p0, ax=ax[0], ticks=[0, 0.05, 0.1, 0.15], location='top', label=r'$\nu_{br}$')
 p0.set_clim(numin, numax)
-ax[0].plot(np.array([SZxmin, SZxmax]), np.array([SZymin, SZymin]), '--', color='grey')
-ax[0].plot(np.array([SZxmin, SZxmax]), np.array([SZymax, SZymax]), '--', color='grey')
-ax[0].plot(np.array([SZxmin, SZxmin]), np.array([SZymin, SZymax]), '--', color='grey')
-ax[0].plot(np.array([SZxmax, SZxmax]), np.array([SZymin, SZymax]), '--', color='grey')
 ax[0].set_aspect('equal', 'box')
 ax[0].set_ylim(ystart1, yend1)
 ax[0].set_ylabel('$y$ $\mathrm{(m)}$')
 ax[0].set_xlabel('$x$ $\mathrm{(m)}$')
 ax[0].yaxis.set_ticks([4.25, 9.25, 14.25, 19.25, 24.25], [-10, -5, 0, 5, 10])
-ax[0].xaxis.set_ticks([25,29,33])
-ax[0].text(25.5, 1, r'$\mathrm{(a)}$',  fontweight='bold', fontsize='15')
+ax[0].xaxis.set_ticks([20, 24, 28, 32])
+ax[0].text(20.5, 1.5, r'$\mathrm{(a)}$',  fontweight='bold', fontsize='15')
+ax[0].axvline(23.2, linestyle='--', linewidth=1.5, color='grey')
+ax[0].axvspan(31.5, 34, color='tab:grey', alpha=0.3) 
 
 window = ff.lanczos_2Dwindow(y, x, 1, 0.5, 0.5)
 var_bar = ff.lanczos_2D(nubrk[T,:,:].data, nubrk[T,:,:].mask, window, len(y), len(x))
 p1 = ax[1].pcolormesh(xx, yy, var_bar, cmap=cmo.ice_r)
 fig.colorbar(p1, ax=ax[1], ticks=[0, 0.05, 0.1, 0.15], location='top', label=r'$\overline{\nu_{br}}$')
 p1.set_clim(numin, numax)
-ax[1].plot(np.array([SZxmin, SZxmax]), np.array([SZymin, SZymin]), '--', color='grey')
-ax[1].plot(np.array([SZxmin, SZxmax]), np.array([SZymax, SZymax]), '--', color='grey')
-ax[1].plot(np.array([SZxmin, SZxmin]), np.array([SZymin, SZymax]), '--', color='grey')
-ax[1].plot(np.array([SZxmax, SZxmax]), np.array([SZymin, SZymax]), '--', color='grey')
 ax[1].set_aspect('equal', 'box')
 ax[1].set_ylim(ystart1, yend1)
 ax[1].set_xlabel('$x$ $\mathrm{(m)}$')
-ax[1].text(25.5, 1, r'$\mathrm{(b)}$',  fontweight='bold', fontsize='15')
+ax[1].text(20.5, 1.5, r'$\mathrm{(b)}$',  fontweight='bold', fontsize='15')
+ax[1].axvline(23.2, linestyle='--', linewidth=1.5, color='grey')
+ax[1].axvspan(31.5, 34, color='tab:grey', alpha=0.3) 
 
-#crest_cmap = ListedColormap(['#3a617d', '#008f91', '#5cb352', '#ffb60d'])
 crest_cmap = ListedColormap(['#f1eceb', '#fd6581', '#3a617d', '#ffa600'])
 p2 = ax[2].pcolormesh(xx, yy, crest_plot, cmap=crest_cmap)
 p2.set_clim(0,3)
-ax[2].plot(minx-22, miny, 'x', color='black')
-ax[2].plot(maxx-22, maxy, 'x', color='black')
-cbar2 = fig.colorbar(p2, ax=ax[2], ticks=[0, 1, 2, 3], location='top', label=r'$\mathrm{Crests}$')
+ax[2].plot(minx-22, miny, 'o', color='black')
+ax[2].plot(maxx-22, maxy, 'o', color='black')
+cbar2 = fig.colorbar(p2, ax=ax[2], ticks=[0, 1, 2, 3], location='top', label=r'$\mathrm{Crest\ Type}$')
 cbar2.ax.set_xticklabels(['0', '1', '2', '3']) 
-ax[2].plot(np.array([SZxmin, SZxmax]), np.array([SZymin, SZymin]), '--', color='grey')
-ax[2].plot(np.array([SZxmin, SZxmax]), np.array([SZymax, SZymax]), '--', color='grey')
-ax[2].plot(np.array([SZxmin, SZxmin]), np.array([SZymin, SZymax]), '--', color='grey')
-ax[2].plot(np.array([SZxmax, SZxmax]), np.array([SZymin, SZymax]), '--', color='grey')
 ax[2].set_aspect('equal', 'box')
 ax[2].set_ylim(ystart1, yend1)
 ax[2].set_xlabel('$x$ $\mathrm{(m)}$')
-ax[2].text(25.5, 1, r'$\mathrm{(c)}$',  fontweight='bold', fontsize='15')
+ax[2].text(20.5, 1.5, r'$\mathrm{(c)}$',  fontweight='bold', fontsize='15')
+ax[2].axvline(23.2, linestyle='--', linewidth=1.5, color='grey')
+ax[2].axvspan(31.5, 34, color='tab:grey', alpha=0.3) 
 
 p3 = ax[3].pcolormesh(xx, yy, fbr[T,:,:], cmap=cmo.balance)
-ax[3].set_xlim(25, 33)
+ax[3].set_xlim(20, 34)
 fig.colorbar(p3, ax=ax[3], location='top', label=r'$\nabla \times F_{br}$')
 p3.set_clim(fbrmin, fbrmax)
-ax[3].plot(np.array([SZxmin, SZxmax]), np.array([SZymin, SZymin]), '--', color='grey')
-ax[3].plot(np.array([SZxmin, SZxmax]), np.array([SZymax, SZymax]), '--', color='grey')
-ax[3].plot(np.array([SZxmin, SZxmin]), np.array([SZymin, SZymax]), '--', color='grey')
-ax[3].plot(np.array([SZxmax, SZxmax]), np.array([SZymin, SZymax]), '--', color='grey')
 ax[3].set_aspect('equal', 'box')
 ax[3].set_ylim(ystart1, yend1)
 ax[3].set_xlabel('$x$ $\mathrm{(m)}$')
-ax[3].text(25.5, 1, r'$\mathrm{(d)}$',  fontweight='bold', fontsize='15')
+ax[3].text(20.5, 1.5, r'$\mathrm{(d)}$',  fontweight='bold', fontsize='15')
+ax[3].axvline(23.2, linestyle='--', linewidth=1.5, color='grey')
+ax[3].axvspan(31.5, 34, color='tab:grey', alpha=0.3) 
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'crest_id.png'))
