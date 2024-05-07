@@ -267,3 +267,10 @@ def weighted_average(var, S, f, fmin=0.33, fmax=2.5):
     num = np.sum(var[ind,:]*S[ind,:], axis=0)*df
     den = np.sum(S[ind,:], axis=0)*df 
     return num/den
+
+def curl(u, v, dx, dy, time_axis=True):
+    if time_axis==True:
+        dvdx_dudy = np.gradient(v, dx, axis=2) - np.gradient(u, dy, axis=1)
+    if time_axis==False:
+        dvdx_dudy = np.gradient(v, dx, axis=1) - np.gradient(u, dy, axis=0)
+    return dvdx_dudy
