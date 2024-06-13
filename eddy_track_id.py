@@ -128,8 +128,8 @@ def eddy_grow(var, eddy_track, x_range, y_range, vmax,
     hl = h0 - l*delt
     hl_max = vmax
     lmin = l0
-    if vmax < 10:
-        lmin = 40
+    if vmax < 0.3:
+        lmin = math.floor(2*0.3/delt)
     [y,x] = np.nonzero(~np.isnan(var_test))
     n = len(x)
     ncount = n
@@ -139,8 +139,8 @@ def eddy_grow(var, eddy_track, x_range, y_range, vmax,
     # Perform a single iteration of the eddy growing procedure
     [n,eddy_map, 
      eddy_flag_first, eddy_ended] = eddy_iteration(var, var_test, eddy_track, eddy_flag, 
-                                             x_range, y_range, hl, hl_max, 
-                                             l, lmin, nmin, nmax, dmax)
+                                                   x_range, y_range, hl, hl_max, 
+                                                   l, lmin, nmin, nmax, dmax)
     
     var_test[np.nonzero(~np.isnan(eddy_map))] = var[np.nonzero(~np.isnan(eddy_map))]
     E = np.atleast_3d(eddy_map)
@@ -202,16 +202,41 @@ def eddy_grow(var, eddy_track, x_range, y_range, vmax,
             min_l = l-1
         if min_l < 1:
             min_l = 1
-        eddy_map = np.squeeze(E[:,:,min_l])
-        #print('Max num steps: ',l,', Used step: ',min_l)
+        
+        goback = True
+        while goback:
+            eddy_map = np.squeeze(E[:,:,min_l])
+            del var_test
+            var_test = np.zeros(np.shape(var))
+            var_test[np.nonzero(var_test == 0)] = np.nan
+            var_test[np.nonzero(~np.isnan(eddy_map))] = var[np.nonzero(~np.isnan(eddy_map))]
+
+            [y,x] = np.nonzero(~np.isnan(var_test))
+            [edge_x, edge_y, interior_x, interior_y, 
+             edge_count, interior_count] = find_edges(var_test,x,y)
+            if interior_count >= nmin:
+                interior_ones = np.zeros(np.shape(var_test))
+                for i in range(0,len(interior_x)):
+                    interior_ones[int(interior_y[i]),
+                                  int(interior_x[i])] = 1
+            
+                int_connected = is_contiguous(interior_ones)
+                if not(int_connected) and min_l > 0:
+                    min_l = min_l - 1
+                elif not(int_connected):
+                    eddy_map[:,:] = np.nan
+                    goback = False
+                else:
+                    goback = False
+            else:
+                eddy_map[:,:] = np.nan
+                goback = False
     else:
         min_l = l-1
         if min_l < 1:
             min_l = 1
         eddy_map = np.squeeze(E[:,:,min_l])
         
-        
-
     del var_test
     var_test = np.zeros(np.shape(var))
     var_test[np.nonzero(var_test == 0)] = np.nan
@@ -257,6 +282,7 @@ def eddy_iteration(var, var_test, eddy_track, eddy_flag,
     crit3 = 0
     crit4 = 0
     crit5 = 0
+    crit6 = 0
     new_eddy_flag = np.zeros(np.shape(eddy_flag))
     
     #Store the original eddy iteration locations
@@ -324,7 +350,7 @@ def eddy_iteration(var, var_test, eddy_track, eddy_flag,
                                               edge_x[f]]                   
                     
         [y,x] = np.nonzero(~np.isnan(var_test))
-        
+        n = len(x)
         del edge_x
         del edge_y
         del interior_x
@@ -419,7 +445,7 @@ def eddy_iteration(var, var_test, eddy_track, eddy_flag,
             
         
         # CRITERION #3
-        # Check that the eddy has no neighbor points bex_rangeging to another eddy
+        # Check that the eddy has no neighbor points belonging to another eddy
         # Check all the adjacent cells to the current iteration of edge cells,
         # and make sure that they are not bordering the edge of another
         # eddy 
@@ -514,23 +540,33 @@ def eddy_iteration(var, var_test, eddy_track, eddy_flag,
                 dy = y_range[edge_y[j]] - y_range[edge_y[i]]
                 dx = x_range[edge_x[j]] - x_range[edge_x[i]]
                 dists[i,j] = np.sqrt(dx**2 + dy**2)
-                
         
         if np.nansum(np.nansum(dists >= dmax)) > 0:
-            crit5 = 1;
-            
+            crit5 = 1
+
         del dists
         
         
+        # CRITERION #6
+        # Check that the centroid point is within the 
+        # range of eddy cells
+        cent_x = np.nanmean(x_range[x])
+        cent_y = np.nanmean(y_range[y])
+        cent_x = x_range[min(abs(x_range-cent_x)) == abs(x_range-cent_x)][0]
+        cent_y = y_range[min(abs(y_range-cent_y)) == abs(y_range-cent_y)][0]
+        if (not(any([x_range[ii] == cent_x for ii in x])) or
+            not(any([y_range[ii] == cent_y for ii in y]))):
+            crit6 = 1
+            
         
         ## Check if any of the ending criteria has been met, and if so, end the
         ## eddy-growing procedure
-        if (((crit4 == 1) and (crit1+crit2+crit3+crit5 > 0)) 
+        if (((crit4 == 1) and (crit1+crit2+crit3+crit5+crit6 > 0)) 
             or ((crit4 == 1) and (l > lmin))):
             eddy_ended = 4
             #del var_test
             #var_test = var_old
-        elif crit1+crit2+crit3+crit5 > 0:
+        elif crit1+crit2+crit3+crit5+crit6 > 0:
             if (crit3 == 1):
                 if (l > lmin):
                     eddy_ended = 1   
@@ -543,8 +579,8 @@ def eddy_iteration(var, var_test, eddy_track, eddy_flag,
             
             
         if eddy_ended > 0:  
-            #print('Crit1: ',crit1, ', Crit2: ',crit2,', Crit3: ',crit3,
-            #     ', Crit4: ',crit4,', Crit5: ',crit5)
+            #print('Crit1:',crit1, ',  Crit2:',crit2,',  Crit3:',crit3,
+            #     ',  Crit4:',crit4,',  Crit5:',crit5)
             
             for i in range(0,len(edge_x)):
                 if ((edge_x[i] != 0) and (edge_x[i] != NX-1) and
@@ -643,19 +679,30 @@ def find_edges(var,x,y):
         interior_x = np.empty(1)
         interior_y = np.empty(1)
                 
-                
     return edge_x, edge_y, interior_x, interior_y, edge_count, interior_count   
 
-def eddy_id_singletime(x, y, var):
+def eddy_id_singletime(x, y, var, sz_x=45, shore_x=50, szthresh=0.5, offthresh=0.1, delt = 0.009, dmax = 4, nmin = 50):
     # find local minimums and maximums 
     count, vmax, pole, x_ind, y_ind = find_local_max(x, y, var)
 
     # remove local minimums and maximums below threshold
-    thresh = 0.5
-    pole = pole[np.abs(vmax)>thresh]
-    x_ind = x_ind[np.abs(vmax)>thresh]
-    y_ind = y_ind[np.abs(vmax)>thresh]
-    vmax = vmax[np.abs(vmax)>thresh]
+    x_thresh = offthresh*np.ones(len(x))
+    sz_ind = np.where(min(abs(x-sz_x)) == abs(x-sz_x))[0][0]
+    sh_ind = np.where(min(abs(x-shore_x)) == abs(x-shore_x))[0][0]
+    sz_slope = (szthresh-offthresh)/(shore_x-sz_x)
+    x_thresh[sz_ind:sh_ind] = (offthresh + 
+                               (sz_slope*(x[sz_ind:sh_ind]-x[sz_ind])))
+    x_thresh[sh_ind:] = szthresh
+    
+    x_ind_thresh = x_thresh[x_ind]
+    good_thresh_inds = np.where([abs(vmax[ii]) >= x_ind_thresh[ii] 
+                                 for ii in range(0,len(vmax))])[0]
+    
+    pole = pole[good_thresh_inds]
+    x_ind = x_ind[good_thresh_inds]
+    y_ind = y_ind[good_thresh_inds]
+    vmax = vmax[good_thresh_inds]
+
     count = len(vmax)
 
     # sort maximum and minimums, in decreasing magnitude 
@@ -680,17 +727,12 @@ def eddy_id_singletime(x, y, var):
     # Define eddy growing parameters to be used
     dx = x[1] - x[0]
     dy = y[1] - y[0]
-    delt = 0.01
-    dmax = 2
-    max_search = np.ceil(dmax/dx)
-    nmin = 2
-    nmax = max_search**2
-    amp_min = 1
+    xmax_search = np.ceil(dmax/dx)
+    ymax_search = np.ceil(dmax/dy)
+    nmax = (xmax_search * ymax_search)
 
     eddy_go = 0
 
-    # test on one eddy
-    # e = 158 
     leng = []; spin = []; xc = []; yc = []
     eddy_num = 1
     Nx = var.shape[-1]
@@ -718,15 +760,15 @@ def eddy_id_singletime(x, y, var):
             xcent = x_sort_ind[e]
             ycent = y_sort_ind[e]
 
-            xmin = xcent - max_search
-            xmax = xcent + max_search
+            xmin = xcent - xmax_search
+            xmax = xcent + xmax_search
             if xmin < 0:
                 xmin = 0
             if xmax > Nx-1:
                 xmax = Nx-1
 
-            ymin = ycent - max_search
-            ymax = ycent + max_search
+            ymin = ycent - ymax_search
+            ymax = ycent + ymax_search
             if ymin < 0:
                 ymin = 0
             if ymax > Ny-1:
