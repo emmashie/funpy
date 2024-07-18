@@ -33,7 +33,7 @@ def compute_Hsig_spectrally(freq, spec, fmin, fmax):
     return Hs
 
 def load_var_lab(fdir, var, filepath, maskvar, maskfile):
-    var, x, y = load_masked_variable(fdir, var, filepath, maskvar, maskfile)
+    var, x, y = load_masked_variable(var, os.path.join(fdir,filepath), maskvar, os.path.join(fdir,maskfile))
     x = model2lab(x)
     x_ind = np.where(x>0)[0]
     return x[x_ind], y, var[:,:,x_ind]

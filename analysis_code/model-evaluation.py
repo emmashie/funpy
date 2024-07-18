@@ -284,148 +284,167 @@ def SSE_spec_plot(eta_spec, u_spec, v_spec, mod_eta_spec, mod_u_spec, mod_v_spec
 
 if 1:
     dm = 0.05
-    fig = plt.figure(figsize=(20,13), facecolor="white")
-    spec = fig.add_gridspec(5,4)
-    ax0 = fig.add_subplot(spec[:3,:])
-  
-    color = 'tab:grey'
+    fig, ax = plt.subplots(figsize=(11,7), ncols=5, facecolor="white", dpi=160)
 
-    ax_1 = ax0.twinx()
+    color = 'tab:grey'
+    color1 = '#264c5c'
+    color5 = '#13905a'
+    color6 = '#ffa600'
+    fsize = 14
+
+    xmin = 0.085
+    fymin = 0.085
+    width = 0.16
+    height = 0.38 
+    xoffset = 0.02 
+    yoffset = 0.12 
+
+
+    ax[0].set_position([xmin, fymin+yoffset+height, 4*width+3*xoffset, height])
+    ax_1 = ax[0].twinx()
+    ax_1.set_position([xmin, fymin+yoffset+height, 4*width+3*xoffset, height])
     ax_1.plot(labx, labz/6-0.04, color='lightgrey', linewidth=5, label=r'$\mathrm{Lab\ Bathymetry}\ (h/6)$')
     ax_1.plot(x, -dep[0,:]/6-0.04, '--', color='black', linewidth=3, label=r'$\mathrm{Model\ Bathymetry}\ (h/6)$')
     ax_1.fill_between(x, -dep[0,:]/6-0.04, np.ones(len(dep[0,:]))*(-1.2), color='lightgrey')
-    #ax_1.set_ylim((-1.2, 2.2))
     ax_1.set_ylim((-0.25, 0.3))
-    ax_1.legend(loc='lower right')
+    ax_1.legend(loc='lower right', fontsize=fsize-2)
     ax_1.axis('off')
-    ax0.set_xlabel(r'$x (\mathrm{m})$', fontsize=20)
-    ax0.grid(True)  
+    ax[0].set_xlabel(r'$x (\mathrm{m})$', fontsize=fsize)
+    ax[0].grid(True)  
 
-    ax0.plot(x, Hs_alongmean, color=color)
-    ax0.plot(x, Hs_alongmean - Hs_alongstd, color=color, alpha=0.8)
-    ax0.plot(x, Hs_alongmean + Hs_alongstd, color=color, alpha=0.8)
-    ax0.fill_between(x, Hs_alongmean - Hs_alongstd, Hs_alongmean + Hs_alongstd, color=color, alpha=0.3, label='Model')
+    ax[0].plot(x, Hs_alongmean, color=color1)
+    ax[0].plot(x, Hs_alongmean - Hs_alongstd, color=color1, alpha=0.8)
+    ax[0].plot(x, Hs_alongmean + Hs_alongstd, color=color1, alpha=0.8)
+    ax[0].fill_between(x, Hs_alongmean - Hs_alongstd, Hs_alongmean + Hs_alongstd, color=color1, alpha=0.3, label='Model')
 
     ind = np.where(cam_xp<34.5)[0]
-    ax0.plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0), color=color3)
-    ax0.plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) - np.nanstd(cam_Hs[:,ind], axis=0), color=color3, alpha=0.6)
-    ax0.plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) + np.nanstd(cam_Hs[:,ind], axis=0), color=color3, alpha=0.6)
-    ax0.fill_between(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) - np.nanstd(cam_Hs[:,ind], axis=0), np.nanmean(cam_Hs[:,ind], axis=0) + np.nanstd(cam_Hs[:,ind], axis=0), color=color3, alpha=0.3, label='Stereo Reconstruction')
+    ax[0].plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0), color=color5)
+    ax[0].plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) - np.nanstd(cam_Hs[:,ind], axis=0), color=color5, alpha=0.6)
+    ax[0].plot(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) + np.nanstd(cam_Hs[:,ind], axis=0), color=color5, alpha=0.6)
+    ax[0].fill_between(cam_xp[ind], np.nanmean(cam_Hs[:,ind], axis=0) - np.nanstd(cam_Hs[:,ind], axis=0), np.nanmean(cam_Hs[:,ind], axis=0) + np.nanstd(cam_Hs[:,ind], axis=0), color=color5, alpha=0.3, label='Stereo Reconstruction')
 
-    ax0.plot(lidar_xp, np.nanmean(lidar_Hs, axis=0), color=color1)
-    ax0.plot(lidar_xp, np.nanmean(lidar_Hs, axis=0) - np.nanstd(lidar_Hs, axis=0), color=color1, alpha=0.6)
-    ax0.plot(lidar_xp, np.nanmean(lidar_Hs, axis=0) + np.nanstd(lidar_Hs, axis=0), color=color1, alpha=0.6)
-    ax0.fill_between(lidar_xp, np.nanmean(lidar_Hs, axis=0) - np.nanstd(lidar_Hs, axis=0), np.nanmean(lidar_Hs, axis=0) + np.nanstd(lidar_Hs, axis=0), color=color1, alpha=0.3, label='LiDAR')
+    ax[0].plot(lidar_xp, np.nanmean(lidar_Hs, axis=0), color=color6)
+    ax[0].plot(lidar_xp, np.nanmean(lidar_Hs, axis=0) - np.nanstd(lidar_Hs, axis=0), color=color6, alpha=0.6)
+    ax[0].plot(lidar_xp, np.nanmean(lidar_Hs, axis=0) + np.nanstd(lidar_Hs, axis=0), color=color6, alpha=0.6)
+    ax[0].fill_between(lidar_xp, np.nanmean(lidar_Hs, axis=0) - np.nanstd(lidar_Hs, axis=0), np.nanmean(lidar_Hs, axis=0) + np.nanstd(lidar_Hs, axis=0), color=color6, alpha=0.3, label='LiDAR')
 
-    msize = 15
-    ax0.plot(xpos_outer, Hs_outer, '^', markersize=msize, color='black', alpha=0.5)
-    ax0.plot(xpos_inner, Hs_inner, '^', markersize=msize, color='black', alpha=0.5)   
-    ax0.plot(xpos_wg, Hs_wg, '^', markersize=msize, color='black', alpha=0.5)
+    msize = 10
+    ax[0].plot(xpos_outer, Hs_outer, '^', markersize=msize, color='black', alpha=0.5)
+    ax[0].plot(xpos_inner, Hs_inner, '^', markersize=msize, color='black', alpha=0.5)   
+    ax[0].plot(xpos_wg, Hs_wg, '^', markersize=msize, color='black', alpha=0.5)
 
-    ax0.set_ylabel(r'$H_s$ $(\mathrm{m})$', fontsize=20)
-    ax0.set_xlim((18,35))
-    ax0.set_ylim((-0.25, 0.3))
-    #ax0.legend(loc='lower left', fontsize=14)
+    ax[0].set_ylabel(r'$H_s$ $(\mathrm{m})$', fontsize=fsize)
+    ax[0].set_xlim((18,35))
+    ax[0].set_ylim((-0.25, 0.3))
 
-    ax0.text(18.2, 0.28, r'$\mathrm{(a)}$', fontsize='20')   
-    ax0.tick_params(axis='x', which='major', labelsize=16)
-    ax0.tick_params(axis='y', which='major', labelsize=16) 
+    ax[0].text(34, 0.25, r'$\mathrm{(a)}$', fontsize='16')   
+    ax[0].tick_params(axis='x', which='major', labelsize=fsize)
+    ax[0].tick_params(axis='y', which='major', labelsize=fsize) 
 
-    custom_lines = [Line2D([0], [0], color=color, lw=6, alpha=0.3), 
-                    Line2D([0], [0], color=color3, lw=6, alpha=0.3), 
-                    Line2D([0], [0], color=color1, lw=6, alpha=0.3), 
+    custom_lines = [Line2D([0], [0], color=color1, lw=6, alpha=0.3), 
+                    Line2D([0], [0], color=color5, lw=6, alpha=0.3), 
+                    Line2D([0], [0], color=color6, lw=6, alpha=0.3), 
                     Line2D([0], [0], linestyle='None', marker='^', markersize=msize, color='black', alpha=0.5)]
 
-    ax0.legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{Stereo\ reconstruction}$', r'$\mathrm{LiDAR}$', r'$\mathrm{In\ situ\ sensors}$'], fontsize=14, loc='upper right')
+    ax[0].legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{Stereo}$' + '\n' r'$\mathrm{reconstruction}$', r'$\mathrm{LiDAR}$', r'$\mathrm{In\ situ\ sensors}$'], fontsize=fsize-2, loc='upper right', bbox_to_anchor=(1.25, 0.49))
+
 
     eta_var, u_var, v_var, mod_eta_var, mod_u_var, mod_v_var = SSE_spec_plot(eta_spec1, u_spec1, v_spec1, mod_eta_spec1, mod_u_spec1, mod_v_spec1, labz, labx, ind1_loc, freq_outer, mod_freq)
 
-    alph = 0.8; ymin = 0.5
-    ax2 = fig.add_subplot(spec[3:,0])   
-    ax2.loglog(freq_outer, eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color3, linewidth=2, alpha=alph)
-    ax2.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color3, linewidth=2, alpha=alph)
-    ax2.loglog(mod_freq, mod_eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax2.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax2.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=20)
-    ax2.set_xlabel(r'$\mathrm{Frequency}\ (\mathrm{s}^{-1})$', fontsize=20)
-    ax2.grid(True)
-    ax2.set_title(r'$x = %.01f\ \mathrm{m}$' % ind1_loc, fontsize=20)
-    ax2.set_xlim((0.0095, 2))
-    ax2.set_ylim((10**-4, 1))   
-    ax2.text(0.01, 0.56, r'$\mathrm{(b)}$', fontsize='20')    
-    ax2.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color, linewidth=1.5)
-    ax2.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color3, linewidth=1.5)
-    ax2.tick_params(axis='x', which='major', labelsize=16)
-    ax2.tick_params(axis='y', which='major', labelsize=16) 
+    alph=0.8; alph1 = 0.7; alph2=1.0; ymin = 0.5; lwidth1=3; lwidth2=1
+    #ax[1] = fig.add_subplot(spec[3:,0])   
+    ax[1].loglog(freq_outer, eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color6, linewidth=lwidth2, alpha=alph2)
+    ax[1].loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color6, linewidth=lwidth1, alpha=alph1)
+    ax[1].loglog(mod_freq, mod_eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color1, linewidth=lwidth2, alpha=alph2)
+    ax[1].loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color1, linewidth=lwidth1, alpha=alph1)
+    ax[1].set_ylabel(r'$S(f)\ (\mathrm{m}^2\ \mathrm{s})$', fontsize=fsize-2)
+    ax[1].set_xlabel(r'$f\ (\mathrm{s}^{-1})$', fontsize=fsize-2)
+    ax[1].grid(True)
+    ax[1].set_title(r'$x = %.01f\ \mathrm{m}$' % ind1_loc, fontsize=fsize)
+    ax[1].set_xlim((0.0095, 2))
+    ax[1].set_ylim((10**-4, 1))   
+    ax[1].text(0.01, 0.00015, r'$\mathrm{(b)}$', fontsize='16')    
+    ax[1].plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color1, linewidth=1.5)
+    ax[1].plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color6, linewidth=1.5)
+    ax[1].tick_params(axis='x', which='major', labelsize=fsize)
+    ax[1].tick_params(axis='y', which='major', labelsize=fsize) 
+    ax[1].set_position([xmin, fymin, width, height])
 
     eta_var, u_var, v_var, mod_eta_var, mod_u_var, mod_v_var = SSE_spec_plot(eta_spec2, u_spec2, v_spec2, mod_eta_spec2, mod_u_spec2, mod_v_spec2, labz, labx, ind2_loc, freq_outer, mod_freq)
 
-    ax3 = fig.add_subplot(spec[3:,1])   
-    ax3.loglog(freq_outer, eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color3, linewidth=2, alpha=alph)
-    ax3.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color3, linewidth=2, alpha=alph)
-    ax3.loglog(mod_freq, mod_eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax3.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax3.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=20)
-    ax3.set_xlabel(r'$\mathrm{Frequency}\ (\mathrm{s}^{-1})$', fontsize=20)
+    #ax3 = fig.add_subplot(spec[3:,1])   
+    ax3 = ax[2]
+    ax3.loglog(freq_outer, eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color6, linewidth=lwidth2, alpha=alph2)
+    ax3.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color6, linewidth=lwidth1, alpha=alph1)
+    ax3.loglog(mod_freq, mod_eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color1, linewidth=lwidth2, alpha=alph2)
+    ax3.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color1, linewidth=lwidth1, alpha=alph1)
+    #ax3.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=fsize)
+    ax3.set_xlabel(r'$f\ (\mathrm{s}^{-1})$', fontsize=fsize-2)
     ax3.grid(True)
-    ax3.set_title(r'$x = %.01f\ \mathrm{m}$' % ind2_loc, fontsize=20)
+    ax3.set_title(r'$x = %.01f\ \mathrm{m}$' % ind2_loc, fontsize=fsize)
     ax3.set_xlim((0.0095, 2))
     ax3.set_ylim((10**-4, 1))   
-    ax3.text(0.01, 0.56, r'$\mathrm{(c)}$', fontsize='20')    
-    ax3.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color, linewidth=1.5)
-    ax3.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color3, linewidth=1.5)
-    ax3.tick_params(axis='x', which='major', labelsize=16)
-    ax3.tick_params(axis='y', which='major', labelsize=16) 
+    ax3.text(0.01, 0.00015, r'$\mathrm{(c)}$', fontsize='16')    
+    ax3.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color1, linewidth=1.5)
+    ax3.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color6, linewidth=1.5)
+    ax3.tick_params(axis='x', which='major', labelsize=fsize)
+    ax3.tick_params(axis='y', which='major', labelsize=fsize) 
+    ax3.set_yticklabels([])
+    ax3.set_position([xmin+xoffset+width, fymin, width, height])
 
     eta_var, u_var, v_var, mod_eta_var, mod_u_var, mod_v_var = SSE_spec_plot(eta_spec3, u_spec3, v_spec3, mod_eta_spec3, mod_u_spec3, mod_v_spec3, labz, labx, ind3_loc, freq_outer, mod_freq)
 
-    ax4 = fig.add_subplot(spec[3:,2])   
-    ax4.loglog(freq_outer, eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color3, linewidth=2, alpha=alph)
-    ax4.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color3, linewidth=2, alpha=alph)
-    ax4.loglog(mod_freq, mod_eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax4.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax4.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=20)
-    ax4.set_xlabel(r'$\mathrm{Frequency}\ (\mathrm{s}^{-1})$', fontsize=20)
+    #ax4 = fig.add_subplot(spec[3:,2])   
+    ax4 = ax[3]
+    ax4.loglog(freq_outer, eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color6, linewidth=lwidth2, alpha=alph2)
+    ax4.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color6, linewidth=lwidth1, alpha=alph1)
+    ax4.loglog(mod_freq, mod_eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color1, linewidth=lwidth2, alpha=alph2)
+    ax4.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color1, linewidth=lwidth1, alpha=alph1)
+    #ax4.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=fsize)
+    ax4.set_xlabel(r'$f\ (\mathrm{s}^{-1})$', fontsize=fsize-2)
     ax4.grid(True)
-    ax4.set_title(r'$x = %.01f\ \mathrm{m}$' % ind3_loc, fontsize=20)
+    ax4.set_title(r'$x = %.01f\ \mathrm{m}$' % ind3_loc, fontsize=fsize)
     ax4.set_xlim((0.0095, 2))
     ax4.set_ylim((10**-4, 1))   
-    ax4.text(0.01, 0.56, r'$\mathrm{(d)}$', fontsize='20')    
-    ax4.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color, linewidth=1.5)
-    ax4.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color3, linewidth=1.5)
-    ax4.tick_params(axis='x', which='major', labelsize=16)
-    ax4.tick_params(axis='y', which='major', labelsize=16) 
+    ax4.text(0.01, 0.00015, r'$\mathrm{(d)}$', fontsize='16')    
+    ax4.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color1, linewidth=1.5)
+    ax4.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color6, linewidth=1.5)
+    ax4.tick_params(axis='x', which='major', labelsize=fsize)
+    ax4.tick_params(axis='y', which='major', labelsize=fsize) 
+    ax4.set_yticklabels([])
+    ax4.set_position([xmin+2*(xoffset+width), fymin, width, height])
 
     eta_var, u_var, v_var, mod_eta_var, mod_u_var, mod_v_var = SSE_spec_plot(eta_spec4, u_spec4, v_spec4, mod_eta_spec4, mod_u_spec4, mod_v_spec4, labz, labx, ind4_loc, freq_outer, mod_freq)
 
-    ax5 = fig.add_subplot(spec[3:,3])   
-    ax5.loglog(freq_outer, eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color3, linewidth=2, alpha=alph)
-    ax5.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color3, linewidth=2, alpha=alph)
-    ax5.loglog(mod_freq, mod_eta_var, '--', label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax5.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color, linewidth=2, alpha=alph)
-    ax5.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=20)
-    ax5.set_xlabel(r'$\mathrm{Frequency}\ (\mathrm{s}^{-1})$', fontsize=20)
+    #x5 = fig.add_subplot(spec[3:,3])   
+    ax5 = ax[4]
+    ax5.loglog(freq_outer, eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$  (obs)', color=color6, linewidth=lwidth2, alpha=alph2)
+    ax5.loglog(freq_outer, u_var + v_var, label='S$_{uu}$ + S$_{vv}$ (obs)', color=color6, linewidth=lwidth1, alpha=alph1)
+    ax5.loglog(mod_freq, mod_eta_var, label=r'S$_{\eta\eta} * \sigma^2 \frac{\cosh^2(kh)}{\sinh^2(kh)}$ (mod)', color=color1, linewidth=lwidth2, alpha=alph2)
+    ax5.loglog(mod_freq, mod_u_var+mod_v_var, label='S$_{uu}$ + S$_{vv}$ (mod)', color=color1, linewidth=lwidth1, alpha=alph1)
+    #ax5.set_ylabel(r'$\mathrm{Energy}\ (\mathrm{m}^2\ \mathrm{s}^{-3})$', fontsize=fsize)
+    ax5.set_xlabel(r'$f\ (\mathrm{s}^{-1})$', fontsize=fsize-2)
     ax5.grid(True)
-    ax5.set_title(r'$x = %.01f\ \mathrm{m}$' % ind4_loc, fontsize=20)
+    ax5.set_title(r'$x = %.01f\ \mathrm{m}$' % ind4_loc, fontsize=fsize)
     ax5.set_xlim((0.0095, 2))
     ax5.set_ylim((10**-4, 1))  
-    ax5.text(0.01, 0.56, r'$\mathrm{(e)}$', fontsize='20')    
-    ax5.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color, linewidth=1.5)
-    ax5.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color3, linewidth=1.5)
-    ax5.tick_params(axis='x', which='major', labelsize=16)
-    ax5.tick_params(axis='y', which='major', labelsize=16) 
+    ax5.text(0.01, 0.00015, r'$\mathrm{(e)}$', fontsize='16')    
+    ax5.plot(np.array([1.1,1.1]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color=color1, linewidth=1.5)
+    ax5.plot(np.array([1.2,1.2]), np.array([ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2, ymin+(c2[1]-c2[0])/2-(cobs2[1]-cobs2[0])/2+(cobs2[1]-cobs2[0])]), marker='_', color=color6, linewidth=1.5)
+    ax5.tick_params(axis='x', which='major', labelsize=fsize)
+    ax5.tick_params(axis='y', which='major', labelsize=fsize) 
+    ax5.set_yticklabels([])
+    ax5.set_position([xmin+3*(xoffset+width), fymin, width, height])
 
-    custom_lines = [Line2D([0], [0], color=color, lw=2), 
-                    Line2D([0], [0], color=color3, lw=2), 
-                    Line2D([0], [0], linestyle='--', color='black', lw=2), 
-                    Line2D([0], [0], color='black', lw=2)]
+    custom_lines = [Line2D([0], [0], color=color1, lw=2), 
+                    Line2D([0], [0], color=color6, lw=2), 
+                    Line2D([0], [0], color='black', lw=lwidth2), 
+                    Line2D([0], [0], color='black', lw=lwidth1, alpha=alph1)]
 
-    ax5.legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{Observations}$', r'$S_{\eta\eta} * (\omega \frac{\cosh(kh)}{\sinh(kh)})^2$', 'S$_{uu}$ + S$_{vv}$'], fontsize=14, loc='lower left')
+    ax5.legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{In\ situ\ sensors}$', r'$S_{\eta\eta} * (\omega \frac{\cosh(kh)}{\sinh(kh)})^2$', r'$S_{uu}$ + $S_{vv}$'], fontsize=fsize-2, loc='lower left', bbox_to_anchor=(1.05, 0.5))
 
-    fig.tight_layout()
     fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.png'))
-
-
+    fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.jpg'))
 
 if 1:
     import cv2
@@ -464,7 +483,7 @@ if 1:
     ax0.text(-20, -0.7, 'Layer', fontweight='bold', fontsize=16)
     ax0.text(-1.6, 0.5, 'Wavemaker', fontweight='bold', fontsize=16, rotation='vertical')
     ax0.text(10.1, -0.05, 'Still Water', fontweight='bold', fontsize=16)
-    ax0.set_ylabel(r'$\mathrm{Bathymetry\ (m)}$', fontsize=18)
+    ax0.set_ylabel(r'$z\ (m)}$', fontsize=18)
     ax0.tick_params(axis='x', which='major', labelsize=16)
     ax0.tick_params(axis='y', which='major', labelsize=16) 
 
@@ -516,6 +535,7 @@ if 1:
 
     fig.tight_layout()
     fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.png'))
+    fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.jpg'))
 
 
 

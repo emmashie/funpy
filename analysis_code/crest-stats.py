@@ -12,6 +12,7 @@ from scipy.signal import welch
 from matplotlib.ticker import FormatStrFormatter
 from matplotlib import ticker
 import datetime
+from matplotlib.lines import Line2D
 
 start = datetime.datetime.now()
 
@@ -922,11 +923,15 @@ fbr_abs_pertime_dir20_tp25_lab2_t2 = var_pertime(fbr_abs_dir20_tp25_lab2_t2, tim
 #####################################################################################################################################
 #####################################################################################################################################
 dirspread = np.array([0.24,3.40,9.65,16.39,22.06,25.67])
-
+ 
 ### lab data ###
 labcrestends = np.array([1.3679, 3.4496, 5.0379, 5.7969, 6.1887])
 labmeancrest = np.array([16.5014, 7.6756, 5.0073, 4.5050, 4.1587])
-labdirspread = np.array([2.3285, 6.2768, 11.6920, 16.3781, 22.4739])
+labdirspread = np.array([2.3285, 6.2768, 11.6920, 16.3781, 22.4739]) 
+
+labmeancrest_tp_20dir = np.array([5.75, 7.2])
+labcrestends_tp_20dir = np.array([5.33, 3.25])
+lab_tp = np.array([2, 3])
 
 ####### CREST LENGTH ######
 meancrest_all = np.array([np.mean(crestlen_dir0_all_subarea), 
@@ -1017,7 +1022,7 @@ Atank = Wtank*SZtank
 #Amod = Wmod*SZmod
 #Amodlab = Wtank*SZmod
 #sz = np.array([27.05, 27.55, 27.40, 27.40, 27.40, 27.40, 25.35, 27.95])+22
-sz = 23.5+22
+sz = 23.2+22
 mean_sz = np.mean(shore[:-2]-sz)
 
 meancrestends_all = np.array([np.mean(crestends_pertime_dir0_all), 
@@ -1094,44 +1099,43 @@ tmp = (np.mean((medianfbr_abs_pertime_all_t1 - medianfbr_abs_pertime_all_t2)/med
 print('Percentage difference in fbr (time): %0.2f' % tmp)
 
 #############################################################
-color1='#003f5c'
-color2='#444e86'
-color3='#955196'
-color4='#dd5182'
-color5='#ff6e54'
-color6='#ffa600'
 color = 'tab:grey'
+color1 = '#264c5c'
+color3 = '#13905a'
+color6 = '#ffa600'
 
+dirspread = np.array([0.3, 3.8, 11.2, 16.5, 21.6, 24.9])
 
-fig, ax = plt.subplots(ncols=6, figsize=(8,5.5))
+fig, ax = plt.subplots(ncols=6, figsize=(9.5,5.5))
 lwidth = 1
 msize = 5
-fsize = 10
+fsize = 11
 
-xmin = 0.08
-ymin = 0.08
-width = 0.19
+xmin = 0.08+0.15+0.015
+ymin = 0.1
+width = 0.2-0.15/3
 height = 0.37
-xoffset = 0.12
+xoffset = 0.1
 yoffset = 0.1
 formatter = ticker.ScalarFormatter(useMathText=True)
 
-ax[0].errorbar(dirspread, meancrest_all, yerr=crest_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color, label=r'$\mathrm{Model\ (full\ grid)}$')
-ax[0].plot(dirspread, ((meancrest_lab1_t1+meancrest_lab2_t1)/2 + (meancrest_lab1_t2+meancrest_lab2_t2)/2)/2, 'o', alpha=0.7, linewidth=lwidth-1, markersize=msize, color=color, label=r'$\mathrm{Model\ (lab\ grid)}$')
-ax[0].plot(labdirspread, labmeancrest, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8, label=r'$\mathrm{Observations}$')
-ax[0].legend(loc='upper right', fontsize=fsize-2)
+ax[0].errorbar(dirspread, meancrest_all, yerr=crest_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1, label=r'$\mathrm{Model\ (full\ grid)}$')
+ax[0].plot(dirspread, ((meancrest_lab1_t1+meancrest_lab2_t1)/2 + (meancrest_lab1_t2+meancrest_lab2_t2)/2)/2, '^', alpha=0.8, linewidth=lwidth-1, markersize=msize, color=color1, label=r'$\mathrm{Model\ (lab\ grid)}$')
+ax[0].plot(labdirspread, labmeancrest, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8, label=r'$\mathrm{Observations}$')
 ax[0].set_ylim(0,35)
 ax[0].set_xlim(0,30)
 ax[0].set_ylabel(r'$\overline{\lambda_{c}} (m)}$', fontsize=fsize)
 ax[0].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
 ax[0].set_position([xmin, ymin+yoffset+height, width, height])
 if 1:
-    L = 5.2
+    L = 5.1
     dirs = np.linspace(0, 40)
-    lcrest = (1/4)*L/np.sin(dirs*np.pi/180)
-    ax[0].plot(dirs, lcrest, '--', color=color, alpha=0.5, linewidth=lwidth)
+    #lcrest = (1/4)*L/np.sin(dirs*np.pi/180)
+    lcrest = (1/4)*L/(dirs*np.pi/180)
+    ax[0].plot(dirs, lcrest, '--', color=color, alpha=0.8, linewidth=lwidth*2, label=r'$\mathrm{Theoretical}$')
+ax[0].legend(loc='upper right', fontsize=fsize, bbox_to_anchor=(-0.4, 1.05))
 ax[0].grid(True)
-ax[0].text(0.5, 1.5, r'$(a)$', fontsize=fsize+3)
+ax[0].text(24, 31, r'$(a)$', fontsize=fsize+3)
 ax[0].tick_params(axis='x', which='major', labelsize=fsize)
 ax[0].tick_params(axis='y', which='major', labelsize=fsize) 
 ax[0].set_xticks([0,5,10,15,20,25,30])
@@ -1141,26 +1145,37 @@ ax[0].yaxis.set_major_formatter(formatter)
 crestlen_15 = (np.mean(crestlen_dir20_tp15_all_t1)+np.mean(crestlen_dir20_tp15_all_t2))/2
 crestlen_2 = (np.mean(crestlen_dir20_all_t1)+np.mean(crestlen_dir20_all_t2))/2
 crestlen_25 = (np.mean(crestlen_dir20_tp25_all_t1)+np.mean(crestlen_dir20_tp25_all_t2))/2
-ax[1].errorbar(np.array([1.5, 2, 2.5]), np.array([crestlen_15, crestlen_2, crestlen_25]), fmt='-o', yerr=np.array([np.std(crestlen_dir20_tp15_all), np.std(crestlen_dir20_all), np.std(crestlen_dir20_tp25_all)]), color=color6, linewidth=lwidth, markersize=msize)
+ax[1].plot(lab_tp, labmeancrest_tp_20dir, '-o', linewidth=lwidth, markersize=msize, color=color6)
+ax[1].errorbar(np.array([1.5, 2, 2.5]), np.array([crestlen_15, crestlen_2, crestlen_25]), fmt='-o', yerr=np.array([np.std(crestlen_dir20_tp15_all), np.std(crestlen_dir20_all), np.std(crestlen_dir20_tp25_all)]), color=color1, linewidth=lwidth, markersize=msize)
 ax[1].grid(True)
+if 1:
+    L = np.linspace(1.5, 10.1, 10)
+    Tp = np.linspace(1, 3.5, 10)
+    dirs = np.ones(len(L))*20
+    lcrest = (1/4)*L/(dirs*np.pi/180)
+    ax[1].plot(Tp, lcrest, '--', color=color, alpha=0.8, linewidth=lwidth*2)
 ax[1].tick_params(axis='x', which='major', labelsize=fsize)
 ax[1].tick_params(axis='y', which='major', labelsize=fsize) 
-ax[1].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[1].set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 #ax[1].set_yticks([3, 4, 5, 6])
 ax[1].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[1].set_ylabel(r'$\overline{\lambda_c}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
 ax[1].set_position([xmin, ymin, width, height])
-ax[1].text(1.1, 1.5, r'$(d)$', fontsize=fsize+3)
+ax[1].text(3.01, 31, r'$(d)$', fontsize=fsize+3)
 ax[1].yaxis.set_major_formatter(formatter)
 ax[1].set_yticks([5, 15, 25, 35])
+custom_lines = [Line2D([0], [0], linestyle='-', marker='o', markersize=msize, color=color6, lw=lwidth),
+                Line2D([0], [0], linestyle='-', marker='o', markersize=msize, color=color1, lw=lwidth)]
 
-ax[2].errorbar(dirspread, (crestend_density_all_t1+crestend_density_all_t2)/2, yerr=crestend_density_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color)
-ax[2].plot(labdirspread, labcrestends/Atank, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8)
-ax[2].set_ylim(0,0.06)
+ax[1].legend(custom_lines, [r'$\mathrm{Observations}$,' + '\n' + r'$\sigma_\theta = 16.4^\circ$' + '\n' + r'$H_s = 0.30\ \mathrm{m}$', r'$\mathrm{Model}$' + '\n' + r'$\sigma_\theta = 16.5^\circ$' + '\n' + r'$H_s = 0.25\ \mathrm{m}$'], fontsize=fsize, loc='upper right', bbox_to_anchor=(-0.5, 1.03))
+
+ax[2].errorbar(dirspread, (crestend_density_all_t1+crestend_density_all_t2)/2, yerr=crestend_density_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
+ax[2].plot(labdirspread, labcrestends/Atank, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8)
+ax[2].set_ylim(0,0.09)
 ax[2].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
 ax[2].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
 ax[2].grid(True)
-ax[2].text(0.5, 0.003, r'$(b)$', fontsize=fsize+3)
+ax[2].text(24, 0.08, r'$(b)$', fontsize=fsize+3)
 ax[2].tick_params(axis='x', which='major', labelsize=fsize)
 ax[2].tick_params(axis='y', which='major', labelsize=fsize)
 ax[2].set_xticks([0, 5, 10, 15, 20, 25, 30])
@@ -1168,9 +1183,9 @@ ax[2].set_yticks([0, 0.02, 0.04, 0.06, 0.08])
 ax[2].yaxis.set_major_formatter(formatter)
 
 ax01 = ax[2].twinx()
-ax01.set_ylim(0,0.08*Atank)
-ax01.plot(dirspread, (meancrestends_all_t1+meancrestends_all_t2)/2, linewidth=lwidth, markersize=msize, color=color)
-ax01.plot(labdirspread, labcrestends, '-o', linewidth=lwidth, markersize=msize, color=color3, alpha=0.8)
+ax01.set_ylim(0,0.09*Atank)
+ax01.plot(dirspread, (meancrestends_all_t1+meancrestends_all_t2)/2, linewidth=lwidth, markersize=msize, color=color1)
+ax01.plot(labdirspread, labcrestends, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8)
 ax01.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
 ax01.tick_params(axis='y', which='major', labelsize=fsize) 
 #ax01.set_yticks([0, 1.5, 3, 4.5, 6])
@@ -1189,26 +1204,26 @@ crestends_2 = crestend_density_2*Atank
 crestends25 = ((np.mean(crestends_pertime_dir20_tp25_all_t1)+np.mean(crestends_pertime_dir20_tp25_all_t2))/2)
 crestend_density_25 = crestends25/(mean_sz*Wmod)
 crestends_25 = crestend_density_25*Atank
-ax[3].errorbar(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25]), yerr=np.array([np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod)]), fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
+ax[3].errorbar(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25]), yerr=np.array([np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod)]), fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
 ax[3].grid(True)
+ax[3].plot(lab_tp, labcrestends_tp_20dir/Atank, '-o', linewidth=lwidth, markersize=msize, color=color6)
 ax[3].tick_params(axis='x', which='major', labelsize=fsize)
 ax[3].tick_params(axis='y', which='major', labelsize=fsize) 
 #ax[3].set_yticks([0.04, 0.05, 0.06, 0.07])
-ax[3].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[3].set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax[3].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[3].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
-ax[3].text(1.1, 0.003, r'$(e)$', fontsize=fsize+3)
-ax[3].set_ylim(0.0, 0.08)
+ax[3].text(3.01, 0.08, r'$(e)$', fontsize=fsize+3)
+ax[3].set_ylim(0.0, 0.09)
 ax[3].set_yticks([0, 0.02, 0.04, 0.06, 0.08])
 
-
 ax3 = ax[3].twinx()
-ax3.plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25])*Atank, color=color6, linewidth=lwidth, markersize=msize)
+ax3.plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25])*Atank, color=color1, linewidth=lwidth, markersize=msize)
 ax3.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
 ax3.tick_params(axis='y', which='major', labelsize=fsize) 
-ax3.set_xticks([1, 1.5, 2, 2.5, 3])
+ax3.set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax3.set_yticks([2, 4, 6, 8])
-ax3.set_ylim(0.0*Atank, 0.08*Atank)
+ax3.set_ylim(0.0*Atank, 0.09*Atank)
 ax[3].set_position([xmin+xoffset+width, ymin, width, height])
 
 scalar = dx*dy
@@ -1219,24 +1234,24 @@ labfbrdir = np.array([2, 10, 18, 23])
 labfbr = np.array([0.4122635987, 1.093722654, 1.213431072, 1.27179053])
 labscale = 15
 
-ax[4].errorbar(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2, yerr=medianfbr_abs_pertime_all_std/(mean_sz*Wmod)*scalar, fmt='-o', linewidth=lwidth, markersize=msize, color=color)
-ax[4].plot(labfbrdir, labfbr/Atank*labscale, '-o', color=color3, markersize=msize, linewidth=lwidth)
+ax[4].errorbar(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2, yerr=medianfbr_abs_pertime_all_std/(mean_sz*Wmod)*scalar, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
+#ax[4].plot(labfbrdir, labfbr/Atank*labscale, '-o', color=color6, markersize=msize, linewidth=lwidth)
 ax[4].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
 ax[4].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
 ax[4].grid(True)
-ax[4].text(0.5, 0.01, r'$(c)$', fontsize=fsize+3)
-ax[4].set_ylim(0, 0.4)
+ax[4].text(24, 0.45, r'$(c)$', fontsize=fsize+3)
+ax[4].set_ylim(0, 0.5)
 ax[4].tick_params(axis='x', which='major', labelsize=fsize)
 ax[4].tick_params(axis='y', which='major', labelsize=fsize) 
 ax[4].set_xticks([0,5,10,15,20,25,30])
 ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
 
 ax02 = ax[4].twinx()
-ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, linewidth=lwidth, markersize=msize, color=color)
-ax02.plot(labfbrdir, labfbr*labscale, '-o', color=color3, markersize=msize, linewidth=lwidth)
+ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, linewidth=lwidth, markersize=msize, color=color1)
+#ax02.plot(labfbrdir, labfbr*labscale, '-o', color=color6, markersize=msize, linewidth=lwidth)
 ax02.set_ylim(0, 0.5*Atank)
 ax02.set_xticks([0,5,10,15,20,25,30])
-ax02.set_yticks([0, 10, 20, 30, 40])
+ax02.set_yticks([0, 10, 20, 30, 40, 50])
 ax02.tick_params(axis='y', which='major', labelsize=fsize)
 ax02.set_ylabel(r'$\Omega_{sz}$ $(\mathrm{s^{-2}})$') 
 ax[4].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin+yoffset+height, width, height])
@@ -1246,33 +1261,41 @@ medianfbr_den_2 = ((np.median(fbr_abs_pertime_dir20_all_t1)+np.median(fbr_abs_pe
 medianfbr_den_25 = ((np.median(fbr_abs_pertime_dir20_tp25_all_t1)+np.median(fbr_abs_pertime_dir20_tp25_all_t2))/2)/((shore[-1]-23.60-22)*Wmod)*scalar
 err = np.array([np.std(fbr_abs_pertime_dir20_tp15_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_tp25_all/((shore[-2]-22.75-22)*Wmod)*scalar)])
 
-ax[5].errorbar(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25]), yerr=err, fmt='-o', color=color6, linewidth=lwidth, markersize=msize)
+ax[5].errorbar(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25]), yerr=err, fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
 ax[5].grid(True)
 ax[5].tick_params(axis='x', which='major', labelsize=fsize)
 ax[5].tick_params(axis='y', which='major', labelsize=fsize) 
 #ax[5].set_yticks([0.22, 0.24, 0.26, 0.28, 0.3])
-ax[5].set_xticks([1, 1.5, 2, 2.5, 3])
+ax[5].set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax[5].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
 ax[5].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
-ax[5].text(1.1, 0.01, r'$(f)$', fontsize=fsize+3)
+ax[5].text(3.01, 0.45, r'$(f)$', fontsize=fsize+3)
 ax[5].set_ylim(0, 0.5)
 #ax[5].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
 ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
 
 
 ax5 = ax[5].twinx()
-ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, color=color6, linewidth=lwidth, markersize=msize)
+ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, color=color1, linewidth=lwidth, markersize=msize)
 ax5.tick_params(axis='y', which='major', labelsize=fsize)
 ax5.set_ylabel(r'$\Omega_{sz}$ $(\mathrm{s^{-2}})$') 
-ax5.set_xticks([1, 1.5, 2, 2.5, 3])
+ax5.set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 #ax5.set_yticks([24, 26, 28, 30, 32])
 ax5.set_ylim(0*Atank, 0.5*Atank)
 ax[5].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin, width, height])
 
-fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error.png'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.png'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.jpg'))
 
 
 ###############################################
+color1='#003f5c'
+color2='#444e86'
+color3='#955196'
+color4='#dd5182'
+color5='#ff6e54'
+color6='#ffa600'
+color = 'tab:grey'
 lwidth = 1.5
 
 fig, ax = plt.subplots(figsize=(8,6), ncols=2, nrows=2)
@@ -1342,17 +1365,18 @@ ax[0,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
 
 ax[1,1].set_xlabel(r'$\log(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
 
+tps = np.array([1.5, 2, 2.5])
 var = fbr_abs_pertime_dir20_tp25_all[np.isfinite(fbr_abs_pertime_dir20_tp25_all)]
 counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20_tp25[:-1], counts20_tp25, color=color1, linewidth=lwidth, label=r'$T_p$ = 2.5 $\mathrm{s}$' % dirspread[3])
+ax[1,0].plot(bins20_tp25[:-1], counts20_tp25, color=color1, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[0])
 
 var = fbr_abs_pertime_dir20_all[np.isfinite(fbr_abs_pertime_dir20_all)]
 counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$T_p$ = 2.0 $\mathrm{s}$' % dirspread[3])
+ax[1,0].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[1])
 
 var = fbr_abs_pertime_dir20_tp15_all[np.isfinite(fbr_abs_pertime_dir20_tp15_all)]
 counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
+ax[1,0].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[2])
 ax[1,0].legend(loc='best', fontsize=fsize)
 ax[1,0].grid(True)
 ax[1,0].set_xlim(2, 5)
@@ -1378,97 +1402,118 @@ ax[1,1].set_ylabel(r'$\mathrm{Count}$')
 
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.png'))
+fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.jpg'))
 
 
 ##########################################################################
 import matplotlib.colors as colors
-
-ylim = 4*10**4
-fig, ax = plt.subplots(figsize=(8,7.5), nrows=3, ncols=3, sharex=True, sharey=True)
+ylim = 4.6
+fig, ax = plt.subplots(figsize=(6,7), nrows=3, ncols=3, sharex=True, sharey=True)
 alpha = 0.5
 nbins = 50
 vmax = 10**4
-fsize=16
-p00 = ax[0,0].hist2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar00 = fig.colorbar(p00[3], ax=ax[0,0], label=r'$\mathrm{Count}$')
-ax[0,0].set_ylabel(r'$\Omega_c$ ($\mathrm{m s}^{-2}$)')
-ax[0,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+fsize=11
+
+xmin = 0.125
+ymin = 0.125
+xwidth = 0.22
+yheight = 0.22
+xoffset = 0.025
+yoffset = 0.05
+cbar_width = 0.0125
+cbar_offset = 0.02
+
+p00 = ax[0,0].hist2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], np.log10(fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar00 = fig.colorbar(p00[3], ax=ax[0,0], label=r'$\mathrm{Count}$')
+ax[0,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[0], fontsize=fsize)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
 ax[0,0].yaxis.set_major_formatter(formatter)
 ax[0,0].text(2, ylim, r'$\mathrm{(a)}$', fontsize=fsize)
 ax[0,0].grid(True)
+ax[0,0].set_position([xmin, ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p01 = ax[0,1].hist2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar01 = fig.colorbar(p01[3], ax=ax[0,1], label=r'$\mathrm{Count}$')
-ax[0,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+p01 = ax[0,1].hist2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], np.log10(fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar01 = fig.colorbar(p01[3], ax=ax[0,1], label=r'$\mathrm{Count}$')
+ax[0,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[1], fontsize=fsize)
 ax[0,1].yaxis.set_major_formatter(formatter)
 ax[0,1].text(2, ylim, r'$\mathrm{(b)}$', fontsize=fsize)
 ax[0,1].grid(True)
+ax[0,1].set_position([xmin+xwidth+xoffset, ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p02 = ax[0,2].hist2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar02 = fig.colorbar(p02[3], ax=ax[0,2], label=r'$\mathrm{Count}$')
-ax[0,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+p02 = ax[0,2].hist2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], np.log10(fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar02 = fig.colorbar(p02[3], ax=ax[0,2], label=r'$\mathrm{Count}$')
+ax[0,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[2], fontsize=fsize)
 ax[0,2].yaxis.set_major_formatter(formatter)
 ax[0,2].text(2, ylim, r'$\mathrm{(c)}$', fontsize=fsize)
 ax[0,2].grid(True)
+ax[0,2].set_position([xmin+2*(xwidth+xoffset), ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p10 = ax[1,0].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar10 = fig.colorbar(p10[3], ax=ax[1,0], label=r'$\mathrm{Count}$')
-ax[1,0].set_ylabel(r'$\Omega_c$ $(\mathrm{m s}^{-2})$')
-ax[1,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+p10 = ax[1,0].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar10 = fig.colorbar(p10[3], ax=ax[1,0], label=r'$\mathrm{Count}$')
+ax[1,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[3], fontsize=fsize)
 ax[1,0].yaxis.set_major_formatter(formatter)
 ax[1,0].text(2, ylim, r'$\mathrm{(d)}$', fontsize=fsize)
 ax[1,0].grid(True)
+ax[1,0].set_position([xmin, ymin+(yheight+yoffset), xwidth, yheight])
 
-p11 = ax[1,1].hist2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar11 = fig.colorbar(p11[3], ax=ax[1,1], label=r'$\mathrm{Count}$')
-ax[1,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+p11 = ax[1,1].hist2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], np.log10(fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar11 = fig.colorbar(p11[3], ax=ax[1,1], label=r'$\mathrm{Count}$')
+ax[1,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[4], fontsize=fsize)
 ax[1,1].yaxis.set_major_formatter(formatter)
 ax[1,1].text(2, ylim, r'$\mathrm{(e)}$', fontsize=fsize)
 ax[1,1].grid(True)
+ax[1,1].set_position([xmin+xwidth+xoffset, ymin+(yheight+yoffset), xwidth, yheight])
 
-p12 = ax[1,2].hist2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar12 = fig.colorbar(p12[3], ax=ax[1,2], label=r'$\mathrm{Count}$')
-ax[1,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+p12 = ax[1,2].hist2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], np.log10(fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar12 = fig.colorbar(p12[3], ax=ax[1,2], label=r'$\mathrm{Count}$')
+ax[1,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[5], fontsize=fsize)
 ax[1,2].yaxis.set_major_formatter(formatter)
 ax[1,2].text(2, ylim, r'$\mathrm{(f)}$', fontsize=fsize)
 ax[1,2].set_ylim(0,4.5*10**4)
 ax[1,2].grid(True)
+ax[1,2].set_position([xmin+2*(xwidth+xoffset), ymin+(yheight+yoffset), xwidth, yheight])
 
 
-p20 = ax[2,0].hist2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar20 = fig.colorbar(p20[3], ax=ax[2,0], label=r'$\mathrm{Count}$')
-ax[2,0].set_ylabel(r'$\Omega_c$ ($\mathrm{m s}^{-2}$)')
-ax[2,0].set_title(r'$T_p = 1.5\ \mathrm{s}$')
+p20 = ax[2,0].hist2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], np.log10(fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar20 = fig.colorbar(p20[3], ax=ax[2,0], label=r'$\mathrm{Count}$')
+ax[2,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,0].set_title(r'$T_p = 1.5\ \mathrm{s}$', fontsize=fsize)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
 ax[2,0].yaxis.set_major_formatter(formatter)
 ax[2,0].text(2, ylim, r'$\mathrm{(g)}$', fontsize=fsize)
 ax[2,0].grid(True)
 ax[2,0].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+ax[2,0].set_position([xmin, ymin, xwidth, yheight])
 
-p21 = ax[2,1].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar21 = fig.colorbar(p21[3], ax=ax[2,1], label=r'$\mathrm{Count}$')
-ax[2,1].set_title(r'$T_p = 2.0\ \mathrm{s}$')
+p21 = ax[2,1].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar21 = fig.colorbar(p21[3], ax=ax[2,1], label=r'$\mathrm{Count}$')
+ax[2,1].set_title(r'$T_p = 2.0\ \mathrm{s}$', fontsize=fsize)
 ax[2,1].yaxis.set_major_formatter(formatter)
 ax[2,1].text(2, ylim, r'$\mathrm{(h)}$', fontsize=fsize)
 ax[2,1].grid(True)
 ax[2,1].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+ax[2,1].set_position([xmin+(xwidth+xoffset), ymin, xwidth, yheight])
 
-p22 = ax[2,2].hist2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
-cbar22 = fig.colorbar(p22[3], ax=ax[2,2], label=r'$\mathrm{Count}$')
-ax[2,2].set_title(r'$T_p = 2.5\ \mathrm{s}$')
+p22 = ax[2,2].hist2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], np.log10(fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+#cbar22 = fig.colorbar(p22[3], ax=ax[2,2], label=r'$\mathrm{Count}$')
+ax[2,2].set_title(r'$T_p = 2.5\ \mathrm{s}$', fontsize=fsize)
 ax[2,2].yaxis.set_major_formatter(formatter)
 ax[2,2].text(2, ylim, r'$\mathrm{(i)}$', fontsize=fsize)
 ax[2,2].grid(True)
-ax[2,2].set_ylim(0,4.5*10**4)
+#ax[2,2].set_ylim(0,4.5*10**4)
 ax[2,2].set_xlim(0,55.5)
 ax[2,2].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+ax[2,2].set_position([xmin+2*(xwidth+xoffset), ymin, xwidth, yheight])
 
-fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_fbr_2dhist.png'))
-
+cbar_ax = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset, ymin, cbar_width, 3*yheight + 2*yoffset])
+cbar = fig.colorbar(p00[3], cax=cbar_ax, label=r'$\mathrm{Count}$')
+#fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.png'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.jpg'))
 
 ################################################################
 ###############################################################
@@ -1555,7 +1600,7 @@ ax[1,0].set_yticks([0, 10000, 20000, 30000, 40000, 50000, 60000])
 ax[1,1].hist(crestends_pertime_dir20_tp15_all, bins=nbins, color=color1, alpha=alpha)
 ax[1,1].grid(True)
 ax[1,1].set_xlim(0,55)
-ax[1,1].set_xlabel(r'$\mathrm{Crest\ ends\ (\#)}$')
+ax[1,1].set_xlabel(r'$N_{ce}\ \mathrm{(\#)}$')
 
 ax[1,1].hist(crestends_pertime_dir20_all, bins=nbins, color=color4, alpha=alpha)
 ax[1,1].grid(True)
@@ -1569,3 +1614,214 @@ ax[1,1].text(2.65, 3100, r'$\mathrm{(d)}$', fontsize=18)
 
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.png'))
+fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.jpg'))
+
+
+#### testing plots #### 
+ylim = 4*10**4
+fig, ax = plt.subplots(figsize=(10,9), nrows=3, ncols=3, sharex=True, sharey=True)
+alpha = 0.5
+nbins = 50
+vmax = 10**4
+fsize=16
+p00 = ax[0,0].hist2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], np.log10(fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar00 = fig.colorbar(p00[3], ax=ax[0,0], label=r'$\mathrm{Count}$')
+ax[0,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0,0].yaxis.set_major_formatter(formatter)
+ax[0,0].text(2, ylim, r'$\mathrm{(a)}$', fontsize=fsize)
+ax[0,0].grid(True)
+
+p01 = ax[0,1].hist2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], np.log10(fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar01 = fig.colorbar(p01[3], ax=ax[0,1], label=r'$\mathrm{Count}$')
+ax[0,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+ax[0,1].yaxis.set_major_formatter(formatter)
+ax[0,1].text(2, ylim, r'$\mathrm{(b)}$', fontsize=fsize)
+ax[0,1].grid(True)
+
+p02 = ax[0,2].hist2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], np.log10(fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar02 = fig.colorbar(p02[3], ax=ax[0,2], label=r'$\mathrm{Count}$')
+ax[0,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+ax[0,2].yaxis.set_major_formatter(formatter)
+ax[0,2].text(2, ylim, r'$\mathrm{(c)}$', fontsize=fsize)
+ax[0,2].grid(True)
+
+p10 = ax[1,0].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar10 = fig.colorbar(p10[3], ax=ax[1,0], label=r'$\mathrm{Count}$')
+ax[1,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+ax[1,0].yaxis.set_major_formatter(formatter)
+ax[1,0].text(2, ylim, r'$\mathrm{(d)}$', fontsize=fsize)
+ax[1,0].grid(True)
+
+p11 = ax[1,1].hist2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], np.log10(fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar11 = fig.colorbar(p11[3], ax=ax[1,1], label=r'$\mathrm{Count}$')
+ax[1,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+ax[1,1].yaxis.set_major_formatter(formatter)
+ax[1,1].text(2, ylim, r'$\mathrm{(e)}$', fontsize=fsize)
+ax[1,1].grid(True)
+
+p12 = ax[1,2].hist2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], np.log10(fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar12 = fig.colorbar(p12[3], ax=ax[1,2], label=r'$\mathrm{Count}$')
+ax[1,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+ax[1,2].yaxis.set_major_formatter(formatter)
+ax[1,2].text(2, ylim, r'$\mathrm{(f)}$', fontsize=fsize)
+ax[1,2].set_ylim(0,4.5*10**4)
+ax[1,2].grid(True)
+
+
+p20 = ax[2,0].hist2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], np.log10(fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar20 = fig.colorbar(p20[3], ax=ax[2,0], label=r'$\mathrm{Count}$')
+ax[2,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,0].set_title(r'$T_p = 1.5\ \mathrm{s}$')
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[2,0].yaxis.set_major_formatter(formatter)
+ax[2,0].text(2, ylim, r'$\mathrm{(g)}$', fontsize=fsize)
+ax[2,0].grid(True)
+ax[2,0].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+p21 = ax[2,1].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar21 = fig.colorbar(p21[3], ax=ax[2,1], label=r'$\mathrm{Count}$')
+ax[2,1].set_title(r'$T_p = 2.0\ \mathrm{s}$')
+ax[2,1].yaxis.set_major_formatter(formatter)
+ax[2,1].text(2, ylim, r'$\mathrm{(h)}$', fontsize=fsize)
+ax[2,1].grid(True)
+ax[2,1].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+p22 = ax[2,2].hist2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], np.log10(fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+cbar22 = fig.colorbar(p22[3], ax=ax[2,2], label=r'$\mathrm{Count}$')
+ax[2,2].set_title(r'$T_p = 2.5\ \mathrm{s}$')
+ax[2,2].yaxis.set_major_formatter(formatter)
+ax[2,2].text(2, ylim, r'$\mathrm{(i)}$', fontsize=fsize)
+ax[2,2].grid(True)
+#ax[2,2].set_ylim(0,4.5*10**4)
+ax[2,2].set_xlim(0,55.5)
+ax[2,2].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+#fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.png'))
+
+
+ylim = 0.25
+fig, ax = plt.subplots(figsize=(7,7), nrows=3, ncols=3, sharex=True, sharey=True)
+
+H, xedges, yedges = np.histogram2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], np.log10(fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[0,0].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color1, align='edge', color=color1, alpha=0.8)
+ax[0,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0,0].yaxis.set_major_formatter(formatter)
+ax[0,0].text(2, ylim, r'$\mathrm{(a)}$', fontsize=fsize)
+ax[0,0].grid(True)
+
+H, xedges, yedges = np.histogram2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], np.log10(fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[0,1].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color2, align='edge', color=color2, alpha=0.8)
+ax[0,1].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0,1].yaxis.set_major_formatter(formatter)
+ax[0,1].text(2, ylim, r'$\mathrm{(b)}$', fontsize=fsize)
+ax[0,1].grid(True)
+
+H, xedges, yedges = np.histogram2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], np.log10(fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[0,2].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color3, align='edge', color=color3, alpha=0.8)
+ax[0,2].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0,2].yaxis.set_major_formatter(formatter)
+ax[0,2].text(2, ylim, r'$\mathrm{(c)}$', fontsize=fsize)
+ax[0,2].grid(True)
+
+H, xedges, yedges = np.histogram2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[1,0].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color4, align='edge', color=color4, alpha=0.8)
+ax[1,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[1,0].yaxis.set_major_formatter(formatter)
+ax[1,0].text(2, ylim, r'$\mathrm{(d)}$', fontsize=fsize)
+ax[1,0].grid(True)
+
+H, xedges, yedges = np.histogram2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], np.log10(fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[1,1].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color5, align='edge', color=color5, alpha=0.8)
+ax[1,1].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[1,1].yaxis.set_major_formatter(formatter)
+ax[1,1].text(2, ylim, r'$\mathrm{(e)}$', fontsize=fsize)
+ax[1,1].grid(True)
+
+
+H, xedges, yedges = np.histogram2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], np.log10(fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[1,2].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color6, align='edge', color=color6, alpha=0.8)
+ax[1,2].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[1,2].yaxis.set_major_formatter(formatter)
+ax[1,2].text(2, ylim, r'$\mathrm{(f)}$', fontsize=fsize)
+ax[1,2].grid(True)
+
+
+H, xedges, yedges = np.histogram2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], np.log10(fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[2,0].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color1, align='edge', color=color1, alpha=0.8)
+ax[2,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,0].set_title(r'$T_p = 1.5\ \mathrm{s}$')
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[2,0].yaxis.set_major_formatter(formatter)
+ax[2,0].text(2, ylim, r'$\mathrm{(g)}$', fontsize=fsize)
+ax[2,0].grid(True)
+ax[2,0].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+
+H, xedges, yedges = np.histogram2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[2,1].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color4, align='edge', color=color4, alpha=0.8)
+ax[2,1].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,1].set_title(r'$T_p = 2.0\ \mathrm{s}$')
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[2,1].yaxis.set_major_formatter(formatter)
+ax[2,1].text(2, ylim, r'$\mathrm{(h)}$', fontsize=fsize)
+ax[2,1].grid(True)
+ax[2,1].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+H, xedges, yedges = np.histogram2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], np.log10(fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]), bins=nbins)
+H_xsum = H.sum(axis=1)
+H_ysum = H.sum(axis=0)
+ax[2,2].bar(xedges[:-1], H_xsum/np.sum(H_xsum), width=np.diff(xedges), edgecolor=color6, align='edge', color=color6, alpha=0.8)
+ax[2,2].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,2].set_title(r'$T_p = 2.5\ \mathrm{s}$')
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[2,2].yaxis.set_major_formatter(formatter)
+ax[2,2].text(2, ylim, r'$\mathrm{(i)}$', fontsize=fsize)
+ax[2,2].grid(True)
+ax[2,2].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
+
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_bar_pdf.png'))
+

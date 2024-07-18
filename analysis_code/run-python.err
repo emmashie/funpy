@@ -1,0 +1,103 @@
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1257: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice2)] - f[tuple(slice3)]) / dx_0
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1264: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice2)] - f[tuple(slice3)]) / dx_n
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1257: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice2)] - f[tuple(slice3)]) / dx_0
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1264: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice2)] - f[tuple(slice3)]) / dx_n
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1257: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice2)] - f[tuple(slice3)]) / dx_0
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py:1236: RuntimeWarning: invalid value encountered in subtract
+  out[tuple(slice1)] = (f[tuple(slice4)] - f[tuple(slice2)]) / (2. * ax_dx)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/_methods.py:181: RuntimeWarning: invalid value encountered in reduce
+  ret = umr_sum(arr, axis, dtype, out, keepdims, where=where)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_signaltools.py:3530: RuntimeWarning: invalid value encountered in subtract
+  ret = data - np.mean(data, axis, keepdims=True)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/scipy/signal/_spectral_py.py:1962: RuntimeWarning: invalid value encountered in multiply
+  result = win * result
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:381: RuntimeWarning: invalid value encountered in multiply
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/fromnumeric.py:86: RuntimeWarning: invalid value encountered in reduce
+  return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:381: RuntimeWarning: invalid value encountered in scalar divide
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:387: RuntimeWarning: invalid value encountered in multiply
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:375: RuntimeWarning: invalid value encountered in multiply
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:375: RuntimeWarning: invalid value encountered in scalar divide
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+/gscratch/nearshore/enuss/python/funpy/filter_functions.py:387: RuntimeWarning: invalid value encountered in scalar divide
+  smoothdata[jind,iind] = np.nansum(databox*datawindow)/np.nansum(datawindow)
+Traceback (most recent call last):
+  File "/mmfs1/gscratch/nearshore/enuss/python/funpy/analysis_code/alongwavenum-figures.py", line 617, in <module>
+    curl_fbr1 = np.gradient(fbry1_bar, dx, axis=2) - np.gradient(fbrx1_bar, dy, axis=1)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<__array_function__ internals>", line 200, in gradient
+  File "/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/lib/function_base.py", line 1151, in gradient
+    axes = _nx.normalize_axis_tuple(axis, N)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/numeric.py", line 1398, in normalize_axis_tuple
+    axis = tuple([normalize_axis_index(ax, ndim, argname) for ax in axis])
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/gscratch/nearshore/enuss/miniconda3/envs/py310/lib/python3.11/site-packages/numpy/core/numeric.py", line 1398, in <listcomp>
+    axis = tuple([normalize_axis_index(ax, ndim, argname) for ax in axis])
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+numpy.AxisError: axis 2 is out of bounds for array of dimension 2
