@@ -54,8 +54,11 @@ def compute_wave_stats(fdir, dt=0.2, lf=0.2, WL=128, OL=64, fmin=0.25, fmax=1.2)
     cg = wf.group_speed(2*np.pi/k, Tp_off, dep[0,:])
     energy_flux = wf.energy_flux(energy_density, cg)
     eflux_rat = energy_flux/energy_flux[xind]
-    xsz_ind = np.argmin(np.abs(eflux_rat[np.isfinite(eflux_rat)]-0.9))
-    xsz = x.values[xsz_ind]-22
+    #xsz_ind = np.argmin(np.abs(eflux_rat[np.isfinite(eflux_rat)]-0.9))
+    #xsz = x.values[xsz_ind]-22
+    xsz_ind = np.nanargmax(np.abs(np.diff(energy_flux))) 
+    xsz = x.values[xsz_ind] - 22
+
 
     Tp_sz = 1/freq[np.where(Sf_alongmean[:,xsz_ind]==np.max(Sf_alongmean[:,xsz_ind]))[0][0]]
 
@@ -79,7 +82,7 @@ def compute_wave_stats(fdir, dt=0.2, lf=0.2, WL=128, OL=64, fmin=0.25, fmax=1.2)
     xsl = np.mean(shoreline)-22
 
     return Hs_alongmean[xind], Hs_alongmean[xsz_ind], xsz, xsl, rundown-22, Tp_off, Tp_sz, np.mean(dirspread_off), np.mean(dirspread_sz), np.mean(theta_off), np.mean(theta_sz)
-
+ 
 rundir = 'hmo25_dir1_tp2'
 rootdir = os.path.join('/gscratch', 'nearshore','enuss','lab_runs_y550','postprocessing')
 savedir = os.path.join(rootdir, 'compiled_output_'+rundir, 'plots')

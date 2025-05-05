@@ -94,7 +94,7 @@ v_psi30 = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')['v_psi'
 vort_psi30 = np.gradient(v_psi30, dx, axis=2) - np.gradient(u_psi30, dy, axis=1)
 
 xx, yy = np.meshgrid(x-22, y-np.max(y)/2)
-fmax = 15; vmax = 1
+fmax = 5; vmax = 1
 
 crest_cmap = ListedColormap(['#f1eceb','#3a617d'])
 
@@ -103,7 +103,7 @@ i = 22
 
 xmin = 0.125
 ymin = 0.075
-xwidth = 0.225
+xwidth = 0.2
 yheight = 0.27
 xoffset = 0.035
 yoffset = 0.025
@@ -177,7 +177,7 @@ cbar_ax1 = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset,
                          cbar_width, yheight])
 cbar1 = fig.colorbar(p10, cax=cbar_ax1,  
                      label=r'$\nabla \times F_{\bf br}\ \mathrm{(s^{-2})}$')
-cbar1.set_ticks([])
+#cbar1.set_ticks([])
 
 
 
@@ -214,11 +214,11 @@ cbar_ax2 = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset,
                          cbar_width, yheight])
 cbar2 = fig.colorbar(p20, cax=cbar_ax2,
                      label=r'$\nabla \times \bf{u_{\psi}}\ \mathrm{(s^{-1})}$')
-cbar2.set_ticks([])
+#cbar2.set_ticks([])
 
 #fig.suptitle(r'%d $\mathrm{seconds}$' % (i*dt), fontsize=16)
-fig.savefig(os.path.join(plotsavedir, 'snaps', '%05d.png' % i))
-fig.savefig(os.path.join(plotsavedir, 'snaps', '%05d.jpg' % i))
+fig.savefig(os.path.join(plotsavedir, 'dir_snap_%05d.png' % i), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'dir_snap_%05d.jpg' % i), dpi=300)
 
 
 #########################################################################
@@ -298,14 +298,14 @@ v_psi30 = xr.open_mfdataset(vflist, combine='nested', concat_dim='time')['v_psi'
 vort_psi30 = np.gradient(v_psi30, dx, axis=2) - np.gradient(u_psi30, dy, axis=1)
 
 xx, yy = np.meshgrid(x-22, y-np.max(y)/2)
-fmax = 15; vmax = 1
+fmax = 5; vmax = 1
 
 crest_cmap = ListedColormap(['#f1eceb','#3a617d'])
 
 
 xmin = 0.125
 ymin = 0.075
-xwidth = 0.225
+xwidth = 0.2
 yheight = 0.27
 xoffset = 0.035
 yoffset = 0.025
@@ -369,7 +369,7 @@ cbar_ax1 = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset,
                          cbar_width, yheight])
 cbar1 = fig.colorbar(p10, cax=cbar_ax1,  
                      label=r'$\nabla \times F_{\bf br}\ \mathrm{(s^{-2})}$')
-cbar1.set_ticks([])
+#cbar1.set_ticks([])
 
 p20 = ax[2,0].pcolormesh(xx,yy, vort_psi1[i,:,:], cmap=cmo.balance)
 p20.set_clim(-vmax,vmax)
@@ -401,9 +401,9 @@ cbar_ax2 = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset,
                          cbar_width, yheight])
 cbar2 = fig.colorbar(p20, cax=cbar_ax2,
                      label=r'$\nabla \times \bf{u_{\psi}}\ \mathrm{(s^{-1})}$')
-cbar2.set_ticks([])
+#cbar2.set_ticks([])
 
-fig.savefig(os.path.join(plotsavedir, 'snaps_tp', '%05d.png' % i))
-fig.savefig(os.path.join(plotsavedir, 'snaps_tp', '%05d.jpg' % i))
+fig.savefig(os.path.join(plotsavedir, 'tp_snap_%05d.png' % i), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'tp_snap_%05d.jpg' % i), dpi=300)
 
 

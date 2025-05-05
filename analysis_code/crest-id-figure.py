@@ -182,5 +182,118 @@ ax[3].text(20.5, 1.5, r'$\mathrm{(d)}$',  fontweight='bold', fontsize='15')
 ax[3].axvline(23.2, linestyle='--', linewidth=1.5, color='grey')
 ax[3].axvspan(31.5, 34, color='tab:grey', alpha=0.3) 
 fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'crest_id.png'))
-fig.savefig(os.path.join(plotsavedir, 'crest_id.jpg'))
+fig.savefig(os.path.join(plotsavedir, 'crest_id.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crest_id.jpg'), dpi=300)
+
+
+
+T = 20
+window = ff.lanczos_2Dwindow(y, x, 1, 0.5, 0.5)
+var_bar = ff.lanczos_2D(nubrk[T,:,:].data, nubrk[T,:,:].mask, window, len(y), len(x))
+
+fig, ax = plt.subplots(figsize=(6,5), ncols=2)
+ax[0].pcolormesh(xx, yy-2, np.zeros(yy.shape), cmap=cmo.ice_r)
+p0 = ax[0].pcolormesh(xx, yy, var_bar, cmap=cmo.ice_r)
+fig.colorbar(p0, ax=ax[0], ticks=[0, 0.05, 0.1, 0.15], label=r'$\overline{\nu_{br}}$ $\mathrm{(m^2 s^{-1})}$', location='top')
+p0.set_clim(numin, numax)
+
+yinds, xinds = np.where(crests[T,:,:]==1)
+xloc = x[xinds]; yloc = y[yinds]
+
+ys = np.unique(yloc)
+xs = np.asarray([np.mean(xloc[yloc==ys[i]]) for i in range(len(ys))])
+
+#ax[0].plot(xs[:-14], ys[:-14], marker='|', markerfacecolor='white', markersize=2, linewidth=3, color='white')
+ax[0].plot(xs[:-14], ys[:-14], '--', linewidth=3, color='white')
+ax[0].plot(xs[-15], ys[-15], 'o', markersize=10, color='white')
+ax[0].plot(xs[0], ys[0], 'o', markersize=10, color='white')
+
+ax[0].set_ylabel('$y$ $\mathrm{(m)}$')
+ax[0].set_xlabel('$x$ $\mathrm{(m)}$')
+ax[0].set_ylim(ystart1-1, yend1-15)
+ax[0].set_xlim(27.8, 29.5)
+ax[0].text(29.3, 11, r'$\mathrm{(a)}$', fontsize=14)
+
+p1 = ax[1].pcolormesh(xx, yy-2, np.zeros(yy.shape), cmap=cmo.balance)
+p1.set_clim(-5, 5)
+p1 = ax[1].pcolormesh(xx, yy, fbr[T,:,:], cmap=cmo.balance)
+p1.set_clim(-5, 5)
+fig.colorbar(p1, ax=ax[1], label=r'$\nabla \times \bf{F_{br}}$ $\mathrm{(s^{-1})}$', location='top')
+ax[1].set_xlabel('$x$ $\mathrm{(m)}$')
+ax[1].set_ylim(ystart1-1, yend1-15)
+ax[1].set_xlim(27.8, 29.5)
+ax[1].set_yticks([2, 4, 6, 8, 10])
+ax[1].set_yticklabels(['','','','',''])
+ax[1].text(29.3, 11, r'$\mathrm{(b)}$', fontsize=14)
+
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crest_length.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crest_length.jpg'), dpi=300) 
+
+### with integrated
+
+T = 20
+window = ff.lanczos_2Dwindow(y, x, 1, 0.5, 0.5)
+var_bar = ff.lanczos_2D(nubrk[T,:,:].data, nubrk[T,:,:].mask, window, len(y), len(x))
+
+fig, ax = plt.subplots(figsize=(6,5), ncols=3)
+ax[0].pcolormesh(xx, yy-2, np.zeros(yy.shape), cmap=cmo.ice_r)
+p0 = ax[0].pcolormesh(xx, yy, var_bar, cmap=cmo.ice_r)
+fig.colorbar(p0, ax=ax[0], ticks=[0, 0.05, 0.1, 0.15], label=r'$\overline{\nu_{br}}$ $\mathrm{(m^2 s^{-1})}$', location='top')
+p0.set_clim(numin, numax)
+
+yinds, xinds = np.where(crests[T,:,:]==1)
+xloc = x[xinds]; yloc = y[yinds]
+
+ys = np.unique(yloc)
+xs = np.asarray([np.mean(xloc[yloc==ys[i]]) for i in range(len(ys))])
+
+#ax[0].plot(xs[:-14], ys[:-14], marker='|', markerfacecolor='white', markersize=2, linewidth=3, color='white')
+ax[0].plot(xs[:-14], ys[:-14], '--', linewidth=3, color='white')
+ax[0].plot(xs[-15], ys[-15], 'o', markersize=10, color='white')
+ax[0].plot(xs[0], ys[0], 'o', markersize=10, color='white')
+
+ax[0].set_ylabel('$y$ $\mathrm{(m)}$')
+ax[0].set_xlabel('$x$ $\mathrm{(m)}$')
+ax[0].set_ylim(ystart1-1, yend1-15)
+ax[0].set_xlim(27.8, 29.5)
+ax[0].set_xticks([28, 29])
+ax[0].text(29.0, 11, r'$\mathrm{(a)}$', fontsize=14)
+
+p1 = ax[1].pcolormesh(xx, yy-2, np.zeros(yy.shape), cmap=cmo.amp)
+p1.set_clim(0, 5)
+p1 = ax[1].pcolormesh(xx, yy, np.abs(fbr[T,:,:]), cmap=cmo.amp)
+p1.set_clim(0, 5)
+fig.colorbar(p1, ax=ax[1], label=r'$|\nabla \times \bf{F_{br}}|$ $\mathrm{(s^{-1})}$', location='top')
+ax[1].set_xlabel('$x$ $\mathrm{(m)}$')
+ax[1].set_ylim(ystart1-1, yend1-15)
+ax[1].set_xlim(27.8, 29.5)
+ax[1].set_xticks([28, 29])
+ax[1].set_yticks([2, 4, 6, 8, 10])
+ax[1].set_yticklabels(['','','','',''])
+ax[1].text(29.0, 11, r'$\mathrm{(b)}$', fontsize=14)
+
+xmin = np.argmin(np.abs(x-27.8))
+xmax = np.argmin(np.abs(x-29.5))
+ymin = np.argmin(np.abs(y-0))
+ymax = np.argmin(np.abs(y-12))
+fbr_along = np.sum(fbr[T,ymin:ymax,xmin:xmax], axis=-1)
+
+from scipy import interpolate 
+f = interpolate.interp1d(y[ymin:ymax], fbr_along)
+fbr_along_crest = f(ys[:-14])*dx
+
+p2 = ax[2].scatter(xs[:-14], ys[:-14], c=fbr_along_crest, s=50, edgecolors='none', cmap=cmo.balance)
+p2.set_clim(-0.15, 0.15)
+fig.colorbar(p2, ax=ax[2], label=r'$\int \ \nabla \times \bf{F_{br}} \mathrm{dx}$ $\mathrm{(m s^{-1})}$', location='top', ticks=[-0.1, 0, 0.1])
+ax[2].set_xlabel('$x$ $\mathrm{(m)}$')
+ax[2].set_ylim(ystart1-1, yend1-15)
+ax[2].set_xlim(27.8, 29.5)
+ax[2].set_xticks([28, 29])
+ax[2].set_yticks([2, 4, 6, 8, 10])
+ax[2].set_yticklabels(['','','','',''])
+ax[2].text(29.0, 11, r'$\mathrm{(c)}$', fontsize=14)
+
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crest_length.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crest_length.jpg'), dpi=300) 

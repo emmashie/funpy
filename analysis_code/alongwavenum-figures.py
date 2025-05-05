@@ -20,12 +20,12 @@ plt.style.use('classic')
 WL = 550
 dx = 0.05
 dy = 0.1
-sz = 31.5 - 23.2
+sz = 31.5 - 26.9
 
 xloc1 = 31.5+22
-xloc2 = (31.5 - sz*0.5)+22 
-xloc3 = (31.5 - sz*1)+22
-xloc4 = (31.5 - sz*1.5+22)
+xloc2 = 29.7 + 22 
+xloc3 = 26.9 + 22
+xloc4 = 24.15 + 22
 
 lwidth = 2
 
@@ -53,7 +53,7 @@ v_psi1 = xr.open_mfdataset(flist, combine='nested', concat_dim='time')['v_psi']
 curl_psi1 = np.gradient(v_psi1, dx, axis=2) - np.gradient(u_psi1, dy, axis=1)
 
 freq1, wavenumber1 = welch(curl_psi1, fs=1/dy, window='hann', nperseg=curl_psi1.shape[1], axis=1)
-del curl_psi1
+del curl_psi1 
 
 wavenum_inner1 = np.mean(np.mean(wavenumber1[:,:,xind1], axis=-1), axis=0)
 wavenum_outer1 = np.mean(np.mean(wavenumber1[:,:,xind2], axis=-1), axis=0)
@@ -365,6 +365,20 @@ color3='#955196'
 color4='#dd5182'
 color5='#ff6e54'
 color6='#ffa600'
+color7='#1b5d73'
+color8='#6b9c3c'
+
+T = 6000
+Y = 55 
+X = len(xind1)
+DOF = (T*Y*X)/WL
+
+probability = 0.95 # confidence interval, i.e., 95% is 0.95
+
+alpha = 1 - probability
+from scipy.stats import chi2
+c = chi2.ppf([1 - alpha / 2, alpha / 2], DOF)
+c2 = DOF / c # percentage representing confidence interval
 
 fig, ax = plt.subplots(ncols=3, nrows=2, figsize=(12,8), sharex=True, sharey=True)
 ax[0,0].loglog(freq1, wavenum_inner1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
@@ -379,6 +393,9 @@ ax[0,0].set_title(r'$\mathrm{Inner\ surf\ zone}$ $\langle x$ = $%.1f$ - $%.1f \r
 ax[0,0].grid(True)
 ax[0,0].text(2.8, 0.3, r'$\mathrm{(a)}$', fontsize=16)
 ax[0,0].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ymin = 0.7
+xloc = 0.03
+ax[0,0].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
 ax[0,1].loglog(freq1, wavenum_outer1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
 ax[0,1].loglog(freq5, wavenum_outer5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])
@@ -391,6 +408,7 @@ ax[0,1].set_title(r'$\mathrm{Outer\ surf\ zone}$ $\langle x$ = $%.1f$ - $%.1f \r
 ax[0,1].grid(True)
 ax[0,1].text(2.8, 0.3, r'$\mathrm{(b)}$', fontsize=16)
 ax[0,1].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[0,1].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
 ax[0,2].loglog(freq1, wavenum_offshore1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
 ax[0,2].loglog(freq5, wavenum_offshore5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])
@@ -405,10 +423,11 @@ ax[0,2].grid(True)
 ax[0,2].text(2.8, 0.3, r'$\mathrm{(c)}$', fontsize=16)
 ax[0,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
 ax[0,2].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[0,2].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
 
-ax[1,0].loglog(freq20_15, wavenum_inner20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = 1.5 $\mathrm{s}$')
-ax[1,0].loglog(freq20, wavenum_inner20, linewidth=lwidth, color=color4, label=r'$T_p$ = 2.0 $\mathrm{s}$')
+ax[1,0].loglog(freq20_15, wavenum_inner20_15, linewidth=lwidth, color=color7, label=r'$T_p$ = 1.5 $\mathrm{s}$')
+ax[1,0].loglog(freq20, wavenum_inner20, linewidth=lwidth, color=color8, label=r'$T_p$ = 2.0 $\mathrm{s}$')
 ax[1,0].loglog(freq20_25, wavenum_inner20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = 2.5 $\mathrm{s}$')
 ax[1,0].set_ylim(10**-6, 1)
 ax[1,0].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
@@ -416,33 +435,45 @@ ax[1,0].set_xlabel(r'$k_y$ ($m^{-1}$)')
 ax[1,0].grid(True)
 ax[1,0].text(2.8, 0.3, r'$\mathrm{(d)}$', fontsize=16)
 ax[1,0].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[1,0].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
-ax[1,1].loglog(freq20_15, wavenum_outer20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = 1.5 $\mathrm{s}$')
-ax[1,1].loglog(freq20, wavenum_outer20, linewidth=lwidth, color=color4, label=r'$T_p$ = 2.0 $\mathrm{s}$')
+ax[1,1].loglog(freq20_15, wavenum_outer20_15, linewidth=lwidth, color=color7, label=r'$T_p$ = 1.5 $\mathrm{s}$')
+ax[1,1].loglog(freq20, wavenum_outer20, linewidth=lwidth, color=color8, label=r'$T_p$ = 2.0 $\mathrm{s}$')
 ax[1,1].loglog(freq20_25, wavenum_outer20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = 2.5 $\mathrm{s}$')
 ax[1,1].set_ylim(10**-6, 1)
-ax[1,1].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
 ax[1,1].set_xlabel(r'$k_y$ ($m^{-1}$)')
 ax[1,1].grid(True)
 ax[1,1].text(2.8, 0.3, r'$\mathrm{(e)}$', fontsize=16)
 ax[1,1].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
+ax[1,1].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
-ax[1,2].loglog(freq20_15, wavenum_offshore20_15, linewidth=lwidth, color=color1, label=r'$T_p$ = $1.5$ $\mathrm{s}$')
-ax[1,2].loglog(freq20, wavenum_offshore20, linewidth=lwidth, color=color4, label=r'$T_p$ = $2.0$ $\mathrm{s}$')
+ax[1,2].loglog(freq20_15, wavenum_offshore20_15, linewidth=lwidth, color=color7, label=r'$T_p$ = $1.5$ $\mathrm{s}$')
+ax[1,2].loglog(freq20, wavenum_offshore20, linewidth=lwidth, color=color8, label=r'$T_p$ = $2.0$ $\mathrm{s}$')
 ax[1,2].loglog(freq20_25, wavenum_offshore20_25, linewidth=lwidth, color=color6, label=r'$T_p$ = $2.5$ $\mathrm{s}$')
 ax[1,2].set_ylim(10**-6, 1)
-ax[1,2].set_ylabel(r'$S_{\omega \omega}$ ($s^{-2} m$)')
 ax[1,2].set_xlabel(r'$k_y$ ($m^{-1}$)')
 ax[1,2].grid(True)
 ax[1,2].text(2.8, 0.3, r'$\mathrm{(f)}$', fontsize=16)
 ax[1,2].axvline(1/sz, linestyle='--', linewidth=lwidth, color='tab:grey')
 ax[1,2].legend(loc='center right', bbox_to_anchor=(1.7, 0.5))
+ax[1,2].plot(np.array([xloc,xloc]), np.array([ymin, ymin+(c2[1]-c2[0])]), marker='_', color='black', linewidth=1)
 
 fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'along_wavenum_zones.png'))
-fig.savefig(os.path.join(plotsavedir, 'along_wavenum_zones.jpg'))
+fig.savefig(os.path.join(plotsavedir, 'along_wavenum_zones.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'along_wavenum_zones.jpg'), dpi=300)
+ 
 
 ########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+
 fig, ax = plt.subplots(ncols=2, figsize=(11,4.5), sharex=True, sharey=True)
 ax[0].loglog(freq1_fbr, fbrwavenum_sz1, linewidth=lwidth, color=color1, label=r'$\sigma_\theta = %.1f$' % dirspread[0])
 ax[0].loglog(freq5_fbr, fbrwavenum_sz5, linewidth=lwidth, color=color2, label=r'$\sigma_\theta = %.1f$' % dirspread[1])

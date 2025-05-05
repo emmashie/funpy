@@ -436,15 +436,15 @@ if 1:
     ax5.set_yticklabels([])
     ax5.set_position([xmin+3*(xoffset+width), fymin, width, height])
 
-    custom_lines = [Line2D([0], [0], color=color1, lw=2), 
-                    Line2D([0], [0], color=color6, lw=2), 
+    custom_lines = [Line2D([0], [0], color=color1, lw=8, alpha=0.8), 
+                    Line2D([0], [0], color=color6, lw=8, alpha=0.8), 
                     Line2D([0], [0], color='black', lw=lwidth2), 
                     Line2D([0], [0], color='black', lw=lwidth1, alpha=alph1)]
 
     ax5.legend(custom_lines, [r'$\mathrm{Model}$', r'$\mathrm{In\ situ\ sensors}$', r'$S_{\eta\eta} * (\omega \frac{\cosh(kh)}{\sinh(kh)})^2$', r'$S_{uu}$ + $S_{vv}$'], fontsize=fsize-2, loc='lower left', bbox_to_anchor=(1.05, 0.5))
 
-    fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.png'))
-    fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.jpg'))
+    fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.png'), dpi=300)
+    fig.savefig(os.path.join(savedir, 'model_lab_comparison_Hs_spec.jpg'), dpi=300)
 
 if 1:
     import cv2
@@ -469,8 +469,16 @@ if 1:
     ax0.plot(labx, -labz, color='lightgrey', linewidth=5, label=r'$\mathrm{Lab\ Bathymetry}$')
     ax0.plot(x, dep[0,:], '--', color='black', linewidth=3, label=r'$\mathrm{Model\ Bathymetry}$')
     ax0.fill_between(x, dep[0,:], -np.ones(len(dep[0,:]))*(-1.2), color='lightgrey')
+    sz = 31.5 - 26.9    
+    xloc1 = 31.5+22
+    xloc2 = (31.5 - sz*0.5)+22 
+    xloc3 = (31.5 - sz*1)+22
+    xloc4 = (31.5 - sz*1.5+22)      
+    tmp0 = np.argmin(np.abs(x-(xloc3-22)))  
+    tmp1 = np.argmin(np.abs(x-31.5))
+    ax0.fill_between(x[tmp0:tmp1+1], dep[0,tmp0:tmp1+1], -np.ones(len(dep[0,tmp0:tmp1+1]))*(1.2), color='thistle', alpha=0.9)
     ax0.plot(x[x<32.5], np.zeros(len(x[x<32.5])), color='#346888')
-    ax0.legend(loc='upper right', fontsize=16)
+    ax0.legend(loc='lower left', fontsize=16)
     ax0.set_xlabel(r'$x\ (\mathrm{m})$', fontsize=16)
     ax0.axvline(x[0]+20, color='#004c6d', linewidth=8, label='Wavemaker')
     ax0.axvspan(x[0], x[0]+15, color='#7aa6c2', alpha=0.5, label='Sponge Layer')        
@@ -485,7 +493,10 @@ if 1:
     ax0.text(10.1, -0.05, 'Still Water', fontweight='bold', fontsize=16)
     ax0.set_ylabel(r'$z\ (m)}$', fontsize=18)
     ax0.tick_params(axis='x', which='major', labelsize=16)
-    ax0.tick_params(axis='y', which='major', labelsize=16) 
+    ax0.tick_params(axis='y', which='major', labelsize=16)   
+    #ax0.axvline(xloc3-22, linestyle='--', ymin=0, ymax=1.1, color=color, linewidth=4, alpha=0.7)
+    ax0.text(xloc3-22+0.5, -0.9, 'Surf', fontweight='bold', fontsize=16) 
+    ax0.text(xloc3-22+0.5, -0.7, 'zone', fontweight='bold', fontsize=16) 
 
     ax1 = fig.add_subplot(spec[1:,:3])
     y_lab = y - 55/2
@@ -534,9 +545,5 @@ if 1:
     ax2.tick_params(axis='y', which='major', labelsize=16) 
 
     fig.tight_layout()
-    fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.png'))
-    fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.jpg'))
-
-
-
-
+    fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.png'), dpi=300)
+    fig.savefig(os.path.join(savedir, 'model_lab_bathy_setup.jpg'), dpi=300)

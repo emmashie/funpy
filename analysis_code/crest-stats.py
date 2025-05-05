@@ -1120,7 +1120,7 @@ yoffset = 0.1
 formatter = ticker.ScalarFormatter(useMathText=True)
 
 ax[0].errorbar(dirspread, meancrest_all, yerr=crest_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1, label=r'$\mathrm{Model\ (full\ grid)}$')
-ax[0].plot(dirspread, ((meancrest_lab1_t1+meancrest_lab2_t1)/2 + (meancrest_lab1_t2+meancrest_lab2_t2)/2)/2, '^', alpha=0.8, linewidth=lwidth-1, markersize=msize, color=color1, label=r'$\mathrm{Model\ (lab\ grid)}$')
+ax[0].plot(dirspread, ((meancrest_lab1_t1+meancrest_lab2_t1)/2 + (meancrest_lab1_t2+meancrest_lab2_t2)/2)/2, '^', alpha=0.8, linewidth=lwidth-1, markersize=msize*2, color='tab:red', label=r'$\mathrm{Model\ (lab\ grid)}$')
 ax[0].plot(labdirspread, labmeancrest, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8, label=r'$\mathrm{Observations}$')
 ax[0].set_ylim(0,35)
 ax[0].set_xlim(0,30)
@@ -1167,12 +1167,12 @@ ax[1].set_yticks([5, 15, 25, 35])
 custom_lines = [Line2D([0], [0], linestyle='-', marker='o', markersize=msize, color=color6, lw=lwidth),
                 Line2D([0], [0], linestyle='-', marker='o', markersize=msize, color=color1, lw=lwidth)]
 
-ax[1].legend(custom_lines, [r'$\mathrm{Observations}$,' + '\n' + r'$\sigma_\theta = 16.4^\circ$' + '\n' + r'$H_s = 0.30\ \mathrm{m}$', r'$\mathrm{Model}$' + '\n' + r'$\sigma_\theta = 16.5^\circ$' + '\n' + r'$H_s = 0.25\ \mathrm{m}$'], fontsize=fsize, loc='upper right', bbox_to_anchor=(-0.5, 1.03))
+ax[1].legend(custom_lines, [r'$\mathrm{Observations}$,' + '\n' + r'$\sigma_\theta = 16.4^\circ$' + '\n' + r'$H_s = 0.28\ \mathrm{m}$', r'$\mathrm{Model}$' + '\n' + r'$\sigma_\theta = 16.5^\circ$' + '\n' + r'$H_s = 0.23\ \mathrm{m}$'], fontsize=fsize, loc='upper right', bbox_to_anchor=(-0.5, 1.03))
 
 ax[2].errorbar(dirspread, (crestend_density_all_t1+crestend_density_all_t2)/2, yerr=crestend_density_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
 ax[2].plot(labdirspread, labcrestends/Atank, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8)
 ax[2].set_ylim(0,0.09)
-ax[2].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
+ax[2].set_ylabel(r'$\overline{d_{ce}}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
 ax[2].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
 ax[2].grid(True)
 ax[2].text(24, 0.08, r'$(b)$', fontsize=fsize+3)
@@ -1186,7 +1186,7 @@ ax01 = ax[2].twinx()
 ax01.set_ylim(0,0.09*Atank)
 ax01.plot(dirspread, (meancrestends_all_t1+meancrestends_all_t2)/2, linewidth=lwidth, markersize=msize, color=color1)
 ax01.plot(labdirspread, labcrestends, '-o', linewidth=lwidth, markersize=msize, color=color6, alpha=0.8)
-ax01.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
+ax01.set_ylabel(r'$\overline{d_{ce}}A_{lab}$ $(\#)$', fontsize=fsize)
 ax01.tick_params(axis='y', which='major', labelsize=fsize) 
 #ax01.set_yticks([0, 1.5, 3, 4.5, 6])
 ax01.set_xticks([0,5,10,15,20,25,30])
@@ -1206,20 +1206,20 @@ crestend_density_25 = crestends25/(mean_sz*Wmod)
 crestends_25 = crestend_density_25*Atank
 ax[3].errorbar(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25]), yerr=np.array([np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_all)/(mean_sz*Wmod), np.std(crestends_pertime_dir20_tp15_all)/(mean_sz*Wmod)]), fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
 ax[3].grid(True)
-ax[3].plot(lab_tp, labcrestends_tp_20dir/Atank, '-o', linewidth=lwidth, markersize=msize, color=color6)
+ax[3].plot(lab_tp, labcrestends_tp_20dir/Atank, '-o', linewidth=lwidth, markersize=msize*1.4, color=color6)
 ax[3].tick_params(axis='x', which='major', labelsize=fsize)
 ax[3].tick_params(axis='y', which='major', labelsize=fsize) 
 #ax[3].set_yticks([0.04, 0.05, 0.06, 0.07])
 ax[3].set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax[3].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
-ax[3].set_ylabel(r'$d_{ce}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
+ax[3].set_ylabel(r'$\overline{d_{ce}}$ ($\mathrm{m}^{-2}$)', fontsize=fsize)
 ax[3].text(3.01, 0.08, r'$(e)$', fontsize=fsize+3)
 ax[3].set_ylim(0.0, 0.09)
 ax[3].set_yticks([0, 0.02, 0.04, 0.06, 0.08])
 
 ax3 = ax[3].twinx()
 ax3.plot(np.array([1.5, 2, 2.5]), np.array([crestend_density_15, crestend_density_2, crestend_density_25])*Atank, color=color1, linewidth=lwidth, markersize=msize)
-ax3.set_ylabel(r'$d_{ce}A_{lab}$ $(\#)$', fontsize=fsize)
+ax3.set_ylabel(r'$\overline{d_{ce}}A_{lab}$ $(\#)$', fontsize=fsize)
 ax3.tick_params(axis='y', which='major', labelsize=fsize) 
 ax3.set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax3.set_yticks([2, 4, 6, 8])
@@ -1234,26 +1234,34 @@ labfbrdir = np.array([2, 10, 18, 23])
 labfbr = np.array([0.4122635987, 1.093722654, 1.213431072, 1.27179053])
 labscale = 15
 
-ax[4].errorbar(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2, yerr=medianfbr_abs_pertime_all_std/(mean_sz*Wmod)*scalar, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
+ax[4].errorbar(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*((mean_sz*Wmod)/scalar), yerr=medianfbr_abs_pertime_all_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
 #ax[4].plot(labfbrdir, labfbr/Atank*labscale, '-o', color=color6, markersize=msize, linewidth=lwidth)
-ax[4].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
+#ax[4].set_ylabel(r'$d_\overline{\Omega}$ ($\mathrm{m^2 s}^{-2}$)', fontsize=fsize)
+ax[4].set_ylim(0, 40000)
+#ax[4].set_yticks([0, 10, 20, 30, 40, 50])
+ax[4].tick_params(axis='y', which='major', labelsize=fsize)
+ax[4].set_ylabel(r'$\widetilde{\Omega}_{sz}$ $(\mathrm{m^2 s^{-2}})$') 
 ax[4].set_xlabel(r'$\sigma_\theta$ ($\degree$)', fontsize=fsize)
 ax[4].grid(True)
-ax[4].text(24, 0.45, r'$(c)$', fontsize=fsize+3)
-ax[4].set_ylim(0, 0.5)
+ax[4].text(24, 3.5*10**4, r'$(c)$', fontsize=fsize+3)
+#ax[4].set_ylim(0, 0.5)
 ax[4].tick_params(axis='x', which='major', labelsize=fsize)
 ax[4].tick_params(axis='y', which='major', labelsize=fsize) 
 ax[4].set_xticks([0,5,10,15,20,25,30])
-ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+#ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[4].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
 
-ax02 = ax[4].twinx()
-ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, linewidth=lwidth, markersize=msize, color=color1)
+#ax02 = ax[4].twinx()
+#ax02.plot(dirspread, (medianfbr_abs_pertime_den_all_t1 + medianfbr_abs_pertime_den_all_t2)/2*Atank, linewidth=lwidth, markersize=msize, color=color1)
 #ax02.plot(labfbrdir, labfbr*labscale, '-o', color=color6, markersize=msize, linewidth=lwidth)
-ax02.set_ylim(0, 0.5*Atank)
-ax02.set_xticks([0,5,10,15,20,25,30])
-ax02.set_yticks([0, 10, 20, 30, 40, 50])
-ax02.tick_params(axis='y', which='major', labelsize=fsize)
-ax02.set_ylabel(r'$\Omega_{sz}$ $(\mathrm{s^{-2}})$') 
+#ax02.set_ylim(0, 0.5*Atank)
+#ax02.set_xticks([0,5,10,15,20,25,30])
+#ax02.set_yticks([0, 10, 20, 30, 40, 50])
+#ax02.tick_params(axis='y', which='major', labelsize=fsize)
+#ax02.set_ylabel(r'$\overline{\Omega_{sz}}$ $(\mathrm{m^2 s^{-2}})$') 
 ax[4].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin+yoffset+height, width, height])
 
 medianfbr_den_15 = ((np.median(fbr_abs_pertime_dir20_tp15_all_t1)+np.median(fbr_abs_pertime_dir20_tp15_all_t2))/2)/((shore[-2]-22.75-22)*Wmod)*scalar
@@ -1261,31 +1269,38 @@ medianfbr_den_2 = ((np.median(fbr_abs_pertime_dir20_all_t1)+np.median(fbr_abs_pe
 medianfbr_den_25 = ((np.median(fbr_abs_pertime_dir20_tp25_all_t1)+np.median(fbr_abs_pertime_dir20_tp25_all_t2))/2)/((shore[-1]-23.60-22)*Wmod)*scalar
 err = np.array([np.std(fbr_abs_pertime_dir20_tp15_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_all/((shore[-2]-22.75-22)*Wmod)*scalar), np.std(fbr_abs_pertime_dir20_tp25_all/((shore[-2]-22.75-22)*Wmod)*scalar)])
 
-ax[5].errorbar(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25]), yerr=err, fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
+ax[5].errorbar(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*((mean_sz*Wmod)/scalar), yerr=err*((mean_sz*Wmod)/scalar), fmt='-o', color=color1, linewidth=lwidth, markersize=msize)
 ax[5].grid(True)
 ax[5].tick_params(axis='x', which='major', labelsize=fsize)
 ax[5].tick_params(axis='y', which='major', labelsize=fsize) 
 #ax[5].set_yticks([0.22, 0.24, 0.26, 0.28, 0.3])
 ax[5].set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 ax[5].set_xlabel(r'$T_p$ $(\mathrm{s})$', fontsize=fsize)
-ax[5].set_ylabel(r'$d_\Omega$ ($\mathrm{m s}^{-2}$)', fontsize=fsize)
-ax[5].text(3.01, 0.45, r'$(f)$', fontsize=fsize+3)
-ax[5].set_ylim(0, 0.5)
+#ax[5].set_ylabel(r'$d_\overline{\Omega}$ ($\mathrm{m^2 s}^{-2}$)', fontsize=fsize)
+ax[5].text(3.01, 3.5*10**4, r'$(f)$', fontsize=fsize+3)
+ax[5].set_ylim(0, 40000)
+#ax[5].set_yticks([0, 10, 20, 30, 40, 50])
+#ax[5].set_ylim(0*Atank, 0.5*Atank)
+ax[5].set_ylabel(r'$\widetilde{\Omega}_{sz}$ $(\mathrm{m^2 s^{-2}})$') 
+#ax[5].set_ylim(0, 0.5)
 #ax[5].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
-ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+#ax[4].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[5].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
 
-
-ax5 = ax[5].twinx()
-ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, color=color1, linewidth=lwidth, markersize=msize)
-ax5.tick_params(axis='y', which='major', labelsize=fsize)
-ax5.set_ylabel(r'$\Omega_{sz}$ $(\mathrm{s^{-2}})$') 
-ax5.set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
+#ax5 = ax[5].twinx()
+#ax5.plot(np.array([1.5, 2, 2.5]), np.array([medianfbr_den_15, medianfbr_den_2, medianfbr_den_25])*Atank, color=color1, linewidth=lwidth, markersize=msize)
+#ax5.tick_params(axis='y', which='major', labelsize=fsize)
+#ax5.set_ylabel(r'$\overline{\Omega_{sz}}$ $(\mathrm{m^2 s^{-2}})$') 
+#ax5.set_xticks([1, 1.5, 2, 2.5, 3, 3.5])
 #ax5.set_yticks([24, 26, 28, 30, 32])
-ax5.set_ylim(0*Atank, 0.5*Atank)
+#ax5.set_ylim(0*Atank, 0.5*Atank)
 ax[5].set_position([xmin+2*(xoffset+width)+0.25*xoffset, ymin, width, height])
 
-fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.png'))
-fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.jpg'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crestlen_ends_medianfbr_error_revised.jpg'), dpi=300)
 
 
 ###############################################
@@ -1295,114 +1310,455 @@ color3='#955196'
 color4='#dd5182'
 color5='#ff6e54'
 color6='#ffa600'
+color7='#1b5d73'
+color8='#6b9c3c'
 color = 'tab:grey'
 lwidth = 1.5
 
-fig, ax = plt.subplots(figsize=(8,6), ncols=2, nrows=2)
-nbins = 50
+fig, ax = plt.subplots(figsize=(8.5,5), ncols=2, nrows=2)
+nbins = 50 
+
+ax[0,0].set_position([0.32, 0.12+0.45, 0.28, 0.35])
+ax[0,1].set_position([0.32+0.37, 0.12+0.45, 0.28, 0.35])
+ax[1,0].set_position([0.32, 0.12, 0.28, 0.35])
+ax[1,1].set_position([0.32+0.37, 0.12, 0.28, 0.35])
+
 var = fbr_abs_pertime_dir0_all[np.isfinite(fbr_abs_pertime_dir0_all)]
 counts1, bins1 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,0].plot(bins1[:-1], counts1, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+ax[0,0].plot(bins1[:-1] + (bins1[1]-bins1[0])/2, counts1/np.sum(counts1), color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins1))
+ax[0,0].plot(bins1[tmp]+ (bins1[1]-bins1[0])/2, counts1[tmp]/np.sum(counts1), 'o', color=color1, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir5_all[np.isfinite(fbr_abs_pertime_dir5_all)]
 counts5, bins5 = np.histogram(np.log10(var[var>0]), bins=nbins+nbins+20)
-ax[0,0].plot(bins5[:-1], counts5, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+ax[0,0].plot(bins5[:-1] + (bins5[1]-bins5[0])/2, counts5/np.sum(counts5), color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins5))
+ax[0,0].plot(bins5[tmp]+ (bins5[1]-bins5[0])/2, counts5[tmp]/np.sum(counts5), 'o', color=color2, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir10_all[np.isfinite(fbr_abs_pertime_dir10_all)]
 counts10, bins10 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,0].plot(bins10[:-1], counts10, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+ax[0,0].plot(bins10[:-1] + (bins10[1]-bins10[0])/2, counts10/np.sum(counts10), color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins10))
+ax[0,0].plot(bins10[tmp]+ (bins10[1]-bins10[0])/2, counts10[tmp]/np.sum(counts10), 'o', color=color3, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir20_all[np.isfinite(fbr_abs_pertime_dir20_all)]
 counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,0].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+ax[0,0].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[0,0].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color4, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir30_all[np.isfinite(fbr_abs_pertime_dir30_all)]
 counts30, bins30 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,0].plot(bins30[:-1], counts30, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+ax[0,0].plot(bins30[:-1] + (bins30[1]-bins30[0])/2, counts30/np.sum(counts30), color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins30))
+ax[0,0].plot(bins30[tmp]+ (bins30[1]-bins30[0])/2, counts30[tmp]/np.sum(counts30), 'o', color=color5, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir40_all[np.isfinite(fbr_abs_pertime_dir40_all)]
 counts40, bins40 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,0].plot(bins40[:-1], counts40, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
-ax[0,0].legend(loc='best', fontsize=fsize)
+ax[0,0].plot(bins40[:-1] + (bins40[1]-bins40[0])/2, counts40/np.sum(counts40), color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
+ax[0,0].legend(loc='upper left', fontsize=16, bbox_to_anchor=[-1.1,1.06])
 ax[0,0].set_xlim(2,5)
 ax[0,0].grid(True)
-ax[0,0].text(4.6, 550, r'$(a)$', fontsize=16)
-ax[0,0].set_ylabel(r'$\mathrm{Count}$')
+ax[0,0].text(4.6, 0.085, r'$(a)$', fontsize=16)
+ax[0,0].set_ylabel(r'$\mathrm{Frequency}$')
+ax[0,0].set_ylim(0, 0.1)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins40))
+ax[0,0].plot(bins40[tmp]+ (bins40[1]-bins40[0])/2, counts40[tmp]/np.sum(counts40), 'o', color=color6, linewidth=lwidth)
 
-ax[1,0].set_ylabel(r'$\mathrm{Count}$')
-ax[1,0].set_xlabel(r'$\log (\Omega_{sz})$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_ylabel(r'$\mathrm{Frequency}$')
+ax[1,0].set_xlabel(r'$\log (\Omega_{sz})$ ($\mathrm{m^2 s}^{-2}$)')
 ###
 
 var = fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]
 counts1, bins1 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins1[:-1], counts1, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+ax[0,1].plot(bins1[:-1] + (bins1[1]-bins1[0])/2, counts1/np.sum(counts1), color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color1, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins1))
+ax[0,1].plot(bins1[tmp]+ (bins1[1]-bins1[0])/2, counts1[tmp]/np.sum(counts1), 'o', color=color1, linewidth=lwidth)
 
 var = fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]
 counts5, bins5 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins5[:-1], counts5, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+ax[0,1].plot(bins5[:-1] + (bins5[1]-bins5[0])/2, counts5/np.sum(counts5), color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color2, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins5))
+ax[0,1].plot(bins5[tmp]+ (bins5[1]-bins5[0])/2, counts5[tmp]/np.sum(counts5), 'o', color=color2, linewidth=lwidth)
 
 var = fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]
 counts10, bins10 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins10[:-1], counts10, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+ax[0,1].plot(bins10[:-1] + (bins10[1]-bins10[0])/2, counts10/np.sum(counts10), color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color3, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins10))
+ax[0,1].plot(bins10[tmp]+ (bins10[1]-bins10[0])/2, counts10[tmp]/np.sum(counts10), 'o', color=color3, linewidth=lwidth)
 
 var = fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]
 counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+ax[0,1].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color4, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[0,1].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color4, linewidth=lwidth)
 
 var = fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]
 counts30, bins30 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins30[:-1], counts30, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+ax[0,1].plot(bins30[:-1] + (bins30[1]-bins30[0])/2, counts30/np.sum(counts30), color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color5, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins30))
+ax[0,1].plot(bins30[tmp]+ (bins30[1]-bins30[0])/2, counts30[tmp]/np.sum(counts30), 'o', color=color5, linewidth=lwidth)
 
 var = fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]
 counts40, bins40 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[0,1].plot(bins40[:-1], counts40, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
+ax[0,1].plot(bins40[:-1] + (bins40[1]-bins40[0])/2, counts40/np.sum(counts40), color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
 ax[0,1].set_xlim(1.5,5)
+#ax[0,1].axvline(np.log10(np.median(var)), linestyle='--', color=color6, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins40))
+ax[0,1].plot(bins40[tmp]+ (bins40[1]-bins40[0])/2, counts40[tmp]/np.sum(counts40), 'o', color=color6, linewidth=lwidth)
 
-ax[0,1].set_ylabel(r'$\mathrm{Count}$')
+#ax[0,1].set_ylabel(r'$\mathrm{Count}$')
 ax[0,1].grid(True)
-ax[0,1].text(4.6, 5500, r'$(b)$', fontsize=16)
-ax[0,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
-
-ax[1,1].set_xlabel(r'$\log(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,1].text(4.6, 0.052, r'$(b)$', fontsize=16)
+#ax[0,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
 
 tps = np.array([1.5, 2, 2.5])
 var = fbr_abs_pertime_dir20_tp25_all[np.isfinite(fbr_abs_pertime_dir20_tp25_all)]
 counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20_tp25[:-1], counts20_tp25, color=color1, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[0])
+ax[1,0].plot(bins20_tp25[:-1] + (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25/np.sum(counts20_tp25), color=color1, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[0])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp25))
+ax[1,0].plot(bins20_tp25[tmp]+ (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25[tmp]/np.sum(counts20_tp25), 'o', color=color1, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir20_all[np.isfinite(fbr_abs_pertime_dir20_all)]
 counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[1])
+ax[1,0].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color4, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[1])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[1,0].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color4, linewidth=lwidth)
 
 var = fbr_abs_pertime_dir20_tp15_all[np.isfinite(fbr_abs_pertime_dir20_tp15_all)]
 counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,0].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[2])
-ax[1,0].legend(loc='best', fontsize=fsize)
+ax[1,0].plot(bins20_tp15[:-1] + (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15/np.sum(counts20_tp15), color=color6, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[2])
+ax[1,0].legend(loc='upper left', fontsize=16, bbox_to_anchor=[-1.1,1.06])
 ax[1,0].grid(True)
 ax[1,0].set_xlim(2, 5)
 ax[1,0].set_xticks([2.0, 2.5, 3, 3.5, 4, 4.5, 5.0])
-ax[1,0].set_yticks([0, 100, 200, 300, 400, 500, 600])
-ax[1,0].text(4.6, 550, r'$(c)$', fontsize=16)
+#ax[1,0].set_yticks([0, 100, 200, 300, 400, 500, 600])
+ax[1,0].text(4.6, 0.085, r'$(c)$', fontsize=16)
+ax[1,0].set_ylim(0, 0.1)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp15))
+ax[1,0].plot(bins20_tp15[tmp]+ (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15[tmp]/np.sum(counts20_tp15), 'o', color=color6, linewidth=lwidth)
 
 var = fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]
 counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,1].plot(bins20_tp25[:-1], counts20_tp25, color=color1, linewidth=lwidth, label=r'$T_p$ = 2.5 $\mathrm{s}$' % dirspread[3])
+ax[1,1].plot(bins20_tp25[:-1] + (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25/np.sum(counts20_tp25), color=color1, linewidth=lwidth, label=r'$T_p$ = 2.5 $\mathrm{s}$' % dirspread[3])
+#ax[1,1].axvline(np.log10(np.median(var)), linestyle='--', color=color1, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp25))
+ax[1,1].plot(bins20_tp25[tmp]+ (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25[tmp]/np.sum(counts20_tp25), 'o', color=color1, linewidth=lwidth)
 
 var = fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]
 counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,1].plot(bins20[:-1], counts20, color=color4, linewidth=lwidth, label=r'$T_p$ = 2.0 $\mathrm{s}$' % dirspread[3])
+ax[1,1].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color4, linewidth=lwidth, label=r'$T_p$ = 2.0 $\mathrm{s}$' % dirspread[3])
+#ax[1,1].axvline(np.log10(np.median(var)), linestyle='--', color=color4, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[1,1].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color4, linewidth=lwidth)
 
 var = fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]
 counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=nbins)
-ax[1,1].plot(bins20_tp15[:-1], counts20_tp15, color=color6, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
+ax[1,1].plot(bins20_tp15[:-1] + (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15/np.sum(counts20_tp15), color=color6, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
 ax[1,1].grid(True)
-ax[1,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
-ax[1,1].text(4.6, 5500, r'$(d)$', fontsize=16)
-ax[1,1].set_ylabel(r'$\mathrm{Count}$')
+#ax[1,1].set_yticks([0, 1000, 2000, 3000, 4000, 5000, 6000])
+ax[1,1].text(4.6, 0.052, r'$(d)$', fontsize=16)
+#ax[1,1].set_ylabel(r'$\mathrm{Count}$')
+ax[1,1].set_xlabel(r'$\log(\Omega_c)$ ($\mathrm{m^2 s}^{-2}$)')
+#ax[1,1].axvline(np.log10(np.median(var)), linestyle='--', color=color6, linewidth=lwidth)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp15))
+ax[1,1].plot(bins20_tp15[tmp]+ (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15[tmp]/np.sum(counts20_tp15), 'o', color=color6, linewidth=lwidth)
 
-fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.png'))
-fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.jpg'))
+fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'fbr_abs_hist_pertime_percrest.jpg'), dpi=300)
+
+
+##########################################################################
+
+
+nbins = 30
+fig, ax = plt.subplots(figsize=(8.5,5), ncols=2, nrows=2)
+ax[0,0].set_position([0.32, 0.12+0.45, 0.28, 0.35])
+ax[0,1].set_position([0.32+0.37, 0.12+0.45, 0.28, 0.35])
+ax[1,0].set_position([0.32, 0.12, 0.28, 0.35])
+ax[1,1].set_position([0.32+0.37, 0.12, 0.28, 0.35])
+Bins = np.arange(0, 55, 1)
+counts, bins = np.histogram(crestlen_dir40_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir40_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color6, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir30_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir30_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color5, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir20_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color4, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir10_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir10_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color3, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir5_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir5_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color2, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir0_all_subarea, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir0_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color1, linewidth=lwidth)
+ax[0,0].grid(True)
+ax[0,0].set_ylabel(r'$\mathrm{Count}$')
+ax[0,0].set_xlim(0,55)
+#ax[0,0].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+#ax[0,0].set_ylim(0, 0.6)
+ax[0,0].text(48, 21000, r'$\mathrm{(a)}$', fontsize=16)
+ax[0,0].legend(loc='upper left', bbox_to_anchor=[-1.1,1.06])
+
+
+counts, bins = np.histogram(crestlen_dir20_tp15_all_subarea, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color7, label=r'$T_p = 1.5\ s$', linewidth=lwidth)
+ax[1,0].grid(True)
+ax[1,0].set_ylabel(r'$\mathrm{Count}$')
+ax[1,0].set_xlim(0,55)
+ax[1,0].set_xlabel(r'$\lambda_{c}\ \mathrm{(m)}$')
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_tp15_all_subarea)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color7, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir20_all_subarea, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color8, label=r'$T_p = 2.0\ s$', linewidth=lwidth)
+ax[1,0].grid(True)
+ax[1,0].set_xlim(0,55)
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_all_subarea)-bins))
+ax[1,0].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp], 'o', color=color8, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir20_tp25_all_subarea, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, label=r'$T_p = 2.5\ s$', linewidth=lwidth)
+ax[1,0].grid(True)
+ax[1,0].set_xlim(0,55)
+ax[1,0].text(48, 21000, r'$\mathrm{(c)}$', fontsize=16)
+ax[1,0].legend(loc='upper left', bbox_to_anchor=[-1.1,1.06])
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_tp25_all_subarea)-bins))
+ax[1,0].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp], 'o', color=color6, linewidth=lwidth)
+
+Bins = np.arange(1.5, 5, 0.1)
+
+var = fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]
+counts1, bins1 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins1[:-1] + (bins1[1]-bins1[0])/2, counts1, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins1))
+ax[0,1].plot(bins1[tmp]+ (bins1[1]-bins1[0])/2, counts1[tmp], 'o', color=color1, linewidth=lwidth)
+
+var = fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]
+counts5, bins5 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins5[:-1] + (bins5[1]-bins5[0])/2, counts5, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins5))
+ax[0,1].plot(bins5[tmp]+ (bins5[1]-bins5[0])/2, counts5[tmp], 'o', color=color2, linewidth=lwidth)
+
+var = fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]
+counts10, bins10 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins10[:-1] + (bins10[1]-bins10[0])/2, counts10, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins10))
+ax[0,1].plot(bins10[tmp]+ (bins10[1]-bins10[0])/2, counts10[tmp], 'o', color=color3, linewidth=lwidth)
+
+var = fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]
+counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[0,1].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp], 'o', color=color4, linewidth=lwidth)
+
+var = fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]
+counts30, bins30 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins30[:-1] + (bins30[1]-bins30[0])/2, counts30, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins30))
+ax[0,1].plot(bins30[tmp]+ (bins30[1]-bins30[0])/2, counts30[tmp], 'o', color=color5, linewidth=lwidth)
+
+var = fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]
+counts40, bins40 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,1].plot(bins40[:-1] + (bins40[1]-bins40[0])/2, counts40, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
+ax[0,1].set_xlim(1.5,5)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins40))
+ax[0,1].plot(bins40[tmp]+ (bins40[1]-bins40[0])/2, counts40[tmp], 'o', color=color6, linewidth=lwidth)
+
+#ax[0,1].set_ylabel(r'$\mathrm{Count}$')
+ax[0,1].grid(True)
+ax[0,1].text(4.6, 8500, r'$(b)$', fontsize=16)
+ax[0,1].set_ylim(0, 10000)
+
+var = fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]
+counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,1].plot(bins20_tp25[:-1] + (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25, color=color6, linewidth=lwidth, label=r'$T_p$ = 2.5 $\mathrm{s}$' % dirspread[3])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp25))
+ax[1,1].plot(bins20_tp25[tmp]+ (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25[tmp], 'o', color=color6, linewidth=lwidth)
+
+var = fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]
+counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,1].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20, color=color8, linewidth=lwidth, label=r'$T_p$ = 2.0 $\mathrm{s}$' % dirspread[3])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[1,1].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp], 'o', color=color8, linewidth=lwidth)
+
+var = fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]
+counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,1].plot(bins20_tp15[:-1] + (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15, color=color7, linewidth=lwidth, label=r'$T_p$ = 1.5 $\mathrm{s}$' % dirspread[3])
+ax[1,1].grid(True)
+ax[1,1].set_ylim(0, 10000)
+ax[1,1].text(4.6, 8500, r'$(d)$', fontsize=16)
+ax[1,1].set_xlabel(r'$\log(\Omega_c)$ ($\mathrm{m^2 s}^{-2}$)')
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp15))
+ax[1,1].plot(bins20_tp15[tmp]+ (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15[tmp], 'o', color=color7, linewidth=lwidth)
+
+fig.savefig(os.path.join(plotsavedir, 'hist_percrest.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'hist_percrest.jpg'), dpi=300)
+
+##########################################################################
+
+fig, ax = plt.subplots(figsize=(8.5,5), ncols=2, nrows=2)
+Bins = np.arange(2, 5, 0.1)
+ax[0,0].set_position([0.32, 0.12+0.45, 0.28, 0.35])
+ax[0,1].set_position([0.32+0.37, 0.12+0.45, 0.28, 0.35])
+ax[1,0].set_position([0.32, 0.12, 0.28, 0.35])
+ax[1,1].set_position([0.32+0.37, 0.12, 0.28, 0.35])
+
+var = fbr_abs_pertime_dir0_all[np.isfinite(fbr_abs_pertime_dir0_all)]
+counts1, bins1 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins1[:-1] + (bins1[1]-bins1[0])/2, counts1/np.sum(counts1), color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins1))
+ax[0,0].plot(bins1[tmp]+ (bins1[1]-bins1[0])/2, counts1[tmp]/np.sum(counts1), 'o', color=color1, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir5_all[np.isfinite(fbr_abs_pertime_dir5_all)]
+counts5, bins5 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins5[:-1] + (bins5[1]-bins5[0])/2, counts5/np.sum(counts5), color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins5))
+ax[0,0].plot(bins5[tmp]+ (bins5[1]-bins5[0])/2, counts5[tmp]/np.sum(counts5), 'o', color=color2, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir10_all[np.isfinite(fbr_abs_pertime_dir10_all)]
+counts10, bins10 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins10[:-1] + (bins10[1]-bins10[0])/2, counts10/np.sum(counts10), color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins10))
+ax[0,0].plot(bins10[tmp]+ (bins10[1]-bins10[0])/2, counts10[tmp]/np.sum(counts10), 'o', color=color3, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir20_all[np.isfinite(fbr_abs_pertime_dir20_all)]
+counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[0,0].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color4, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir30_all[np.isfinite(fbr_abs_pertime_dir30_all)]
+counts30, bins30 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins30[:-1] + (bins30[1]-bins30[0])/2, counts30/np.sum(counts30), color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=0.5)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins30))
+ax[0,0].plot(bins30[tmp]+ (bins30[1]-bins30[0])/2, counts30[tmp]/np.sum(counts30), 'o', color=color5, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir40_all[np.isfinite(fbr_abs_pertime_dir40_all)]
+counts40, bins40 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[0,0].plot(bins40[:-1] + (bins40[1]-bins40[0])/2, counts40/np.sum(counts40), color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=0.5)
+ax[0,0].legend(loc='upper left', fontsize=16, bbox_to_anchor=[-1.1,1.06])
+ax[0,0].set_xlim(2,5)
+ax[0,0].grid(True)
+ax[0,0].text(4.6, 0.33, r'$(a)$', fontsize=16)
+ax[0,0].set_ylabel(r'$\mathrm{Frequency}$')
+ax[0,0].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
+ax[0,0].set_ylim(0,0.4)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins40))
+ax[0,0].plot(bins40[tmp]+ (bins40[1]-bins40[0])/2, counts40[tmp]/np.sum(counts40), 'o', color=color6, linewidth=lwidth)
+
+
+tps = np.array([1.5, 2, 2.5])
+var = fbr_abs_pertime_dir20_tp25_all[np.isfinite(fbr_abs_pertime_dir20_tp25_all)]
+counts20_tp25, bins20_tp25 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,0].plot(bins20_tp25[:-1] + (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25/np.sum(counts20_tp25), color=color7, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[0])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp25))
+ax[1,0].plot(bins20_tp25[tmp]+ (bins20_tp25[1]-bins20_tp25[0])/2, counts20_tp25[tmp]/np.sum(counts20_tp25), 'o', color=color7, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir20_all[np.isfinite(fbr_abs_pertime_dir20_all)]
+counts20, bins20 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,0].plot(bins20[:-1] + (bins20[1]-bins20[0])/2, counts20/np.sum(counts20), color=color8, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[1])
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20))
+ax[1,0].plot(bins20[tmp]+ (bins20[1]-bins20[0])/2, counts20[tmp]/np.sum(counts20), 'o', color=color8, linewidth=lwidth)
+
+var = fbr_abs_pertime_dir20_tp15_all[np.isfinite(fbr_abs_pertime_dir20_tp15_all)]
+counts20_tp15, bins20_tp15 = np.histogram(np.log10(var[var>0]), bins=Bins)
+ax[1,0].plot(bins20_tp15[:-1] + (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15/np.sum(counts20_tp15), color=color6, linewidth=lwidth, label=r'$T_p = %.1f \mathrm{s}$' % tps[2])
+ax[1,0].legend(loc='upper left', fontsize=16, bbox_to_anchor=[-1.1,1.06])
+ax[1,0].grid(True)
+ax[1,0].set_xlim(2, 5)
+ax[1,0].set_xticks([2.0, 2.5, 3, 3.5, 4, 4.5, 5.0])
+ax[1,0].text(4.6, 0.33, r'$(c)$', fontsize=16)
+ax[1,0].set_yticks([0, 0.1, 0.2, 0.3, 0.4])
+ax[1,0].set_ylim(0,0.4)
+tmp = np.argmin(np.abs(np.log10(np.median(var))-bins20_tp15))
+ax[1,0].plot(bins20_tp15[tmp]+ (bins20_tp15[1]-bins20_tp15[0])/2, counts20_tp15[tmp]/np.sum(counts20_tp15), 'o', color=color6, linewidth=lwidth)
+ax[1,0].set_ylabel(r'$\mathrm{Frequency}$')
+ax[1,0].set_xlabel(r'$\mathrm{log(\Omega_{sz})}$ $\mathrm{(m^2 s^{-2})}$')
+
+Bins = np.arange(0, 55, 2)
+counts, bins = np.histogram(crestends_pertime_dir40_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir40_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir30_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir30_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color5, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir20_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color4, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir10_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir10_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color3, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir5_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir5_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color2, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir0_all, bins=Bins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir0_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color1, linewidth=lwidth)
+ax[0,1].grid(True)
+ax[0,1].set_xlim(0,55)
+ax[0,1].set_yticks([0, 0.2, 0.4, 0.6])
+ax[0,1].set_ylim(0,0.6)
+ax[0,1].text(48, 0.51, r'$\mathrm{(b)}$', fontsize=16)
+
+
+counts, bins = np.histogram(crestends_pertime_dir20_tp15_all, bins=Bins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color7, label=r'$T_p = 1.5\ s$', linewidth=lwidth)
+ax[1,1].grid(True)
+ax[1,1].set_xlim(0,55)
+ax[1,1].set_xlabel(r'$N_{ce}\ \mathrm{(\#)}$')
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_tp15_all)-bins))
+ax[1,1].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color7, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir20_all, bins=Bins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color8, label=r'$T_p = 2.0\ s$', linewidth=lwidth)
+ax[1,1].grid(True)
+ax[1,1].set_xlim(0,55)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_all)-bins))
+ax[1,1].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color8, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir20_tp25_all, bins=Bins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$T_p = 2.5\ s$', linewidth=lwidth)
+ax[1,1].grid(True)
+ax[1,1].set_xlim(0,55)
+ax[1,1].set_yticks([0, 0.2, 0.4, 0.6])
+ax[1,1].set_ylim(0,0.6)
+ax[1,1].text(48, 0.51, r'$\mathrm{(d)}$', fontsize=16)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_tp25_all)-bins))
+ax[1,1].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
+fig.savefig(os.path.join(plotsavedir, 'dist_pertime.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'dist_pertime.jpg'), dpi=300)
 
 
 ##########################################################################
@@ -1411,7 +1767,7 @@ ylim = 4.6
 fig, ax = plt.subplots(figsize=(6,7), nrows=3, ncols=3, sharex=True, sharey=True)
 alpha = 0.5
 nbins = 50
-vmax = 10**4
+vmax = 10
 fsize=11
 
 xmin = 0.125
@@ -1423,9 +1779,9 @@ yoffset = 0.05
 cbar_width = 0.0125
 cbar_offset = 0.02
 
-p00 = ax[0,0].hist2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], np.log10(fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p00 = ax[0,0].hist2d(crestlen_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)], np.log10(fbr_abs_dir0_all_subarea[np.isfinite(fbr_abs_dir0_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar00 = fig.colorbar(p00[3], ax=ax[0,0], label=r'$\mathrm{Count}$')
-ax[0,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[0,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m^2 s}^{-2}$)')
 ax[0,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[0], fontsize=fsize)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
@@ -1434,7 +1790,7 @@ ax[0,0].text(2, ylim, r'$\mathrm{(a)}$', fontsize=fsize)
 ax[0,0].grid(True)
 ax[0,0].set_position([xmin, ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p01 = ax[0,1].hist2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], np.log10(fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p01 = ax[0,1].hist2d(crestlen_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)], np.log10(fbr_abs_dir5_all_subarea[np.isfinite(fbr_abs_dir5_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar01 = fig.colorbar(p01[3], ax=ax[0,1], label=r'$\mathrm{Count}$')
 ax[0,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[1], fontsize=fsize)
 ax[0,1].yaxis.set_major_formatter(formatter)
@@ -1442,7 +1798,7 @@ ax[0,1].text(2, ylim, r'$\mathrm{(b)}$', fontsize=fsize)
 ax[0,1].grid(True)
 ax[0,1].set_position([xmin+xwidth+xoffset, ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p02 = ax[0,2].hist2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], np.log10(fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p02 = ax[0,2].hist2d(crestlen_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)], np.log10(fbr_abs_dir10_all_subarea[np.isfinite(fbr_abs_dir10_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar02 = fig.colorbar(p02[3], ax=ax[0,2], label=r'$\mathrm{Count}$')
 ax[0,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[2], fontsize=fsize)
 ax[0,2].yaxis.set_major_formatter(formatter)
@@ -1450,16 +1806,16 @@ ax[0,2].text(2, ylim, r'$\mathrm{(c)}$', fontsize=fsize)
 ax[0,2].grid(True)
 ax[0,2].set_position([xmin+2*(xwidth+xoffset), ymin+2*(yheight+yoffset), xwidth, yheight])
 
-p10 = ax[1,0].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p10 = ax[1,0].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar10 = fig.colorbar(p10[3], ax=ax[1,0], label=r'$\mathrm{Count}$')
-ax[1,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[1,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m^2 s}^{-2}$)')
 ax[1,0].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[3], fontsize=fsize)
 ax[1,0].yaxis.set_major_formatter(formatter)
 ax[1,0].text(2, ylim, r'$\mathrm{(d)}$', fontsize=fsize)
 ax[1,0].grid(True)
 ax[1,0].set_position([xmin, ymin+(yheight+yoffset), xwidth, yheight])
 
-p11 = ax[1,1].hist2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], np.log10(fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p11 = ax[1,1].hist2d(crestlen_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)], np.log10(fbr_abs_dir30_all_subarea[np.isfinite(fbr_abs_dir30_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar11 = fig.colorbar(p11[3], ax=ax[1,1], label=r'$\mathrm{Count}$')
 ax[1,1].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[4], fontsize=fsize)
 ax[1,1].yaxis.set_major_formatter(formatter)
@@ -1467,7 +1823,7 @@ ax[1,1].text(2, ylim, r'$\mathrm{(e)}$', fontsize=fsize)
 ax[1,1].grid(True)
 ax[1,1].set_position([xmin+xwidth+xoffset, ymin+(yheight+yoffset), xwidth, yheight])
 
-p12 = ax[1,2].hist2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], np.log10(fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p12 = ax[1,2].hist2d(crestlen_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)], np.log10(fbr_abs_dir40_all_subarea[np.isfinite(fbr_abs_dir40_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar12 = fig.colorbar(p12[3], ax=ax[1,2], label=r'$\mathrm{Count}$')
 ax[1,2].set_title(r'$\sigma_\theta = %.1f \degree$' % dirspread[5], fontsize=fsize)
 ax[1,2].yaxis.set_major_formatter(formatter)
@@ -1477,9 +1833,9 @@ ax[1,2].grid(True)
 ax[1,2].set_position([xmin+2*(xwidth+xoffset), ymin+(yheight+yoffset), xwidth, yheight])
 
 
-p20 = ax[2,0].hist2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], np.log10(fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p20 = ax[2,0].hist2d(crestlen_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)], np.log10(fbr_abs_dir20_tp15_all_subarea[np.isfinite(fbr_abs_dir20_tp15_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar20 = fig.colorbar(p20[3], ax=ax[2,0], label=r'$\mathrm{Count}$')
-ax[2,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m s}^{-2}$)')
+ax[2,0].set_ylabel(r'$\mathrm{log}(\Omega_c)$ ($\mathrm{m^2 s}^{-2}$)')
 ax[2,0].set_title(r'$T_p = 1.5\ \mathrm{s}$', fontsize=fsize)
 formatter = ticker.ScalarFormatter(useMathText=True)
 formatter.set_scientific(True) 
@@ -1489,7 +1845,7 @@ ax[2,0].grid(True)
 ax[2,0].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
 ax[2,0].set_position([xmin, ymin, xwidth, yheight])
 
-p21 = ax[2,1].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p21 = ax[2,1].hist2d(crestlen_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)], np.log10(fbr_abs_dir20_all_subarea[np.isfinite(fbr_abs_dir20_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar21 = fig.colorbar(p21[3], ax=ax[2,1], label=r'$\mathrm{Count}$')
 ax[2,1].set_title(r'$T_p = 2.0\ \mathrm{s}$', fontsize=fsize)
 ax[2,1].yaxis.set_major_formatter(formatter)
@@ -1498,7 +1854,7 @@ ax[2,1].grid(True)
 ax[2,1].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
 ax[2,1].set_position([xmin+(xwidth+xoffset), ymin, xwidth, yheight])
 
-p22 = ax[2,2].hist2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], np.log10(fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter)
+p22 = ax[2,2].hist2d(crestlen_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)], np.log10(fbr_abs_dir20_tp25_all_subarea[np.isfinite(fbr_abs_dir20_tp25_all_subarea)]), bins=nbins, norm=colors.LogNorm(vmax=vmax), cmap=cmo.matter, density=True)
 #cbar22 = fig.colorbar(p22[3], ax=ax[2,2], label=r'$\mathrm{Count}$')
 ax[2,2].set_title(r'$T_p = 2.5\ \mathrm{s}$', fontsize=fsize)
 ax[2,2].yaxis.set_major_formatter(formatter)
@@ -1510,10 +1866,11 @@ ax[2,2].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
 ax[2,2].set_position([xmin+2*(xwidth+xoffset), ymin, xwidth, yheight])
 
 cbar_ax = fig.add_axes([xmin+3*xwidth+2*xoffset+cbar_offset, ymin, cbar_width, 3*yheight + 2*yoffset])
-cbar = fig.colorbar(p00[3], cax=cbar_ax, label=r'$\mathrm{Count}$')
+cbar = fig.colorbar(p00[3], cax=cbar_ax, label=r'$\mathrm{Frequency}$')
 #fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.png'))
-fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.jpg'))
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_2dhist.jpg'), dpi=300)
+
 
 ################################################################
 ###############################################################
@@ -1551,70 +1908,157 @@ fig.savefig(os.path.join(plotsavedir, 'cross_position_hist_dirs_tp.png'))
 ###############################################################
 
 nbins = 18
-fig, ax = plt.subplots(figsize=(8,6), ncols=2, nrows=2, sharex=True)
-ax[0,0].hist(crestlen_dir40_all_subarea, bins=nbins, color=color6, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
-ax[0,0].hist(crestlen_dir30_all_subarea, bins=nbins, color=color5, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
-ax[0,0].hist(crestlen_dir20_all_subarea, bins=nbins, color=color4, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
-ax[0,0].hist(crestlen_dir10_all_subarea, bins=nbins, color=color3, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
-ax[0,0].hist(crestlen_dir5_all_subarea, bins=nbins, color=color2, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
-ax[0,0].hist(crestlen_dir0_all_subarea, bins=nbins, color=color1, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
-ax[0,0].grid(True)
-ax[0,0].set_ylabel(r'$\mathrm{Count}$')
-ax[0,0].set_xlim(0,55)
-ax[0,0].legend(loc='upper right')
-ax[0,0].set_yticks([0, 10000, 20000, 30000, 40000, 50000, 60000])
-ax[0,0].text(2.65, 53000, r'$\mathrm{(a)}$', fontsize=18)
+fig, ax = plt.subplots(figsize=(8.5,5), ncols=2, nrows=2, sharex=True)
+ax[0,0].set_position([0.32, 0.12+0.45, 0.28, 0.35])
+ax[0,1].set_position([0.32+0.37, 0.12+0.45, 0.28, 0.35])
+ax[1,0].set_position([0.32, 0.12, 0.28, 0.35])
+ax[1,1].set_position([0.32+0.37, 0.12, 0.28, 0.35])
 
-ax[0,1].hist(crestends_pertime_dir40_all, bins=nbins, color=color6, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
-ax[0,1].hist(crestends_pertime_dir30_all, bins=nbins, color=color5, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
-ax[0,1].hist(crestends_pertime_dir20_all, bins=nbins, color=color4, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
-ax[0,1].hist(crestends_pertime_dir10_all, bins=nbins, color=color3, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
-ax[0,1].hist(crestends_pertime_dir5_all, bins=nbins, color=color2, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
-ax[0,1].hist(crestends_pertime_dir0_all, bins=nbins, color=color1, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+counts, bins = np.histogram(crestlen_dir40_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir40_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir30_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir30_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color5, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir20_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color4, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir10_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir10_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color3, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir5_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir5_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color2, linewidth=lwidth)
+
+counts, bins = np.histogram(crestlen_dir0_all_subarea, bins=nbins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestlen_dir0_all_subarea)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color1, linewidth=lwidth)
+#ax[0,0].hist(crestlen_dir40_all_subarea, bins=nbins, color=color6, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+#ax[0,0].hist(crestlen_dir30_all_subarea, bins=nbins, color=color5, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+#ax[0,0].hist(crestlen_dir20_all_subarea, bins=nbins, color=color4, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+#ax[0,0].hist(crestlen_dir10_all_subarea, bins=nbins, color=color3, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+#ax[0,0].hist(crestlen_dir5_all_subarea, bins=nbins, color=color2, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+#ax[0,0].hist(crestlen_dir0_all_subarea, bins=nbins, color=color1, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
+ax[0,0].grid(True)
+ax[0,0].set_ylabel(r'$\mathrm{Frequency}$')
+ax[0,0].set_xlim(0,55)
+ax[0,0].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+ax[0,0].set_ylim(0, 0.6)
+ax[0,0].text(48, 0.51, r'$\mathrm{(a)}$', fontsize=16)
+ax[0,0].legend(loc='upper left', bbox_to_anchor=[-1.1,1.06])
+
+
+counts, bins = np.histogram(crestends_pertime_dir40_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir40_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir30_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color5, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir30_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color5, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir20_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color4, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color4, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir10_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color3, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir10_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color3, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir5_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color2, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir5_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color2, linewidth=lwidth)
+
+counts, bins = np.histogram(crestends_pertime_dir0_all, bins=nbins)
+ax[0,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color1, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], linewidth=lwidth)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir0_all)-bins))
+ax[0,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color1, linewidth=lwidth)
+#ax[0,1].hist(crestends_pertime_dir40_all, bins=nbins, color=color6, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5])
+#ax[0,1].hist(crestends_pertime_dir30_all, bins=nbins, color=color5, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4])
+#ax[0,1].hist(crestends_pertime_dir20_all, bins=nbins, color=color4, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3])
+#ax[0,1].hist(crestends_pertime_dir10_all, bins=nbins, color=color3, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2])
+#ax[0,1].hist(crestends_pertime_dir5_all, bins=nbins, color=color2, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1])
+#ax[0,1].hist(crestends_pertime_dir0_all, bins=nbins, color=color1, alpha=alpha, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0])
 ax[0,1].grid(True)
 ax[0,1].set_xlim(0,55)
-ax[0,1].set_yticks([0, 500, 1000, 1500, 2000, 2500, 3000, 3500])
-ax[0,1].text(2.65, 3100, r'$\mathrm{(b)}$', fontsize=18)
+ax[0,1].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+ax[0,1].set_ylim(0, 0.5)
+ax[0,1].text(48, 0.41, r'$\mathrm{(b)}$', fontsize=16)
 
-ax[1,0].hist(crestlen_dir20_tp15_all_subarea, bins=nbins, color=color1, label=r'$T_p = 1.5\ s$', alpha=alpha)
+counts, bins = np.histogram(crestlen_dir20_tp15_all_subarea, bins=nbins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color1, label=r'$T_p = 1.5\ s$', linewidth=lwidth)
+#ax[1,0].hist(crestlen_dir20_tp15_all_subarea, bins=nbins, color=color1, label=r'$T_p = 1.5\ s$', alpha=alpha)
 ax[1,0].grid(True)
-ax[1,0].set_ylabel(r'$\mathrm{Count}$')
+ax[1,0].set_ylabel(r'$\mathrm{Frequency}$')
 ax[1,0].set_xlim(0,55)
 ax[1,0].set_xlabel(r'$\lambda_{c}\ \mathrm{(m)}$')
-ax[1,0].legend(loc='upper right')
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_tp15_all_subarea)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color1, linewidth=lwidth)
 
-ax[1,0].hist(crestlen_dir20_all_subarea, bins=nbins, color=color4, label=r'$T_p = 2.0\ s$', alpha=alpha)
+counts, bins = np.histogram(crestlen_dir20_all_subarea, bins=nbins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color4, label=r'$T_p = 2.0\ s$', linewidth=lwidth)
+#ax[1,0].hist(crestlen_dir20_all_subarea, bins=nbins, color=color4, label=r'$T_p = 2.0\ s$', alpha=alpha)
 ax[1,0].grid(True)
-ax[1,0].set_ylabel(r'$\mathrm{Count}$')
 ax[1,0].set_xlim(0,55)
-ax[1,0].legend(loc='upper right')
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_all_subarea)-bins))
+ax[1,0].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color4, linewidth=lwidth)
 
-ax[1,0].hist(crestlen_dir20_tp25_all_subarea, bins=nbins, color=color6, label=r'$T_p = 2.5\ s$', alpha=alpha)
+counts, bins = np.histogram(crestlen_dir20_tp25_all_subarea, bins=nbins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$T_p = 2.5\ s$', linewidth=lwidth)
+#ax[1,0].hist(crestlen_dir20_tp25_all_subarea, bins=nbins, color=color6, label=r'$T_p = 2.5\ s$', alpha=alpha)
 ax[1,0].grid(True)
-ax[1,0].set_ylabel(r'$\mathrm{Count}$')
+ax[1,0].set_ylabel(r'$\mathrm{Frequency}$')
 ax[1,0].set_xlim(0,55)
-ax[1,0].legend(loc='upper right')
-ax[1,0].text(2.65, 53000, r'$\mathrm{(c)}$', fontsize=18)
-ax[1,0].set_yticks([0, 10000, 20000, 30000, 40000, 50000, 60000])
+ax[1,0].text(48, 0.51, r'$\mathrm{(c)}$', fontsize=16)
+ax[1,0].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+ax[1,0].set_ylim(0,0.6)
+ax[1,0].legend(loc='upper left', bbox_to_anchor=[-1.1,1.06])
+tmp = np.argmin(np.abs(np.median(crestlen_dir20_tp25_all_subarea)-bins))
+ax[1,0].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
 
-ax[1,1].hist(crestends_pertime_dir20_tp15_all, bins=nbins, color=color1, alpha=alpha)
+counts, bins = np.histogram(crestends_pertime_dir20_tp15_all, bins=nbins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color1, label=r'$T_p = 1.5\ s$', linewidth=lwidth)
+#ax[1,1].hist(crestends_pertime_dir20_tp15_all, bins=nbins, color=color1, alpha=alpha)
 ax[1,1].grid(True)
 ax[1,1].set_xlim(0,55)
 ax[1,1].set_xlabel(r'$N_{ce}\ \mathrm{(\#)}$')
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_tp15_all)-bins))
+ax[1,1].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color1, linewidth=lwidth)
 
-ax[1,1].hist(crestends_pertime_dir20_all, bins=nbins, color=color4, alpha=alpha)
+counts, bins = np.histogram(crestends_pertime_dir20_all, bins=nbins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color4, label=r'$T_p = 2.0\ s$', linewidth=lwidth)
+#ax[1,1].hist(crestends_pertime_dir20_all, bins=nbins, color=color4, alpha=alpha)
 ax[1,1].grid(True)
 ax[1,1].set_xlim(0,55)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_all)-bins))
+ax[1,1].plot(bins[tmp] + (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color4, linewidth=lwidth)
 
-ax[1,1].hist(crestends_pertime_dir20_tp25_all, bins=nbins, color=color6, alpha=alpha)
+counts, bins = np.histogram(crestends_pertime_dir20_tp25_all, bins=nbins)
+ax[1,1].plot(bins[:-1] + (bins[1]-bins[0])/2, counts/np.sum(counts), color=color6, label=r'$T_p = 2.5\ s$', linewidth=lwidth)
+#ax[1,1].hist(crestends_pertime_dir20_tp25_all, bins=nbins, color=color6, alpha=alpha)
 ax[1,1].grid(True)
 ax[1,1].set_xlim(0,55)
-ax[1,1].set_yticks([0, 500, 1000, 1500, 2000, 2500, 3000, 3500])
-ax[1,1].text(2.65, 3100, r'$\mathrm{(d)}$', fontsize=18)
-
-fig.tight_layout()
-fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.png'))
-fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.jpg'))
+ax[1,1].set_yticks([0, 0.1, 0.2, 0.3, 0.4, 0.5])
+ax[1,1].set_ylim(0,0.5)
+ax[1,1].text(48, 0.41, r'$\mathrm{(d)}$', fontsize=16)
+tmp = np.argmin(np.abs(np.median(crestends_pertime_dir20_all)-bins))
+ax[1,1].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp]/np.sum(counts), 'o', color=color6, linewidth=lwidth)
+fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'crest_stats_hist_periods_1row.jpg'), dpi=300)
 
 
 #### testing plots #### 
@@ -1825,3 +2269,313 @@ ax[2,2].set_xlabel(r'$\lambda_{c}$ $\mathrm{(m)}$')
 fig.tight_layout()
 fig.savefig(os.path.join(plotsavedir, 'crestlen_vs_logfbr_bar_pdf.png'))
 
+############################################################################
+############################################################################
+rho0 = crestlen_dir0_all_subarea/fbr_abs_dir0_all_subarea
+rho5 = crestlen_dir5_all_subarea/fbr_abs_dir5_all_subarea
+rho10 = crestlen_dir10_all_subarea/fbr_abs_dir10_all_subarea
+rho20 = crestlen_dir20_all_subarea/fbr_abs_dir20_all_subarea
+rho30 = crestlen_dir30_all_subarea/fbr_abs_dir30_all_subarea
+rho40 = crestlen_dir40_all_subarea/fbr_abs_dir40_all_subarea
+rho20_tp15 = crestlen_dir20_tp15_all_subarea/fbr_abs_dir20_tp15_all_subarea
+rho20_tp25 = crestlen_dir20_tp25_all_subarea/fbr_abs_dir20_tp25_all_subarea
+
+rho_median = np.array([np.nanmedian(rho0), np.nanmedian(rho5), np.nanmedian(rho10), np.nanmedian(rho20), np.nanmedian(rho30), np.nanmedian(rho40)])
+rho_std = np.array([np.nanstd(rho0), np.nanstd(rho5), np.nanstd(rho10), np.nanstd(rho20), np.nanstd(rho30), np.nanstd(rho40)])
+
+# meancrestends_all
+# meancrest_all
+# medianfbr_abs_pertime_all 
+arealim=0.375
+area_mean = np.array([np.nanmean(areacrest_dir0_all[areacrest_dir0_all>arealim]), np.nanmean(areacrest_dir5_all[areacrest_dir5_all>arealim]), 
+                      np.nanmean(areacrest_dir10_all[areacrest_dir10_all>arealim]), np.nanmean(areacrest_dir20_all[areacrest_dir20_all>arealim]),
+                      np.nanmean(areacrest_dir30_all[areacrest_dir30_all>arealim]), np.nanmean(areacrest_dir40_all[areacrest_dir40_all>arealim])])*meancrestends_all/2
+
+
+
+area_pertime0 = var_pertime(areacrest_dir0_all[areacrest_dir0_all>arealim], time_dir0_all[areacrest_dir0_all>arealim])
+area_pertime5 = var_pertime(areacrest_dir5_all[areacrest_dir5_all>arealim], time_dir5_all[areacrest_dir5_all>arealim])
+area_pertime10 = var_pertime(areacrest_dir10_all[areacrest_dir10_all>arealim], time_dir10_all[areacrest_dir10_all>arealim])
+area_pertime20 = var_pertime(areacrest_dir20_all[areacrest_dir20_all>arealim], time_dir20_all[areacrest_dir20_all>arealim])
+area_pertime30 = var_pertime(areacrest_dir30_all[areacrest_dir30_all>arealim], time_dir30_all[areacrest_dir30_all>arealim])
+area_pertime40 = var_pertime(areacrest_dir40_all[areacrest_dir40_all>arealim], time_dir40_all[areacrest_dir40_all>arealim])
+
+area_pertime = np.array([np.mean(area_pertime0), np.mean(area_pertime5), np.mean(area_pertime10), np.mean(area_pertime20), np.mean(area_pertime30), np.mean(area_pertime40)])
+area_pertime_std = np.array([np.std(area_pertime0), np.std(area_pertime5), np.std(area_pertime10), np.std(area_pertime20), np.std(area_pertime30), np.std(area_pertime40)])
+
+
+fig, ax = plt.subplots(ncols=4, figsize=(10,3))
+ax[0].plot(dirspread, rho_median, '-o', color=color1, linewidth=lwidth)
+ax[0].grid(True)
+ax[0].set_title(r'$\overline{\Omega_c} / \overline{\lambda_c}$')
+
+ax[1].plot(dirspread, meancrestends_all, '-o', color=color1, linewidth=lwidth)
+ax[1].grid(True)
+ax[1].set_title(r'$\overline{N_c}$')
+
+ax[2].plot(dirspread, meancrest_all, '-o', color=color1, linewidth=lwidth)
+ax[2].grid(True)
+ax[2].set_title(r'$\overline{\lambda_c}$')
+
+ax[3].plot(dirspread, medianfbr_abs_pertime_all, '-o', color=color1, linewidth=lwidth)
+ax3 = ax[3].twinx()
+ax3.plot(dirspread, meancrest_all*rho_median*meancrestends_all*area_pertime, 'o-', color='tab:red', linewidth=lwidth)
+ax[3].grid(True)
+ax[3].set_title(r'$\overline{\Omega_{sz}}$')
+
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'crest_stats_test.png'))
+
+
+fig, ax = plt.subplots(ncols=2, figsize=(5.5,3.5))
+ax[0].errorbar(dirspread, rho_median, yerr=rho_std, fmt='-o', linewidth=lwidth, markersize=msize, color=color1)
+ax[0].grid(True)
+ax[0].set_ylabel(r'$\overline{\Omega_c} / \overline{\lambda_c}$ $\mathrm{(m\ s^{-1})}$')
+formatter = ticker.ScalarFormatter(useMathText=True)
+formatter.set_scientific(True) 
+ax[0].yaxis.set_major_formatter(formatter)
+formatter.set_powerlimits((-1,1)) 
+ax[0].set_xlabel(r'$\sigma_\theta$ $\mathrm{(^\circ)}$')
+ax[0].text(25, 0.0083, r'$\mathrm{(a)}$', fontsize=14)
+ax[0].set_ylim(0, 1*10**-2)
+ax[0].set_xlim(0, 30)
+
+ax[1].errorbar(dirspread, area_pertime/(Wmod*mean_sz)*100, yerr=area_pertime_std/(Wmod*mean_sz)*100, fmt='-o', color=color1, linewidth=lwidth)
+ax[1].grid(True)
+ax[1].set_ylabel(r'$\overline{B}$ $\mathrm{(\%)}$')
+ax[1].set_xlabel(r'$\sigma_\theta$ $\mathrm{(^\circ)}$')
+ax[1].text(25, 8.3, r'$\mathrm{(b)}$', fontsize=14)
+ax[1].set_ylim(0, 10)
+ax[1].set_xlim(0, 30)
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'rho_area.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'rho_area.jpg'), dpi=300)
+
+
+
+
+area_pertime0 = var_pertime(areacrest_dir0_all_cross[areacrest_dir0_all_cross>arealim], time_dir0_all_subarea)
+area_pertime5 = var_pertime(areacrest_dir5_all_cross[areacrest_dir5_all_cross>arealim], time_dir5_all_subarea)
+area_pertime10 = var_pertime(areacrest_dir10_all_cross[areacrest_dir10_all_cross>arealim], time_dir10_all_subarea)
+area_pertime20 = var_pertime(areacrest_dir20_all_cross[areacrest_dir20_all_cross>arealim], time_dir20_all_subarea)
+area_pertime30 = var_pertime(areacrest_dir30_all_cross[areacrest_dir30_all_cross>arealim], time_dir30_all_subarea)
+area_pertime40 = var_pertime(areacrest_dir40_all_cross[areacrest_dir40_all_cross>arealim], time_dir40_all_subarea)
+
+area_pertime = np.array([np.mean(area_pertime0), np.mean(area_pertime5), np.mean(area_pertime10), np.mean(area_pertime20), np.mean(area_pertime30), np.mean(area_pertime40)])
+area_pertime_std = np.array([np.std(area_pertime0), np.std(area_pertime5), np.std(area_pertime10), np.std(area_pertime20), np.std(area_pertime30), np.std(area_pertime40)])
+
+crestlen_pertime0 = var_pertime(crestlen_dir0_all_subarea, time_dir0_all_subarea)
+crestlen_pertime5 = var_pertime(crestlen_dir5_all_subarea, time_dir5_all_subarea)
+crestlen_pertime10 = var_pertime(crestlen_dir10_all_subarea, time_dir10_all_subarea)
+crestlen_pertime20 = var_pertime(crestlen_dir20_all_subarea, time_dir20_all_subarea)
+crestlen_pertime30 = var_pertime(crestlen_dir30_all_subarea, time_dir30_all_subarea)
+crestlen_pertime40 = var_pertime(crestlen_dir40_all_subarea, time_dir40_all_subarea) 
+
+len_pertime = np.array([np.mean(crestlen_pertime0), np.mean(crestlen_pertime5), np.mean(crestlen_pertime10), np.mean(crestlen_pertime20), np.mean(crestlen_pertime30), np.mean(crestlen_pertime40)])
+len_pertime_std = np.array([np.std(crestlen_pertime0), np.std(crestlen_pertime5), np.std(crestlen_pertime10), np.std(crestlen_pertime20), np.std(crestlen_pertime30), np.std(crestlen_pertime40)])
+
+fig, ax = plt.subplots(ncols=2)
+var = crestlen_pertime0
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+var = crestlen_pertime5
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], alpha=1)
+var = crestlen_pertime10
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], alpha=1)
+var = crestlen_pertime20
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], alpha=1)
+var = crestlen_pertime30
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=1)
+var = crestlen_pertime40
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=1)
+ax[0].grid(True)
+ax[0].set_xticks([0, 50, 100, 150])
+ax[0].set_ylabel('Count')
+ax[0].set_xlabel('Total crest length per timestep')
+
+ax[1].errorbar(dirspread, len_pertime, yerr=len_pertime_std, fmt='-o', color=color1, linewidth=lwidth)
+ax[1].grid(True)
+ax[1].set_ylim(0,100)
+ax[1].set_xlim(0, 30)
+ax[1].set_xticks([0, 5, 10, 15, 20, 25, 30])
+ax[1].set_xlabel(r'$\sigma_\theta$')
+ax[1].set_ylabel('Mean total crest length per timestep')
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'len_pertime_v_spread.png'), dpi=300)
+
+avglen_pertime = np.array([np.nanmean(crestlen_pertime0/crestends_pertime_dir0_all), np.nanmean(crestlen_pertime5/crestends_pertime_dir5_all), np.mean(crestlen_pertime10/crestends_pertime_dir10_all), np.mean(crestlen_pertime20/crestends_pertime_dir20_all), np.mean(crestlen_pertime30/crestends_pertime_dir30_all), np.mean(crestlen_pertime40/crestends_pertime_dir40_all)])
+
+
+
+
+fig, ax = plt.subplots(ncols=2)
+var = area_pertime0
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+var = area_pertime5
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], alpha=1)
+var = area_pertime10
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], alpha=1)
+var = area_pertime20
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], alpha=1)
+var = area_pertime30
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=1)
+var = area_pertime40
+counts, bins = np.histogram(var, bins=nbins)
+ax[0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=1)
+ax[0].grid(True)
+ax[0].set_xticks([0, 10, 20, 30, 40, 50])
+ax[0].set_ylabel('Count')
+ax[0].set_xlabel('Total area per timestep')
+
+
+ax[1].errorbar(dirspread, area_pertime, yerr=area_pertime_std, fmt='-o', color=color1, linewidth=lwidth)
+ax[1].grid(True)
+ax[1].set_ylim(0,30)
+ax[1].set_xlim(0, 30)
+ax[1].set_xticks([0, 5, 10, 15, 20, 25, 30])
+ax[1].set_xlabel(r'$\sigma_\theta$')
+ax[1].set_ylabel('Mean total area per timestep')
+fig.tight_layout()
+fig.savefig(os.path.join(plotsavedir, 'area_pertime_v_spread.png'), dpi=300)
+
+
+
+area_pertime = np.array([np.median(area_pertime0), np.median(area_pertime5), np.median(area_pertime10), np.median(area_pertime20), np.median(area_pertime30), np.median(area_pertime40)])
+area_pertime_std = np.array([np.std(area_pertime0), np.std(area_pertime5), np.std(area_pertime10), np.std(area_pertime20), np.std(area_pertime30), np.std(area_pertime40)])
+
+len_pertime = np.array([np.median(crestlen_pertime0), np.median(crestlen_pertime5), np.median(crestlen_pertime10), np.median(crestlen_pertime20), np.median(crestlen_pertime30), np.median(crestlen_pertime40)])
+len_pertime_std = np.array([np.std(crestlen_pertime0), np.std(crestlen_pertime5), np.std(crestlen_pertime10), np.std(crestlen_pertime20), np.std(crestlen_pertime30), np.std(crestlen_pertime40)])
+
+
+fig, ax = plt.subplots(figsize=(8.5,6), ncols=2, nrows=2)
+#nbins = 18 
+Bins = np.arange(0, 125, 5)
+
+ax[0,0].set_position([0.33, 0.12+0.47, 0.28, 0.34])
+ax[0,1].set_position([0.33+0.4, 0.12+0.47, 0.2, 0.34])
+ax[1,0].set_position([0.33, 0.12, 0.28, 0.34])
+ax[1,1].set_position([0.33+0.4, 0.12, 0.2, 0.34])
+
+var = crestlen_pertime0
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1) 
+tmp = np.argmin(np.abs(np.median(crestlen_pertime0)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color1, linewidth=lwidth)
+
+var = crestlen_pertime5
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], alpha=1)
+tmp = np.argmin(np.abs(np.median(crestlen_pertime5)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color2, linewidth=lwidth)
+
+var = crestlen_pertime10
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], alpha=1)
+tmp = np.argmin(np.abs(np.median(crestlen_pertime10)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color3, linewidth=lwidth)
+
+var = crestlen_pertime20
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], alpha=1)
+tmp = np.argmin(np.abs(np.median(crestlen_pertime20)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color4, linewidth=lwidth)
+
+var = crestlen_pertime30
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=1)
+tmp = np.argmin(np.abs(np.median(crestlen_pertime30)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color5, linewidth=lwidth)
+
+var = crestlen_pertime40
+counts, bins = np.histogram(var, bins=Bins)
+ax[0,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=1)
+tmp = np.argmin(np.abs(np.median(crestlen_pertime40)-bins))
+ax[0,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color6, linewidth=lwidth)
+
+ax[0,0].grid(True)
+ax[0,0].set_xticks([0, 25, 50, 75, 100, 125])
+ax[0,0].set_xlim(0, 125)
+ax[0,0].set_ylabel(r'$\mathrm{Count}$')
+ax[0,0].set_xlabel(r'$\sum_t \lambda_{c,t}$ $\mathrm{(m)}$')
+ax[0,0].legend(loc='upper left', fontsize=16, bbox_to_anchor=[-1.2,1.06])
+ax[0,0].text(105, 1700, r'$\mathrm{(a)}$', fontsize=16)
+
+
+ax[0,1].errorbar(dirspread, len_pertime, yerr=len_pertime_std, fmt='-o', color=color1, linewidth=lwidth)
+ax[0,1].grid(True)
+ax[0,1].set_ylim(0,100)
+ax[0,1].set_xlim(0, 30)
+ax[0,1].set_xticks([0, 5, 10, 15, 20, 25, 30])
+ax[0,1].set_xlabel(r'$\sigma_\theta \ \mathrm{(^\circ)}$')
+ax[0,1].set_ylabel(r'$\widetilde{\sum_t \lambda_{c,t}}$ $\mathrm{(m)}$')
+ax[0,1].text(24, 85, r'$\mathrm{(b)}$', fontsize=16)
+
+Bins = np.arange(0, 50, 1)
+
+var = area_pertime0
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color1, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[0], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime0)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color1, linewidth=lwidth)
+
+var = area_pertime5
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color2, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[1], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime5)-bins))
+ax[1,0].plot(bins[tmp-1]+ (bins[1]-bins[0])/2, counts[tmp-1], 'o', color=color2, linewidth=lwidth)
+
+var = area_pertime10
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color3, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[2], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime10)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color3, linewidth=lwidth)
+
+var = area_pertime20
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color4, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[3], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime20)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color4, linewidth=lwidth)
+
+var = area_pertime30
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color5, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[4], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime30)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color5, linewidth=lwidth)
+
+var = area_pertime40
+counts, bins = np.histogram(var, bins=Bins)
+ax[1,0].plot(bins[:-1] + (bins[1]-bins[0])/2, counts, color=color6, linewidth=lwidth, label=r'$\sigma_\theta = %.1f \degree$' % dirspread[5], alpha=1)
+tmp = np.argmin(np.abs(np.median(area_pertime40)-bins))
+ax[1,0].plot(bins[tmp]+ (bins[1]-bins[0])/2, counts[tmp], 'o', color=color6, linewidth=lwidth)
+
+ax[1,0].grid(True)
+ax[1,0].set_xticks([0, 10, 20, 30, 40, 50])
+ax[1,0].set_xlim(0, 50)
+ax[1,0].set_ylabel(r'$\mathrm{Count}$')
+ax[1,0].set_xlabel(r'$\sum_t A_{c,t}$ $\mathrm{(m^2)}$')
+ax[1,0].text(43, 700, r'$\mathrm{(c)}$', fontsize=16)
+ax[1,0].set_ylim(0, 800)
+ax[1,0].set_yticks([0, 200, 400, 600, 800])
+
+
+ax[1,1].errorbar(dirspread, area_pertime, yerr=area_pertime_std, fmt='-o', color=color1, linewidth=lwidth)
+ax[1,1].grid(True)
+ax[1,1].set_ylim(0,30)
+ax[1,1].set_xlim(0, 30)
+ax[1,1].set_xticks([0, 5, 10, 15, 20, 25, 30])
+ax[1,1].set_xlabel(r'$\sigma_\theta \ \mathrm{(^\circ)}$')
+ax[1,1].set_ylabel(r'$\widetilde{\sum_t A_{c,t}}$ $\mathrm{(m^2)}$')
+ax[1,1].text(24, 26, r'$\mathrm{(d)}$', fontsize=16)
+
+fig.savefig(os.path.join(plotsavedir, 'len_area_pertime.png'), dpi=300)
+fig.savefig(os.path.join(plotsavedir, 'len_area_pertime.jpg'), dpi=300)
