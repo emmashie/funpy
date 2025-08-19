@@ -44,7 +44,7 @@ def binize_var(var, threshold):
     return var 
 
 def spatially_avg(var, x, y, order=1, filtx=0.5, filty=0.5):
-    window = ff.lanczos_2Dwindow(y, x, 1, 0.5, 0.5)
+    window = ff.lanczos_2Dwindow(y, x, order, 0.5, 0.5)
     var_bar = ff.lanczos_2D(var.data, var.mask, window, len(y), len(x))
     return var_bar
 
