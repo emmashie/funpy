@@ -50,51 +50,9 @@ def lanczos_2Dwindow(x,y,order,filt_x,filt_y):
     
     # Define the Lanczos filter window for the longitudinal direction
     xwindow = lanczos_1Dwindow(x,order,filt_x)
-    #cutoff = filt_x
-    #step_size = abs(x[1]-x[0])
-    #windowwidth = int((cutoff/step_size)*order)
-    #fc = 1/(cutoff/step_size)
-
-    #xwindowwidth = windowwidth
-    #if windowwidth%2 == 0:
-    #    xwindowwidth = windowwidth + 1
-    #xhalfwidth = int((xwindowwidth-1)/2)
-
-    #k = np.arange(1., xhalfwidth)
-    #xwindow = np.zeros(xwindowwidth)
-    #xwindow[xhalfwidth] = 2*fc
-    #sigma = np.sin(np.pi * k / xhalfwidth) * xhalfwidth / (np.pi * k)
-    #firstfactor = np.sin(2. * np.pi * fc * k) / (np.pi * k)
-    #xwindow[xhalfwidth-1:0:-1] = sigma * firstfactor
-    #xwindow[xhalfwidth+1:-1] = sigma * firstfactor 
-    #xwindowwidth = xwindowwidth - 2
-    #xhalfwidth = xhalfwidth - 1    
-    #xwindow = xwindow[1:-1]
-    
     
     # Define the Lanczos filter window for the latitudinal direction
     ywindow = lanczos_1Dwindow(y,order,filt_y)
-    #cutoff = filt_y
-    #step_size = abs(y[1]-y[0])
-    #windowwidth = int((cutoff/step_size)*order)
-    #fc = 1/(cutoff/step_size)
-
-    #ywindowwidth = windowwidth
-    #if windowwidth%2 == 0:
-    #    ywindowwidth = windowwidth + 1
-    #yhalfwidth = int((ywindowwidth-1)/2)
-
-    #k = np.arange(1., yhalfwidth)
-    #ywindow = np.zeros(ywindowwidth)
-    #ywindow[yhalfwidth] = 2*fc
-    #sigma = np.sin(np.pi * k / yhalfwidth) * yhalfwidth / (np.pi * k)
-    #firstfactor = np.sin(2. * np.pi * fc * k) / (np.pi * k)
-    #ywindow[yhalfwidth-1:0:-1] = sigma * firstfactor
-    #ywindow[yhalfwidth+1:-1] = sigma * firstfactor 
-    #ywindowwidth = ywindowwidth - 2
-    #yhalfwidth = yhalfwidth - 1    
-    #ywindow = ywindow[1:-1]
-    
     
     window = np.expand_dims(ywindow,axis=1) * np.expand_dims(xwindow,axis=0)    
     window = window / np.sum(window)
@@ -111,78 +69,12 @@ def lanczos_3Dwindow(x,y,t,order,filt_x,filt_y,filt_t):
     
     # Define the Lanczos filter window for the longitudinal direction
     xwindow = lanczos_1Dwindow(x,order,filt_x)
-    #cutoff = filt_x
-    #step_size = abs(x[1]-x[0])
-    #windowwidth = int((cutoff/step_size)*order)
-    #fc = 1/(cutoff/step_size)
-
-    #xwindowwidth = windowwidth
-    #if windowwidth%2 == 0:
-    #    xwindowwidth = windowwidth + 1
-    #xhalfwidth = int((xwindowwidth-1)/2)
-
-    #k = np.arange(1., xhalfwidth)
-    #xwindow = np.zeros(xwindowwidth)
-    #xwindow[xhalfwidth] = 2*fc
-    #sigma = np.sin(np.pi * k / xhalfwidth) * xhalfwidth / (np.pi * k)
-    #firstfactor = np.sin(2. * np.pi * fc * k) / (np.pi * k)
-    #xwindow[xhalfwidth-1:0:-1] = sigma * firstfactor
-    #xwindow[xhalfwidth+1:-1] = sigma * firstfactor 
-    #xwindowwidth = xwindowwidth - 2
-    #xhalfwidth = xhalfwidth - 1    
-    #xwindow = xwindow[1:-1]
-    
-    
+        
     # Define the Lanczos filter window for the latitudinal direction
     ywindow = lanczos_1Dwindow(y,order,filt_y)
-    #cutoff = filt_y
-    #step_size = abs(y[1]-y[0])
-    #windowwidth = int((cutoff/step_size)*order)
-    #fc = 1/(cutoff/step_size)
-
-    #ywindowwidth = windowwidth
-    #if windowwidth%2 == 0:
-    #    ywindowwidth = windowwidth + 1
-    #yhalfwidth = int((ywindowwidth-1)/2)
-
-    #k = np.arange(1., yhalfwidth)
-    #ywindow = np.zeros(ywindowwidth)
-    #ywindow[yhalfwidth] = 2*fc
-    #sigma = np.sin(np.pi * k / yhalfwidth) * yhalfwidth / (np.pi * k)
-    #firstfactor = np.sin(2. * np.pi * fc * k) / (np.pi * k)
-    #ywindow[yhalfwidth-1:0:-1] = sigma * firstfactor
-    #ywindow[yhalfwidth+1:-1] = sigma * firstfactor 
-    #ywindowwidth = ywindowwidth - 2
-    #yhalfwidth = yhalfwidth - 1    
-    #ywindow = ywindow[1:-1]
-    
     
     # Define the Lanczos filter window for the temporal direction
     twindow = lanczos_1Dwindow(t,order,filt_t)
-    #cutoff = filt_t
-    #step_size = abs(t[1]-t[0])
-    #windowwidth = int((cutoff/step_size)*order)
-    #if windowwidth%2 != 0:
-    #    windowwidth = windowwidth+1
-    #fc = 1/(cutoff/step_size)
-
-    #twindowwidth = windowwidth
-    #if windowwidth%2 == 0:
-    #    twindowwidth = windowwidth + 1
-    #thalfwidth = int((twindowwidth-1)/2)
-
-    #k = np.arange(1., thalfwidth)
-    #twindow = np.zeros(twindowwidth)
-    #twindow[thalfwidth] = 2*fc
-    #sigma = np.sin(np.pi * k / thalfwidth) * thalfwidth / (np.pi * k)
-    #firstfactor = np.sin(2. * np.pi * fc * k) / (np.pi * k)
-    #twindow[thalfwidth-1:0:-1] = sigma * firstfactor
-    #twindow[thalfwidth+1:-1] = sigma * firstfactor 
-    #twindowwidth = twindowwidth - 2
-    #thalfwidth = thalfwidth - 1 
-    #twindow = twindow[1:-1]
-
-    
     
     # Use the three directional windows to create a 3D window
     window = (np.expand_dims(np.expand_dims(twindow,axis=1),axis=2) *
@@ -1218,4 +1110,5 @@ def integrator(zmin,zmax,z,fraw):
     F = np.squeeze(F)  
 
     return F
+
 
